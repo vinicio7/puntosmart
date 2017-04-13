@@ -18,7 +18,7 @@ class CreateCompaniesTable extends Migration
             $table->increments('id');
             $table->text('trade_name');
             $table->text('business_name');
-            $table->text('nit');
+            $table->string('nit', '15')->unique();
             $table->text('direction');
             $table->text('phone');
             $table->text('contact');
