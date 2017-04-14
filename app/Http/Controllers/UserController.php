@@ -101,7 +101,6 @@ class UserController extends Controller
             } else {
                 throw new Exception('Credenciales incorrectas, por favor verifique');
             }
-
         } catch (Exception $e) {
             $this->status_code = 400;
             $this->result = false;

@@ -18,6 +18,8 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->text('name');
             $table->text('description');
+            $table->text('internal_code');
+            $table->text('bar_code');
             $table->integer('stock');
             $table->float('price_cost');
             $table->float('price_sale');
