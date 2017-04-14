@@ -21,7 +21,24 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $this->status_code = 200;
+            $this->result = true;
+            $this->message = 'Registros consultados correctamente';
+            $this->records = Product::all();
+        } catch (Exception $e) {
+            $this->status_code = 400;
+            $this->result = false;
+            $this->message = env('APP_DEBUG') ? $e->getMessage() : $this->message;
+        } finally {
+            $response = [
+                'result' => $this->result,
+                'message' => $this->message,
+                'records' => $this->records,
+            ];
+
+            return response()->json($response, $this->status_code);
+        }
     }
 
     /**

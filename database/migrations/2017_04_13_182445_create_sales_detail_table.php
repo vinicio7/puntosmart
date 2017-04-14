@@ -13,7 +13,6 @@ class CreateSalesDetailTable extends Migration
      */
     public function up()
     {
-        Schema::defaultStringLength(191);
         Schema::create('sales_detail', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('sale_id')->unsigned();

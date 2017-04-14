@@ -12,5 +12,12 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/src');
+});
+
+Route::group(['prefix' => 'ws'], function(){
+    Route::resource('companies',	'CompanyController');
+    Route::resource('customers',	'CustomerController');
+    Route::resource('products',		'ProductController');
+    Route::resource('users',		'UserController');
 });

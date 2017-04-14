@@ -13,7 +13,6 @@ class CreateProductsTable extends Migration
      */
     public function up()
     {
-        Schema::defaultStringLength(191);
         Schema::create('products', function (Blueprint $table) {
             $table->increments('id');
             $table->text('name');
