@@ -17,5 +17,14 @@ class DatabaseSeeder extends Seeder
         factory('App\Customer', 25)->create();
         factory('App\Product', 25)->create();
         factory('App\Entry', 25)->create();
+
+        App\User::create([
+            'name'              => 'Administrador',
+            'user'              => 'admin',
+            'password'          => bcrypt('admin'),
+            'type'              => 'admin',
+            'company_id'        => 1,
+            'remember_token'    => str_random(10),
+        ]);
     }
 }
