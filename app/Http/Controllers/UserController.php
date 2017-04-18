@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\User;
 use Exception;
@@ -109,13 +109,19 @@ class UserController extends Controller
     public function login (Request $request)
     {
         try {
-            if (Auth::attempt(['user' => $request->input('user'), 'password' => $request->input('password')])) {
-                $this->status_code = 200;
-                $this->result = true;
-                $this->message = 'Sesión iniciada correctamente';
-                $this->records = Auth::user();
+            $user = User::where('user', $request->input('user'))->with('company')->first();
+
+            if ($user) {
+                if (Hash::check($request->input('password'), $user->password)) {
+                    $this->status_code = 200;
+                    $this->result = true;
+                    $this->message = 'Sesión iniciada correctamente';
+                    $this->records = $user;
+                } else {
+                    throw new Exception('Su contraseña ingresada es incorrecta, por favor verifique');
+                }
             } else {
-                throw new Exception('Credenciales incorrectas, por favor verifique');
+                throw new Exception('El usuario ingresado no existe, por favor verifique');
             }
         } catch (Exception $e) {
             $this->status_code = 400;

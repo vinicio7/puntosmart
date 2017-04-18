@@ -2,10 +2,14 @@
 "use strict";
 
 
-angular.module("app.ctrls", [])
+angular.module("app.ctrls", ['LocalStorageModule'])
 
 // Root Controller
-.controller("AppCtrl", ["$rootScope", "$scope", "$timeout", function($rs, $scope, $timeout) {
+.controller("AppCtrl", ["$rootScope", "$scope", "$timeout", "localStorageService", "$window", function($rs, $scope, $timeout, localStorageService, $window) {
+
+    if (!localStorageService.get('user_data'))
+        $window.location.href = 'login.html';
+
 	var mm = window.matchMedia("(max-width: 767px)");
 	$rs.isMobile = mm.matches ? true: false;
 
@@ -75,9 +79,6 @@ angular.module("app.ctrls", [])
 		$scope.navFull = sQuery.navFull;
 		$scope.themeActive = sQuery.themeActive;
 	}
-	
-
-
 
 	// putting the states
 	$scope.onNavHorizontal = function() {
@@ -109,13 +110,10 @@ angular.module("app.ctrls", [])
 		$scope.themeActive = theme;
 		$scope.onThemeActive();
 	};
-
-
-
 }])
 
 
-.controller("HeadCtrl", ["$scope", "Fullscreen", function($scope, Fullscreen) {
+.controller("HeadCtrl", ["$scope", "Fullscreen", "localStorageService", "$window", function($scope, Fullscreen, localStorageService, $window) {
 	$scope.toggleFloatingSidebar = function() {
 		$scope.floatingSidebar = $scope.floatingSidebar ? false : true;
 		console.log("floating-sidebar: " + $scope.floatingSidebar);
@@ -128,9 +126,22 @@ angular.module("app.ctrls", [])
          	Fullscreen.all()
 	};
 
-	
+    $scope.logOut = function () {
+        localStorageService.remove('user_data');
+        if (!localStorageService.get('user_data'))
+            $window.location.href = 'login.html';
+    };
 }])
 
+.controller("NavCtrl", ["$scope", "localStorageService", function($scope, localStorageService) {
+    var user_data = localStorageService.get('user_data');
+    var type = user_data.type == 'admin' ? 'Administrador' : 'Usuario'
+
+    $scope.user = {
+        'name': user_data.name,
+        'type': type
+    };
+}])
 
 /// ==== Dashboard Controller
 .controller("DashboardCtrl", ["$scope", function($scope) {

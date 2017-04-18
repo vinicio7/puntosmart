@@ -183,6 +183,22 @@
 			}
 		});
 
+        $routeProvider.when("/sales", {
+            templateUrl: "views/app/sales.html",
+            controller: 'SalesController',
+            resolve: {
+                deps: ["$ocLazyLoad", function(a) {
+                    return a.load('app.service.products')
+                        .then(function() {
+                            return a.load({
+                                name: 'app.sales',
+                                files: ['scripts/lazyload/controllers/sales.js']
+                            })
+                        });
+                }]
+            }
+        });
+
         $routeProvider.when("/companies", {
             templateUrl: "views/app/companies.html",
             controller: 'CompaniesController',

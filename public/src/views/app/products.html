@@ -93,17 +93,6 @@
                                 </div>
                             </th>
                             <th>
-                                Precio costo
-                                <div class="th">
-                                    <i class="fa fa-caret-up icon-up"
-                                       ng-click=" order('price_cost') "
-                                       ng-class="{active: row == 'price_cost'}"></i>
-                                    <i class="fa fa-caret-down icon-down"
-                                       ng-click=" order('-price_cost') "
-                                       ng-class="{active: row == '-price_cost'}"></i>
-                                </div>
-                            </th>
-                            <th>
                                 Precio venta
                                 <div class="th">
                                     <i class="fa fa-caret-up icon-up"
@@ -125,7 +114,6 @@
                             <td>{{ data.internal_code }}</td>
                             <td>{{ data.bar_code }}</td>
                             <td>{{ data.stock }}</td>
-                            <td>Q. {{ data.price_cost }}</td>
                             <td>Q. {{ data.price_sale }}</td>
                             <td>
                                 <div class="btn-group">

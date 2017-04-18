@@ -20,9 +20,9 @@ class CreateProductsTable extends Migration
             $table->text('internal_code');
             $table->text('bar_code');
             $table->integer('stock');
-            $table->float('price_cost');
             $table->float('price_sale');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

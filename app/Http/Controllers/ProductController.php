@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Product;
 use Exception;
-use DB;
+use Validator;
 
 class ProductController extends Controller
 {
@@ -59,7 +59,33 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $product = Product::create([
+                'name' => $request->input('name'),
+                'description' => $request->input('description'),
+                'internal_code' => $request->input('internal_code'),
+                'bar_code' => $request->input('bar_code'),
+                'stock' => 0,
+                'price_sale' => 0.0
+            ]);
+
+            $this->status_code = 200;
+            $this->result = true;
+            $this->message = 'Registros consultados correctamente';
+            $this->records = $product;
+        } catch (Exception $e) {
+            $this->status_code = 400;
+            $this->result = false;
+            $this->message = env('APP_DEBUG') ? $e->getMessage() : $this->message;
+        } finally {
+            $response = [
+                'result' => $this->result,
+                'message' => $this->message,
+                'records' => $this->records,
+            ];
+
+            return response()->json($response, $this->status_code);
+        }
     }
 
     /**

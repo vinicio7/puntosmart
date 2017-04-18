@@ -81,14 +81,14 @@
             }
 
             // Function for sending data
-            $scope.saveData = function (driver) {
+            $scope.saveData = function (product) {
                 if ($scope.action == 'new') {
-                    ProductsService.store(driver).then(
+                    ProductsService.store(product).then(
                         function successCallback(response) {
                             if (response.data.result) {
                                 loadDataTable();
                                 modal.close();
-                                createToast('success', '<strong>Success: </strong>'+response.data.message);
+                                createToast('success', '<strong>Éxito: </strong>'+response.data.message);
                                 $timeout( function(){ closeAlert(0); }, 3000);
                             } else {
                                 createToast('danger', '<strong>Error: </strong>'+response.data.message);
@@ -102,12 +102,11 @@
                     );
                 }
                 else if ($scope.action == 'update') {
-                    ProductsService.update(driver).then(
+                    ProductsService.update(product).then(
                         function successCallback(response) {
                             if (response.data.result) {
-                                loadDataTable();
                                 modal.close();
-                                createToast('success', '<strong>Success: </strong>'+response.data.message);
+                                createToast('success', '<strong>Éxito: </strong>'+response.data.message);
                                 $timeout( function(){ closeAlert(0); }, 3000);
                             } else {
                                 createToast('danger', '<strong>Error: </strong>'+response.data.message);
@@ -121,12 +120,12 @@
                     );
                 }
                 else if ($scope.action == 'delete') {
-                    ProductsService.destroy(driver.id).then(
+                    ProductsService.destroy(product.id).then(
                         function successCallback(response) {
                             if (response.data.result) {
                                 loadDataTable();
                                 modal.close();
-                                createToast('success', '<strong>Success: </strong>'+response.data.message);
+                                createToast('success', '<strong>Éxito: </strong>'+response.data.message);
                                 $timeout( function(){ closeAlert(0); }, 3000);
                             } else {
                                 createToast('danger', '<strong>Error: </strong>'+response.data.message);
@@ -143,11 +142,11 @@
 
             // Functions for modals
             $scope.modalCreateOpen = function() {
-                $scope.driver = {};
+                $scope.product = {};
                 $scope.action = 'new';
 
                 modal = $modal.open({
-                    templateUrl: 'views/app/modal-drivers.html',
+                    templateUrl: 'views/app/products-modal.html',
                     scope: $scope,
                     size: 'md',
                     resolve: function() {},
@@ -157,10 +156,10 @@
 
             $scope.modalEditOpen = function(data) {
                 $scope.action = 'update';
-                $scope.driver = data;
+                $scope.product = data;
 
                 modal = $modal.open({
-                    templateUrl: 'views/app/modal-drivers.html',
+                    templateUrl: 'views/app/products-modal.html',
                     scope: $scope,
                     size: 'md',
                     resolve: function() {},
@@ -170,10 +169,10 @@
 
             $scope.modalDeleteOpen = function(data) {
                 $scope.action = 'delete';
-                $scope.driver = data;
+                $scope.product = data;
 
                 modal = $modal.open({
-                    templateUrl: 'views/app/modal-drivers.html',
+                    templateUrl: 'views/app/products-modal.html',
                     scope: $scope,
                     size: 'md',
                     resolve: function() {},
