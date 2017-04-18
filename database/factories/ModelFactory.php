@@ -41,7 +41,6 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Customer::class, function (Faker\Generator $faker) {
     return [
-        'company_id' => rand(1,25),
         'name' => $faker->company,
         'nit' => str_random(13),
         'direction' => $faker->address,

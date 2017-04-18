@@ -15,10 +15,12 @@ class CreateSalesTable extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('customer_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->integer('company_id')->unsigned();
             $table->float('total');
+            $table->text('customer_name');
+            $table->text('customer_nit');
+            $table->text('customer_direction');
             $table->enum('type_payment', ['credit', 'cash']);
             $table->boolean('invoice');
             $table->timestamps();

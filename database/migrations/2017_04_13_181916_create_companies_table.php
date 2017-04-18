@@ -24,6 +24,7 @@ class CreateCompaniesTable extends Migration
             $table->boolean('type_service');
             $table->boolean('format');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

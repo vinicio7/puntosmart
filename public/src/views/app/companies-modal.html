@@ -1,37 +1,74 @@
 <div class="modal-style">
     <div class="modal-header clearfix">
-        <h4 ng-if="action == 'new'" class="modal-title">New driver</h4>
-        <h4 ng-if="action == 'update'" class="modal-title">Update driver</h4>
-        <h4 ng-if="action == 'delete'" class="modal-title">Delete driver</h4>
+        <h4 ng-if="action == 'new'" class="modal-title">Nueva empresa</h4>
+        <h4 ng-if="action == 'update'" class="modal-title">Editar empresa</h4>
+        <h4 ng-if="action == 'delete'" class="modal-title">Eliminar empresa</h4>
         <span class="close ion ion-android-close" ng-click="modalClose()"></span>
     </div>
     <div class="modal-body">
         <div class="row form-group" ng-if="action == 'delete'">
-            <h3>You really want to delete this driver?</h3>
+            <h3>¿Está seguro de eliminar esta empresa?</h3>
         </div>
         <form class="form-horizontal" name="form" ng-if="action != 'delete'" action="javascript:;" novalidate>
             <div class="row form-group">
                 <div class="col-sm-6">
-                    <label>Name</label>
-                    <input type="text" class="form-control" ng-model="driver.name" required>
+                    <label>Razón social</label>
+                    <input type="text" class="form-control" ng-model="company.trade_name" required>
                 </div>
                 <div class="col-sm-6">
-                    <label>Phone</label>
-                    <input type="text" class="form-control" ng-model="driver.phone" required>
+                    <label>Razón comercial</label>
+                    <input type="text" class="form-control" ng-model="company.business_name" required>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-6">
+                    <label>NIT</label>
+                    <input type="text" class="form-control" ng-model="company.nit" required>
+                </div>
+                <div class="col-sm-6">
+                    <label>Dirección</label>
+                    <input type="text" class="form-control" ng-model="company.direction" required>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-6">
+                    <label>Teléfono</label>
+                    <input type="text" class="form-control" ng-model="company.phone" required>
+                </div>
+                <div class="col-sm-6">
+                    <label>Teléfono de contacto</label>
+                    <input type="text" class="form-control" ng-model="company.contact" required>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-6">
+                    <label>Tipo de servicio</label>
+                    <select class="form-control" ng-model="company.type_service" required>
+                        <option value="1">Servicio 1</option>
+                        <option value="2">Servicio 2</option>
+                        <option value="3">Servicio 3</option>
+                    </select>
+                </div>
+                <div class="col-sm-6">
+                    <label>Formato de factura</label>
+                    <select class="form-control" ng-model="company.format" required>
+                        <option value="1">Cuarto de carta</option>
+                        <option value="2">Media carta</option>
+                    </select>
                 </div>
             </div>
             <div class="row form-group">
                 <div class="col-sm-12 text-right">
-                    <button class="btn btn-danger" ng-click="modalClose()">Close</button>
-                    <button class="btn btn-success" ng-if="action == 'new'" ng-disabled="form.$invalid" ng-click="saveData(driver)">Save</button>
-                    <button class="btn btn-success" ng-if="action == 'update'" ng-disabled="form.$invalid" ng-click="saveData(driver)">Update</button>
+                    <button class="btn btn-danger" ng-click="modalClose()">Cerrar</button>
+                    <button class="btn btn-success" ng-if="action == 'new'" ng-disabled="form.$invalid" ng-click="saveData(company)">Registrar</button>
+                    <button class="btn btn-success" ng-if="action == 'update'" ng-disabled="form.$invalid" ng-click="saveData(company)">Editar</button>
                 </div>
             </div>
         </form>
         <div class="row form-group">
             <div class="col-sm-12 text-right">
-                <button class="btn btn-success" ng-if="action == 'delete'" ng-click="modalClose()">Close</button>
-                <button class="btn btn-danger" ng-if="action == 'delete'" ng-click="saveData(driver)">Delete</button>
+                <button class="btn btn-success" ng-if="action == 'delete'" ng-click="modalClose()">Cerrar</button>
+                <button class="btn btn-danger" ng-if="action == 'delete'" ng-click="saveData(company)">Eliminar</button>
             </div>
         </div>
     </div>
