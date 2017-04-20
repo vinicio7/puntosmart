@@ -38,17 +38,6 @@
                                 </div>
                             </th>
                             <th>
-                                Nombre
-                                <div class="th">
-                                    <i class="fa fa-caret-up icon-up"
-                                       ng-click=" order('name') "
-                                       ng-class="{active: row == 'name'}"></i>
-                                    <i class="fa fa-caret-down icon-down"
-                                       ng-click=" order('-name') "
-                                       ng-class="{active: row == '-name'}"></i>
-                                </div>
-                            </th>
-                            <th>
                                 Descripción
                                 <div class="th">
                                     <i class="fa fa-caret-up icon-up"
@@ -103,18 +92,17 @@
                                        ng-class="{active: row == '-price_sale'}"></i>
                                 </div>
                             </th>
-                            <th>Actions</th>
+                            <th>Acciones</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr ng-repeat="data in currentPageStores track by $index">
                             <td>{{ data.id }}</td>
-                            <td>{{ data.name }}</td>
                             <td>{{ data.description }}</td>
                             <td>{{ data.internal_code }}</td>
                             <td>{{ data.bar_code }}</td>
                             <td>{{ data.stock }}</td>
-                            <td>Q. {{ data.price_sale }}</td>
+                            <td>Q. {{ data.price_sale | number: "2"}}</td>
                             <td>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-info ion ion-edit" ng-click="modalEditOpen(data)" md-ink-ripple></button>

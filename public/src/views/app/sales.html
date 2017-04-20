@@ -4,14 +4,12 @@
 			<div class="col-md-12">
 				<!-- Invoice Start -->
 				<div class="invoice-wrap">
-					<div class="clearfix invoice-head">
-						<h3 class="brand-logo text-uppercase text-bold left mt15">
-							<i class="ion ion-disc"></i>
-							<span class="text">Materia</span>
-						</h3>
-						<h3 class="text-uppercase text-muted text-bold right mt15">Invoice</h3>
-					</div>
-					
+                    <div class="row form-group">
+                        <div class="col-sm-6">
+                            <label>NIT</label>
+                            <input type="text" class="form-control" ng-model="customer.name" required>
+                        </div>
+                    </div>
 					<div class="clearfix invoice-subhead mb20">
 						<div class="group clearfix left">
 							<p class="text-bold mb5">Venta actual</p>
@@ -19,8 +17,8 @@
 						</div>
 
 						<div class="group clearfix right">
-							<a href="javascript:;" class="btn btn-default"><i class="ion ion-printer"></i>Print</a>
-							<a href="javascript:;" class="btn btn-default"><i class="ion ion-archive"></i>Download</a>
+							<a href="javascript:;" class="btn btn-default"><i class="ion ion-printer"></i>Imprimir</a>
+							<a href="javascript:;" class="btn btn-default"><i class="ion ion-archive"></i>Descargar</a>
 						</div>
 					</div>
 
@@ -45,13 +43,13 @@
 							<div class="address-wrap">
 								<div class="address-title">
 									<p class="mb5">Nosotros</p>
-									<h4 class="mt0 text-bold mb0">Materia Pvt Ltd.</h4>
+									<h4 class="mt0 text-bold mb0">{{ user_data.company.trade_name }}</h4>
 								</div>
 								<address>
-									<strong>Robert Smith</strong><br>
-									CS-343, Creative Studio, 340<br>
-									San Francisco, CA 13107<br>
-									<abbr title="Phone">Ph:</abbr> (123) 456-7890
+									<strong>{{ user_data.company.business_name }}</strong><br>
+									{{ user_data.company.nit }}<br>
+									{{ user_data.company.direction }}<br>
+									<abbr title="Phone"></abbr> {{ user_data.company.phone }}
 								</address>
 							</div>
 							

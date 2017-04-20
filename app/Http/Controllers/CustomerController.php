@@ -18,13 +18,13 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
             $this->status_code = 200;
             $this->result = true;
             $this->message = 'Registros consultados correctamente';
-            $this->records = Customer::all();
+            $this->records = Customer::where('company_id', $request->input('company_id'))->get();
         } catch (Exception $e) {
             $this->status_code = 400;
             $this->result = false;
@@ -60,9 +60,12 @@ class CustomerController extends Controller
     {
         try {
             $customer = Customer::create([
+                'company_id' => $request->input('company_id'),
                 'name' => $request->input('name'),
                 'nit' => $request->input('nit'),
-                'direction' => $request->input('direction')
+                'direction' => $request->input('direction'),
+                'phone' => $request->input('phone', ''),
+                'email' => $request->input('email', '')
             ]);
 
             $this->status_code = 200;
@@ -120,6 +123,8 @@ class CustomerController extends Controller
             $customer->name = $request->input('name', $customer->name);
             $customer->nit = $request->input('nit', $customer->nit);
             $customer->direction = $request->input('direction', $customer->direction);
+            $customer->phone = $request->input('phone', $customer->phone);
+            $customer->email = $request->input('email', $customer->email);
             $customer->save();
 
             $this->status_code = 200;

@@ -188,13 +188,10 @@
             controller: 'SalesController',
             resolve: {
                 deps: ["$ocLazyLoad", function(a) {
-                    return a.load('app.service.products')
-                        .then(function() {
-                            return a.load({
-                                name: 'app.sales',
-                                files: ['scripts/lazyload/controllers/sales.js']
-                            })
-                        });
+                    return a.load({
+                        name: 'app.sales',
+                        files: ['scripts/lazyload/controllers/sales.js']
+                    })
                 }]
             }
         });
@@ -204,13 +201,10 @@
             controller: 'CompaniesController',
             resolve: {
                 deps: ["$ocLazyLoad", function(a) {
-                    return a.load('app.service.companies')
-                        .then(function() {
-                            return a.load({
-                                name: 'app.companies',
-                                files: ['scripts/lazyload/controllers/companies.js']
-                            })
-                        });
+                    return a.load({
+                        name: 'app.companies',
+                        files: ['scripts/lazyload/controllers/companies.js']
+                    })
                 }]
             }
         });
@@ -220,13 +214,10 @@
             controller: 'CustomersController',
             resolve: {
                 deps: ["$ocLazyLoad", function(a) {
-                    return a.load('app.service.customers')
-                        .then(function() {
-                            return a.load({
-                                name: 'app.customers',
-                                files: ['scripts/lazyload/controllers/customers.js']
-                            })
-                        });
+                    return a.load({
+                        name: 'app.customers',
+                        files: ['scripts/lazyload/controllers/customers.js']
+                    })
                 }]
             }
         });
@@ -236,13 +227,10 @@
             controller: 'ProductsController',
             resolve: {
                 deps: ["$ocLazyLoad", function(a) {
-                    return a.load('app.service.products')
-                        .then(function() {
-                            return a.load({
-                                name: 'app.products',
-                                files: ['scripts/lazyload/controllers/products.js']
-                            })
-                        });
+                    return a.load({
+                        name: 'app.products',
+                        files: ['scripts/lazyload/controllers/products.js']
+                    })
                 }]
             }
         });
@@ -252,13 +240,10 @@
             controller: 'UsersController',
             resolve: {
                 deps: ["$ocLazyLoad", function(a) {
-                    return a.load('app.service.users')
-                        .then(function() {
-                            return a.load({
-                                name: 'app.users',
-                                files: ['scripts/lazyload/controllers/users.js']
-                            })
-                        });
+                    return a.load({
+                        name: 'app.users',
+                        files: ['scripts/lazyload/controllers/users.js']
+                    })
                 }]
             }
         });

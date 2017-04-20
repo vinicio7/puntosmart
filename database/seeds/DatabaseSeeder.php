@@ -26,5 +26,14 @@ class DatabaseSeeder extends Seeder
             'company_id'        => 1,
             'remember_token'    => str_random(10),
         ]);
+
+        App\User::create([
+            'name'              => 'Vendedor',
+            'user'              => 'user',
+            'password'          => bcrypt('user'),
+            'type'              => 'user',
+            'company_id'        => 1,
+            'remember_token'    => str_random(10),
+        ]);
     }
 }

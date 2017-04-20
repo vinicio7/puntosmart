@@ -61,7 +61,7 @@ class ProductController extends Controller
     {
         try {
             $product = Product::create([
-                'name' => $request->input('name'),
+                'company_id' => $request->input('company_id'),
                 'description' => $request->input('description'),
                 'internal_code' => $request->input('internal_code'),
                 'bar_code' => $request->input('bar_code'),

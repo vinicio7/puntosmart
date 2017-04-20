@@ -7,8 +7,31 @@ angular.module("app.ctrls", ['LocalStorageModule'])
 // Root Controller
 .controller("AppCtrl", ["$rootScope", "$scope", "$timeout", "localStorageService", "$window", function($rs, $scope, $timeout, localStorageService, $window) {
 
-    if (!localStorageService.get('user_data'))
+    $scope.view_customers = 0;
+    $scope.view_sales = 0;
+    $scope.view_products = 0;
+    $scope.view_companies = 0;
+    $scope.view_users = 0;
+
+
+    if (!localStorageService.get('user_data')) {
         $window.location.href = 'login.html';
+    } else {
+        var user_data = localStorageService.get('user_data');
+        if (user_data.type == 'admin') {
+            $scope.view_customers = 0;
+            $scope.view_sales = 0;
+            $scope.view_products = 0;
+            $scope.view_companies = 1;
+            $scope.view_users = 1;
+        } else {
+            $scope.view_customers = 1;
+            $scope.view_sales = 1;
+            $scope.view_products = 1;
+            $scope.view_companies = 0;
+            $scope.view_users = 0;
+        }
+	}
 
 	var mm = window.matchMedia("(max-width: 767px)");
 	$rs.isMobile = mm.matches ? true: false;

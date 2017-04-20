@@ -24,7 +24,7 @@ class UserController extends Controller
             $this->status_code = 200;
             $this->result = true;
             $this->message = 'Registros consultados correctamente';
-            $this->records = User::all();
+            $this->records = User::with('company')->get();
         } catch (Exception $e) {
             $this->status_code = 400;
             $this->result = false;
@@ -58,7 +58,31 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $customer = User::create([
+                'company_id' => $request->input('company_id'),
+                'name' => $request->input('name'),
+                'user' => $request->input('user'),
+                'password' => $request->input('password')
+            ]);
+
+            $this->status_code = 200;
+            $this->result = true;
+            $this->message = 'Usuario registrado correctamente';
+            $this->records = $customer;
+        } catch (Exception $e) {
+            $this->status_code = 400;
+            $this->result = false;
+            $this->message = env('APP_DEBUG') ? $e->getMessage() : $this->message;
+        } finally {
+            $response = [
+                'result' => $this->result,
+                'message' => $this->message,
+                'records' => $this->records,
+            ];
+
+            return response()->json($response, $this->status_code);
+        }
     }
 
     /**

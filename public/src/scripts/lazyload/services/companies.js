@@ -7,12 +7,12 @@ companies_service.service('CompaniesService', ['$http', 'WS_URL', function($http
         return $http.get(WS_URL+'companies');
     };
 
-    this.store = function(parameters) {
-        return $http.post(WS_URL+'companies', parameters);
+    this.store = function(params) {
+        return $http.post(WS_URL+'companies', params);
     };
 
-    this.update = function(parameters) {
-        return $http.put(WS_URL+'companies/' + parameters.id, parameters);
+    this.update = function(params) {
+        return $http.put(WS_URL+'companies/' + params.id, params);
     };
 
     this.destroy = function(id) {

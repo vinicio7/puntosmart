@@ -2,9 +2,9 @@
 {
     'use strict';
 
-    angular.module('app.customers', ['app.service.customers'])
+    angular.module('app.customers', ['app.service.customers', 'LocalStorageModule'])
 
-        .controller('CustomersController', ['$scope', '$filter', '$http', '$modal', '$interval', 'CustomersService', function($scope, $filter, $http, $modal, $timeout, CustomersService)  {
+        .controller('CustomersController', ['$scope', '$filter', '$http', '$modal', '$interval', 'CustomersService', 'localStorageService', function($scope, $filter, $http, $modal, $timeout, CustomersService, localStorageService)  {
 
             // General variables
             $scope.datas = [];
@@ -18,10 +18,12 @@
             $scope.positionModel = 'topRight';
             $scope.toasts = [];
             var modal;
+            var user_data = localStorageService.get('user_data');
 
             // Function for load table
             function loadDataTable() {
-                CustomersService.index().then(function(response) {
+                var params = { company_id:user_data.company_id };
+                CustomersService.index(params).then(function(response) {
                     $scope.datas = response.data.records;
                     $scope.search();
                     $scope.select($scope.currentPage);
@@ -83,6 +85,7 @@
             // Function for sending data
             $scope.saveData = function (customer) {
                 if ($scope.action == 'new') {
+                    customer.company_id = user_data.company_id;
                     CustomersService.store(customer).then(
                         function successCallback(response) {
                             if (response.data.result) {
