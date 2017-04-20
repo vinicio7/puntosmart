@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <!-- <base href="/"> -->
+
+        <title>Facturador - Research Mobile</title>
+
+        <!-- Icons -->
+        <link rel="stylesheet" href="fonts/ionicons/css/ionicons.min.css">
+        <link rel="stylesheet" href="fonts/font-awesome/css/font-awesome.min.css">
+
+
+        <!-- Css/Less Stylesheets -->
+        <link rel="stylesheet" href="styles/angular-material.min.css"/>
+        <link rel="stylesheet" href="styles/bootstrap.min.css"/>
+        <link rel="stylesheet" href="styles/main.min.css"/>
+
+        <!-- <link rel="stylesheet" href="styles/vendors/bootstrap.min.css"> -->
+        <!-- <link rel="stylesheet" href="_tmp/main.min.css"> -->
+
+        <link href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,300' rel='stylesheet' type='text/css'>
+
+        <!-- Match Media polyfill for IE9 -->
+        <!--[if IE 9]> <script src="scripts/ie/matchMedia.js"></script>  <![endif]-->
+    </head>
+    <body ng-app="login" ng-controller="LoginController">
+        <div class="page page-auth">
+            <div class="auth-container">
+                <div class="form-head mb20">
+                    <h1 class="site-logo h2 mb5 mt5 text-center text-uppercase text-bold"><a href="/">Facturador</a></h1>
+                    <h5 class="text-normal h5 text-center">Iniciar sesión en Dashboard</h5>
+                </div>
+                <div class="form-container">
+                    <form class="form-horizontal" action="javascript:;">
+                        <md-input-container>
+                            <label>Usuario</label>
+                            <input type="text" placeholder="Ingrese su usuario" ng-model="data.user">
+                        </md-input-container>
+                        <md-input-container>
+                            <label>Contraseña</label>
+                            <input type="password" placeholder="Ingrese su contraseña" ng-model="data.password">
+                        </md-input-container>
+                        <div class="btn-group btn-group-justified mb15">
+                            <div class="btn-group">
+                                <button type="submit" class="btn btn-success" ng-click="signIn(data)">Ingresar</button>
+                            </div>
+                        </div>
+                        <div class="clearfix text-center small">
+                            <p>Todos los derechos reservados - <a href="http://researchmobile.co">Research Mobile</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div> <!-- #end signin-container -->
+        </div>
+        <div class="toast toast-{{positionModel}}">
+            <alert ng-repeat="toast in toasts" type="{{toast.type}}" close="closeAlert($index)" class="toast-{{toast.anim}}">
+                <div ng-bind-html="toast.msg"></div>
+            </alert>
+        </div>
+    </body>
+    <!-- #settings -->
+
+
+
+
+    <!-- Dev only -->
+    <script src="scripts/vendors.js"></script>
+
+    <script src="scripts/plugins.js"></script>
+
+
+    <script src="scripts/app.js"></script>
+
+    <script src="../bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+    <script src="scripts/lazyload/controllers/login.js"></script>
+</html>

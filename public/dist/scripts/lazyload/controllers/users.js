@@ -2,9 +2,9 @@
 {
     'use strict';
 
-    angular.module('app.users', ['app.service.users'])
+    angular.module('app.users', ['app.service.users', 'app.service.companies'])
 
-        .controller('UsersController', ['$scope', '$filter', '$http', '$modal', '$interval', 'UsersService', function($scope, $filter, $http, $modal, $timeout, UsersService)  {
+        .controller('UsersController', ['$scope', '$filter', '$http', '$modal', '$interval', 'UsersService', 'CompaniesService', function($scope, $filter, $http, $modal, $timeout, UsersService, CompaniesService)  {
 
             // General variables
             $scope.datas = [];
@@ -17,6 +17,7 @@
             $scope.currentPage = 1;
             $scope.positionModel = 'topRight';
             $scope.toasts = [];
+            $scope.companies = [];
             var modal;
 
             // Function for load table
@@ -25,6 +26,12 @@
                     $scope.datas = response.data.records;
                     $scope.search();
                     $scope.select($scope.currentPage);
+                });
+            }
+
+            function loadCompanies() {
+                CompaniesService.index().then(function(response) {
+                    $scope.companies = response.data.records;
                 });
             }
 
@@ -66,6 +73,7 @@
             };
 
             loadDataTable();
+            loadCompanies();
 
             // Function for toast
             function createToast (type, message) {
@@ -81,14 +89,14 @@
             }
 
             // Function for sending data
-            $scope.saveData = function (driver) {
+            $scope.saveData = function (user) {
                 if ($scope.action == 'new') {
-                    UsersService.store(driver).then(
+                    UsersService.store(user).then(
                         function successCallback(response) {
                             if (response.data.result) {
                                 loadDataTable();
                                 modal.close();
-                                createToast('success', '<strong>Success: </strong>'+response.data.message);
+                                createToast('success', '<strong>Éxito: </strong>'+response.data.message);
                                 $timeout( function(){ closeAlert(0); }, 3000);
                             } else {
                                 createToast('danger', '<strong>Error: </strong>'+response.data.message);
@@ -102,12 +110,12 @@
                     );
                 }
                 else if ($scope.action == 'update') {
-                    UsersService.update(driver).then(
+                    UsersService.update(user).then(
                         function successCallback(response) {
                             if (response.data.result) {
                                 loadDataTable();
                                 modal.close();
-                                createToast('success', '<strong>Success: </strong>'+response.data.message);
+                                createToast('success', '<strong>Éxito: </strong>'+response.data.message);
                                 $timeout( function(){ closeAlert(0); }, 3000);
                             } else {
                                 createToast('danger', '<strong>Error: </strong>'+response.data.message);
@@ -121,12 +129,12 @@
                     );
                 }
                 else if ($scope.action == 'delete') {
-                    UsersService.destroy(driver.id).then(
+                    UsersService.destroy(user.id).then(
                         function successCallback(response) {
                             if (response.data.result) {
                                 loadDataTable();
                                 modal.close();
-                                createToast('success', '<strong>Success: </strong>'+response.data.message);
+                                createToast('success', '<strong>Éxito: </strong>'+response.data.message);
                                 $timeout( function(){ closeAlert(0); }, 3000);
                             } else {
                                 createToast('danger', '<strong>Error: </strong>'+response.data.message);
@@ -143,11 +151,11 @@
 
             // Functions for modals
             $scope.modalCreateOpen = function() {
-                $scope.driver = {};
+                $scope.user = {};
                 $scope.action = 'new';
 
                 modal = $modal.open({
-                    templateUrl: 'views/app/modal-drivers.html',
+                    templateUrl: 'views/app/users-modal.html',
                     scope: $scope,
                     size: 'md',
                     resolve: function() {},
@@ -157,10 +165,10 @@
 
             $scope.modalEditOpen = function(data) {
                 $scope.action = 'update';
-                $scope.driver = data;
+                $scope.user = data;
 
                 modal = $modal.open({
-                    templateUrl: 'views/app/modal-drivers.html',
+                    templateUrl: 'views/app/users-modal.html',
                     scope: $scope,
                     size: 'md',
                     resolve: function() {},
@@ -170,10 +178,10 @@
 
             $scope.modalDeleteOpen = function(data) {
                 $scope.action = 'delete';
-                $scope.driver = data;
+                $scope.user = data;
 
                 modal = $modal.open({
-                    templateUrl: 'views/app/modal-drivers.html',
+                    templateUrl: 'views/app/users-modal.html',
                     scope: $scope,
                     size: 'md',
                     resolve: function() {},

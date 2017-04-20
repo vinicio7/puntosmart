@@ -152,7 +152,7 @@ angular.module("app.ctrls", ['LocalStorageModule'])
 	};
 
     $scope.logOut = function () {
-        localStorageService.remove('user_data');
+        localStorageService.clearAll();
         if (!localStorageService.get('user_data'))
             $window.location.href = 'login.html';
     };

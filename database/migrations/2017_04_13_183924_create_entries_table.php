@@ -19,6 +19,7 @@ class CreateEntriesTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('product_id')->unsigned();
             $table->integer('quantity');
+            $table->float('price_sale');
             $table->timestamps();
         });
     }

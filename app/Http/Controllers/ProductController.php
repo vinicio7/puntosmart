@@ -132,15 +132,19 @@ class ProductController extends Controller
         //
     }
 
-    public function productList (Request $request)
+    public function searchProduct (Request $request)
     {
         try {
-            $records = Product::where('internal_code', $request->input('internal_code'))->orWhere('bar_code', $request->input('bar_code'))->orWhere('name', 'like', '%'.$request->input('name').'%')->get();
+            $product = Product::where('internal_code', $request->input('param'))->orWhere('bar_code', $request->input('param'))->orWhere('description', 'like', '%'.$request->input('param').'%')->first();
 
-            $this->status_code = 200;
-            $this->result = true;
-            $this->message = 'Productos consultados correctamente';
-            $this->records = $records;
+            if ($product) {
+                $this->status_code = 200;
+                $this->result = true;
+                $this->message = 'Producto consultados correctamente';
+                $this->records = $product;
+            } else {
+                throw new Exception('El producto solicitado no existe');
+            }
         } catch (Exception $e) {
             $this->status_code = 400;
             $this->result = false;

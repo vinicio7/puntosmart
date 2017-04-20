@@ -70,11 +70,13 @@ class EntryController extends Controller
                 'company_id' => $request->input('company_id'),
                 'user_id' => $request->input('user_id'),
                 'product_id' => $request->input('product_id'),
-                'quantity' => $request->input('quantity')
+                'quantity' => $request->input('quantity'),
+                'price_sale' => $request->input('price_sale')
             ]);
 
             $product = Product::find( $request->input('product_id'));
             $product->stock = $product->stock + intval($request->input('quantity'));
+            $product->price_sale = floatval($request->input('price_sale'));
             $product->save();
 
             $this->status_code = 200;

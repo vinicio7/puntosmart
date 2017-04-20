@@ -118,6 +118,10 @@
                 {
                     name: "app.service.entries",
                     files: ["scripts/lazyload/services/entries.js"]
+                },
+                {
+                    name: "app.service.sales",
+                    files: ["scripts/lazyload/services/sales.js"]
                 }
 			]
 		})

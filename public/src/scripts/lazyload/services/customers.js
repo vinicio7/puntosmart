@@ -18,4 +18,8 @@ customers_service.service('CustomersService', ['$http', 'WS_URL', function($http
     this.destroy = function(id) {
         return $http.delete(WS_URL+'customers/' + id);
     };
+
+    this.searchCustomer = function(params){
+        return $http.get(WS_URL+'customers/search', {params:params});
+    };
 }]);

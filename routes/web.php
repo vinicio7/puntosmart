@@ -16,6 +16,8 @@ Route::get('/', function () {
 });
 
 Route::group(['prefix' => 'ws'], function(){
+    Route::get('product/search',    'ProductController@searchProduct');
+    Route::get('customers/search',  'CustomerController@searchCustomer');
     Route::resource('companies',	'CompanyController');
     Route::resource('customers',	'CustomerController');
     Route::resource('products',		'ProductController');

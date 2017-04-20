@@ -18,4 +18,8 @@ products_service.service('ProductsService', ['$http', 'WS_URL', function($http, 
     this.destroy = function(id) {
         return $http.delete(WS_URL+'products/' + id);
     };
+
+    this.searchProduct = function(params) {
+        return $http.get(WS_URL+'product/search', {params:params});
+    };
 }]);

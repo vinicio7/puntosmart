@@ -7,12 +7,12 @@ users_service.service('UsersService', ['$http', 'WS_URL', function($http, WS_URL
         return $http.get(WS_URL+'users');
     };
 
-    this.store = function(parameters) {
-        return $http.post(WS_URL+'users', parameters);
+    this.store = function(params) {
+        return $http.post(WS_URL+'users', params);
     };
 
-    this.update = function(parameters) {
-        return $http.put(WS_URL+'users/' + parameters.id, parameters);
+    this.update = function(params) {
+        return $http.put(WS_URL+'users/' + params.id, params);
     };
 
     this.destroy = function(id) {

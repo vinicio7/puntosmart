@@ -62,7 +62,7 @@ class CustomerController extends Controller
             $customer = Customer::create([
                 'company_id' => $request->input('company_id'),
                 'name' => $request->input('name'),
-                'nit' => $request->input('nit'),
+                'nit' => strtoupper(str_replace('-', '', $request->input('nit'))),
                 'direction' => $request->input('direction'),
                 'phone' => $request->input('phone', ''),
                 'email' => $request->input('email', '')
@@ -121,10 +121,10 @@ class CustomerController extends Controller
         try {
             $customer = Customer::find($id);
             $customer->name = $request->input('name', $customer->name);
-            $customer->nit = $request->input('nit', $customer->nit);
+            $customer->nit = strtoupper(str_replace('-', '', $request->input('nit', $customer->nit)));
             $customer->direction = $request->input('direction', $customer->direction);
-            $customer->phone = $request->input('phone', $customer->phone);
-            $customer->email = $request->input('email', $customer->email);
+            $customer->phone =  $request->input('phone') != null ? $request->input('phone') : '';
+            $customer->email = $request->input('email') != null ? $request->input('email') : '';
             $customer->save();
 
             $this->status_code = 200;
@@ -155,5 +155,34 @@ class CustomerController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function searchCustomer (Request $request)
+    {
+        try {
+            $nit = strtoupper(str_replace('-', '', $request->input('nit')));
+            $customer = Customer::where('nit', $nit)->first();
+
+            if ($customer) {
+                $this->status_code = 200;
+                $this->result = true;
+                $this->message = 'Cliente consultado correctamente';
+                $this->records = $customer;
+            } else {
+                throw new Exception('El cliente consultado no existe');
+            }
+        } catch (Exception $e) {
+            $this->status_code = 400;
+            $this->result = false;
+            $this->message = env('APP_DEBUG') ? $e->getMessage() : $this->message;
+        } finally {
+            $response = [
+                'result' => $this->result,
+                'message' => $this->message,
+                'records' => $this->records,
+            ];
+
+            return response()->json($response, $this->status_code);
+        }
     }
 }

@@ -125,12 +125,12 @@
                                        ng-class="{active: row == '-format'}"></i>
                                 </div>
                             </th>
-                            <th>Actions</th>
+                            <th>Acciones</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr ng-repeat="data in currentPageStores track by $index">
-                            <td>{{ data.id }}</td>
+                            <td>{{ $index + 1 }}</td>
                             <td>{{ data.trade_name }}</td>
                             <td>{{ data.business_name }}</td>
                             <td>{{ data.nit }}</td>

@@ -66,6 +66,7 @@ $factory->define(App\Entry::class, function (Faker\Generator $faker) {
         'company_id' => rand(1,25),
         'user_id' => rand(1,25),
         'product_id' => rand(1,25),
-        'quantity' => rand(50,100)
+        'quantity' => rand(50,100),
+        'price_sale' => rand(1,50)
     ];
 });
