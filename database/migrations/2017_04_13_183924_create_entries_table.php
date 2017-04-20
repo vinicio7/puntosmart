@@ -15,6 +15,7 @@ class CreateEntriesTable extends Migration
     {
         Schema::create('entries', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('company_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->integer('product_id')->unsigned();
             $table->integer('quantity');

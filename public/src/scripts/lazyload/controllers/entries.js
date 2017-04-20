@@ -2,9 +2,9 @@
 {
     'use strict';
 
-    angular.module('app.products', ['app.service.products', 'LocalStorageModule'])
+    angular.module('app.entries', ['app.service.entries', 'app.service.products', 'LocalStorageModule'])
 
-        .controller('ProductsController', ['$scope', '$filter', '$http', '$modal', '$interval', 'ProductsService', 'localStorageService', function($scope, $filter, $http, $modal, $timeout, ProductsService, localStorageService)  {
+        .controller('EntriesController', ['$scope', '$filter', '$http', '$modal', '$interval', 'EntriesService', 'ProductsService', 'localStorageService', function($scope, $filter, $http, $modal, $timeout, EntriesService, ProductsService, localStorageService)  {
 
             // General variables
             $scope.datas = [];
@@ -17,16 +17,24 @@
             $scope.currentPage = 1;
             $scope.positionModel = 'topRight';
             $scope.toasts = [];
+            $scope.products = [];
             var modal;
             var user_data = localStorageService.get('user_data');
 
             // Function for load table
             function loadDataTable() {
                 var params = { company_id:user_data.company_id };
-                ProductsService.index(params).then(function(response) {
+                EntriesService.index(params).then(function(response) {
                     $scope.datas = response.data.records;
                     $scope.search();
                     $scope.select($scope.currentPage);
+                });
+            }
+
+            function loadProducts() {
+                var params = { company_id:user_data.company_id };
+                ProductsService.index(params).then(function(response) {
+                    $scope.products = response.data.records;
                 });
             }
 
@@ -68,6 +76,7 @@
             };
 
             loadDataTable();
+            loadProducts();
 
             // Function for toast
             function createToast (type, message) {
@@ -83,46 +92,11 @@
             }
 
             // Function for sending data
-            $scope.saveData = function (product) {
+            $scope.saveData = function (entry) {
                 if ($scope.action == 'new') {
-                    ProductsService.store(product).then(
-                        function successCallback(response) {
-                            if (response.data.result) {
-                                loadDataTable();
-                                modal.close();
-                                createToast('success', '<strong>Éxito: </strong>'+response.data.message);
-                                $timeout( function(){ closeAlert(0); }, 3000);
-                            } else {
-                                createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                                $timeout( function(){ closeAlert(0); }, 3000);
-                            }
-                        },
-                        function errorCallback(response) {
-                            createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                            $timeout( function(){ closeAlert(0); }, 3000);
-                        }
-                    );
-                }
-                else if ($scope.action == 'update') {
-                    ProductsService.update(product).then(
-                        function successCallback(response) {
-                            if (response.data.result) {
-                                modal.close();
-                                createToast('success', '<strong>Éxito: </strong>'+response.data.message);
-                                $timeout( function(){ closeAlert(0); }, 3000);
-                            } else {
-                                createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                                $timeout( function(){ closeAlert(0); }, 3000);
-                            }
-                        },
-                        function errorCallback(response) {
-                            createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                            $timeout( function(){ closeAlert(0); }, 3000);
-                        }
-                    );
-                }
-                else if ($scope.action == 'delete') {
-                    ProductsService.destroy(product.id).then(
+                    entry.company_id = user_data.company_id;
+                    entry.user_id = user_data.id;
+                    EntriesService.store(entry).then(
                         function successCallback(response) {
                             if (response.data.result) {
                                 loadDataTable();
@@ -144,11 +118,11 @@
 
             // Functions for modals
             $scope.modalCreateOpen = function() {
-                $scope.product = {};
+                $scope.entry = {quantity: 99999};
                 $scope.action = 'new';
 
                 modal = $modal.open({
-                    templateUrl: 'views/app/products-modal.html',
+                    templateUrl: 'views/app/entries-modal.html',
                     scope: $scope,
                     size: 'md',
                     resolve: function() {},
@@ -158,10 +132,10 @@
 
             $scope.modalEditOpen = function(data) {
                 $scope.action = 'update';
-                $scope.product = data;
+                $scope.entry = data;
 
                 modal = $modal.open({
-                    templateUrl: 'views/app/products-modal.html',
+                    templateUrl: 'views/app/entries-modal.html',
                     scope: $scope,
                     size: 'md',
                     resolve: function() {},
@@ -171,10 +145,10 @@
 
             $scope.modalDeleteOpen = function(data) {
                 $scope.action = 'delete';
-                $scope.product = data;
+                $scope.entry = data;
 
                 modal = $modal.open({
-                    templateUrl: 'views/app/products-modal.html',
+                    templateUrl: 'views/app/entries-modal.html',
                     scope: $scope,
                     size: 'md',
                     resolve: function() {},

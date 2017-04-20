@@ -8,6 +8,11 @@ class Entry extends Model
 {
     protected $table = 'entries';
     protected $fillable = [
-        'user_id', 'product_id', 'quantity'
+        'company_id', 'user_id', 'product_id', 'quantity'
     ];
+
+    public function product ()
+    {
+        return $this->belongsTo('App\Product');
+    }
 }

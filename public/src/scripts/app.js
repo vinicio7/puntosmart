@@ -114,6 +114,10 @@
                 {
                     name: "app.service.users",
                     files: ["scripts/lazyload/services/users.js"]
+                },
+                {
+                    name: "app.service.entries",
+                    files: ["scripts/lazyload/services/entries.js"]
                 }
 			]
 		})
@@ -217,6 +221,19 @@
                     return a.load({
                         name: 'app.customers',
                         files: ['scripts/lazyload/controllers/customers.js']
+                    })
+                }]
+            }
+        });
+
+        $routeProvider.when("/entries", {
+            templateUrl: "views/app/entries.html",
+            controller: 'EntriesController',
+            resolve: {
+                deps: ["$ocLazyLoad", function(a) {
+                    return a.load({
+                        name: 'app.entries',
+                        files: ['scripts/lazyload/controllers/entries.js']
                     })
                 }]
             }

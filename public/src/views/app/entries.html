@@ -3,10 +3,10 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default table-responsive panel-hovered mb20"  >
-                    <div class="panel-heading"><h4>Productos</h4></div>
+                    <div class="panel-heading"><h4>Entradas</h4></div>
                     <div class="panel-body">
                         <div class="row">
-                            <button type="button" class="btn btn-success btn-rounded" ng-click="modalCreateOpen()" md-ink-ripple><i class="fa fa-plus"></i> Nuevo producto</button>
+                            <button type="button" class="btn btn-success btn-rounded" ng-click="modalCreateOpen()" md-ink-ripple><i class="fa fa-plus"></i> Nueva entrada</button>
                         </div>
                         <br>
                         <div class="row">
@@ -38,76 +38,51 @@
                                 </div>
                             </th>
                             <th>
-                                Descripción
+                                Producto
                                 <div class="th">
                                     <i class="fa fa-caret-up icon-up"
-                                       ng-click=" order('description') "
-                                       ng-class="{active: row == 'description'}"></i>
+                                       ng-click=" order('product_id') "
+                                       ng-class="{active: row == 'product_id'}"></i>
                                     <i class="fa fa-caret-down icon-down"
-                                       ng-click=" order('-description') "
-                                       ng-class="{active: row == '-description'}"></i>
-                                </div>
-                            </th>
-                            <th>
-                                Código interno
-                                <div class="th">
-                                    <i class="fa fa-caret-up icon-up"
-                                       ng-click=" order('internal_code') "
-                                       ng-class="{active: row == 'internal_code'}"></i>
-                                    <i class="fa fa-caret-down icon-down"
-                                       ng-click=" order('-internal_code') "
-                                       ng-class="{active: row == '-internal_code'}"></i>
-                                </div>
-                            </th>
-                            <th>
-                                Código de barras
-                                <div class="th">
-                                    <i class="fa fa-caret-up icon-up"
-                                       ng-click=" order('bar_code') "
-                                       ng-class="{active: row == 'bar_code'}"></i>
-                                    <i class="fa fa-caret-down icon-down"
-                                       ng-click=" order('-bar_code') "
-                                       ng-class="{active: row == '-bar_code'}"></i>
+                                       ng-click=" order('-product_id') "
+                                       ng-class="{active: row == '-product_id'}"></i>
                                 </div>
                             </th>
                             <th>
                                 Cantidad
                                 <div class="th">
                                     <i class="fa fa-caret-up icon-up"
-                                       ng-click=" order('stock') "
-                                       ng-class="{active: row == 'stock'}"></i>
+                                       ng-click=" order('quantity') "
+                                       ng-class="{active: row == 'quantity'}"></i>
                                     <i class="fa fa-caret-down icon-down"
-                                       ng-click=" order('-stock') "
-                                       ng-class="{active: row == '-stock'}"></i>
+                                       ng-click=" order('-quantity') "
+                                       ng-class="{active: row == '-quantity'}"></i>
                                 </div>
                             </th>
                             <th>
-                                Precio venta
+                                Fecha de entrada
                                 <div class="th">
                                     <i class="fa fa-caret-up icon-up"
-                                       ng-click=" order('price_sale') "
-                                       ng-class="{active: row == 'price_sale'}"></i>
+                                       ng-click=" order('created_at') "
+                                       ng-class="{active: row == 'created_at'}"></i>
                                     <i class="fa fa-caret-down icon-down"
-                                       ng-click=" order('-price_sale') "
-                                       ng-class="{active: row == '-price_sale'}"></i>
+                                       ng-click=" order('-created_at') "
+                                       ng-class="{active: row == '-created_at'}"></i>
                                 </div>
                             </th>
-                            <th>Acciones</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr ng-repeat="data in currentPageStores track by $index">
                             <td>{{ $index + 1 }}</td>
-                            <td>{{ data.description }}</td>
-                            <td>{{ data.internal_code }}</td>
-                            <td>{{ data.bar_code }}</td>
-                            <td>{{ data.stock }}</td>
-                            <td>Q. {{ data.price_sale | number: "2"}}</td>
-                            <td>
+                            <td>{{ data.product.description }}</td>
+                            <td>{{ data.quantity }}</td>
+                            <td>{{ data.date_entry }}</td>
+                            <!-- <td>
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-info ion ion-edit" ng-click="modalEditOpen(data)" md-ink-ripple></button>
+                                     <button type="button" class="btn btn-info ion ion-edit" ng-click="modalEditOpen(data)" md-ink-ripple></button>
                                     <button type="button" class="btn btn-danger ion ion-trash-a" ng-click="modalDeleteOpen(data)" md-ink-ripple></button>
-                                </div>
+                                </div> -->
                             </td>
                         </tr>
                         </tbody>

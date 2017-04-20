@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\User;
 use Exception;
+use Validator;
 
 class UserController extends Controller
 {
@@ -59,17 +60,33 @@ class UserController extends Controller
     public function store(Request $request)
     {
         try {
-            $customer = User::create([
-                'company_id' => $request->input('company_id'),
-                'name' => $request->input('name'),
-                'user' => $request->input('user'),
-                'password' => $request->input('password')
-            ]);
+            $rules = [
+                'password' => 'required|min:5'
+            ];
 
-            $this->status_code = 200;
-            $this->result = true;
-            $this->message = 'Usuario registrado correctamente';
-            $this->records = $customer;
+            $messages = [
+                'password.required' => 'Es necesario que ingrese una contraseña',
+                'password.min' => 'La contraseña debe contener más de 5 caracteres',
+            ];
+
+            $validator = Validator::make($request->all(), $rules, $messages);
+
+            if ($validator->fails()) {
+                throw new Exception($validator->messages()->first());
+            } else {
+                $user = User::create([
+                    'company_id' => $request->input('company_id'),
+                    'name' => $request->input('name'),
+                    'user' => $request->input('user'),
+                    'password' => bcrypt($request->input('password')),
+                    'type' => 'user'
+                ]);
+
+                $this->status_code = 200;
+                $this->result = true;
+                $this->message = 'Usuario registrado correctamente';
+                $this->records = $user;
+            }
         } catch (Exception $e) {
             $this->status_code = 400;
             $this->result = false;
@@ -116,7 +133,39 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $validate_user = User::where('user', $request->input('user'))->where('id', '!=', $id)->first();
+
+            if (!$validate_user) {
+                $user = User::find($id);
+                $user->company_id = $request->input('company_id', $user->company_id);
+                $user->user = $request->input('user', $user->user);
+                $user->name = $request->input('name', $user->name);
+                if ($request->has('password') && $request->input('password') != '') {
+                    $user->password = bcrypt($request->input('password'));
+                }
+                $user->save();
+
+                $this->status_code = 200;
+                $this->result = true;
+                $this->message = 'Usuario editado correctamente';
+                $this->records = $user;
+            } else {
+                throw new Exception('Ya existe un registro con el mismo usuario, por favor verifique');
+            }
+        } catch (Exception $e) {
+            $this->status_code = 400;
+            $this->result = false;
+            $this->message = env('APP_DEBUG') ? $e->getMessage() : $this->message;
+        } finally {
+            $response = [
+                'result' => $this->result,
+                'message' => $this->message,
+                'records' => $this->records,
+            ];
+
+            return response()->json($response, $this->status_code);
+        }
     }
 
     /**

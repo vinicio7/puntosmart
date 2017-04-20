@@ -63,6 +63,7 @@ $factory->define(App\Product::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Entry::class, function (Faker\Generator $faker) {
     return [
+        'company_id' => rand(1,25),
         'user_id' => rand(1,25),
         'product_id' => rand(1,25),
         'quantity' => rand(50,100)

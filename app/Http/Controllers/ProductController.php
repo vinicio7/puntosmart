@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Product;
 use Exception;
-use Validator;
 
 class ProductController extends Controller
 {
@@ -19,13 +18,13 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
             $this->status_code = 200;
             $this->result = true;
             $this->message = 'Registros consultados correctamente';
-            $this->records = Product::all();
+            $this->records = Product::where('company_id', $request->input('company_id'))->get();
         } catch (Exception $e) {
             $this->status_code = 400;
             $this->result = false;
@@ -71,7 +70,7 @@ class ProductController extends Controller
 
             $this->status_code = 200;
             $this->result = true;
-            $this->message = 'Registros consultados correctamente';
+            $this->message = 'Producto creado correctamente';
             $this->records = $product;
         } catch (Exception $e) {
             $this->status_code = 400;
