@@ -159,4 +159,36 @@ class ProductController extends Controller
             return response()->json($response, $this->status_code);
         }
     }
+
+    public function checkProductStock (Request $request)
+    {
+        try {
+            $product = Product::find($request->input('id'));
+
+            if ($product) {
+                if ($product->stock >= $request->input('quantity')) {
+                    $this->status_code = 200;
+                    $this->result = true;
+                    $this->message = 'Producto consultados correctamente';
+                    $this->records = $product;
+                } else {
+                    throw new Exception('No cuenta con suficiente existencia en el producto seleccionado, su existencia es de: '.$product->stock);
+                }
+            } else {
+                throw new Exception('El producto solicitado no existe');
+            }
+        } catch (Exception $e) {
+            $this->status_code = 400;
+            $this->result = false;
+            $this->message = env('APP_DEBUG') ? $e->getMessage() : $this->message;
+        } finally {
+            $response = [
+                'result' => $this->result,
+                'message' => $this->message,
+                'records' => $this->records,
+            ];
+
+            return response()->json($response, $this->status_code);
+        }
+    }
 }

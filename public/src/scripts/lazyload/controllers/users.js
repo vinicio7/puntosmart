@@ -2,9 +2,14 @@
 {
     'use strict';
 
-    angular.module('app.users', ['app.service.users', 'app.service.companies'])
+    angular.module('app.users', ['app.service.users', 'app.service.companies', 'LocalStorageModule'])
 
-        .controller('UsersController', ['$scope', '$filter', '$http', '$modal', '$interval', 'UsersService', 'CompaniesService', function($scope, $filter, $http, $modal, $timeout, UsersService, CompaniesService)  {
+        .controller('UsersController', ['$scope', '$filter', '$http', '$modal', '$interval', 'UsersService', 'CompaniesService', 'localStorageService', '$window',function($scope, $filter, $http, $modal, $timeout, UsersService, CompaniesService, localStorageService, $window)  {
+
+            var user_data = localStorageService.get('user_data');
+            if (user_data.type == 'user') {
+                $window.location.href = './#/404';
+            }
 
             // General variables
             $scope.datas = [];

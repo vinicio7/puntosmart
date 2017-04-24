@@ -22,4 +22,8 @@ products_service.service('ProductsService', ['$http', 'WS_URL', function($http, 
     this.searchProduct = function(params) {
         return $http.get(WS_URL+'product/search', {params:params});
     };
+
+    this.checkProductStock = function(params) {
+        return $http.get(WS_URL+'product/check/stock', {params:params});
+    };
 }]);

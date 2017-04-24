@@ -4,7 +4,13 @@
 
     angular.module('app.products', ['app.service.products', 'LocalStorageModule'])
 
-        .controller('ProductsController', ['$scope', '$filter', '$http', '$modal', '$interval', 'ProductsService', 'localStorageService', function($scope, $filter, $http, $modal, $timeout, ProductsService, localStorageService)  {
+        .controller('ProductsController', ['$scope', '$filter', '$http', '$modal', '$interval', 'ProductsService', 'localStorageService', '$window', function($scope, $filter, $http, $modal, $timeout, ProductsService, localStorageService, $window)  {
+
+            var user_data = localStorageService.get('user_data');
+
+            if (user_data.type == 'admin') {
+                $window.location.href = './#/404';
+            }
 
             // General variables
             $scope.datas = [];
@@ -18,7 +24,6 @@
             $scope.positionModel = 'topRight';
             $scope.toasts = [];
             var modal;
-            var user_data = localStorageService.get('user_data');
 
             // Function for load table
             function loadDataTable() {
