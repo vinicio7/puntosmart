@@ -90,6 +90,7 @@
             // Function for sending data
             $scope.saveData = function (product) {
                 if ($scope.action == 'new') {
+                    product.company_id = user_data.company_id;
                     ProductsService.store(product).then(
                         function successCallback(response) {
                             if (response.data.result) {

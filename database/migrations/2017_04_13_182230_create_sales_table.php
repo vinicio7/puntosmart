@@ -22,7 +22,7 @@ class CreateSalesTable extends Migration
             $table->text('customer_name');
             $table->text('customer_nit');
             $table->text('customer_direction');
-            $table->enum('type_payment', ['credit', 'cash']);
+            $table->enum('type_payment', ['credit_card', 'cash']);
             $table->boolean('invoice');
             $table->timestamps();
         });

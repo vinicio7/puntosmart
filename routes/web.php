@@ -12,10 +12,11 @@
 */
 
 Route::get('/', function () {
-    return redirect('/dist');
+    return redirect('/src');
 });
 
 Route::group(['prefix' => 'ws'], function(){
+    Route::post('sale/save',        'SaleController@saveSale');
     Route::get('product/search',    'ProductController@searchProduct');
     Route::get('product/check/stock','ProductController@checkProductStock');
     Route::get('customers/search',  'CustomerController@searchCustomer');

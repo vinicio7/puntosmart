@@ -68,7 +68,8 @@ class CompanyController extends Controller
                 'phone' => $request->input('phone'),
                 'contact' => $request->input('contact'),
                 'type_service' => $request->input('type_service'),
-                'format' => $request->input('format')
+                'format' => $request->input('format'),
+                'correlative' => 1
             ]);
 
             $this->status_code = 200;

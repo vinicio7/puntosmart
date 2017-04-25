@@ -23,6 +23,7 @@ class CreateCompaniesTable extends Migration
             $table->text('contact');
             $table->boolean('type_service');
             $table->boolean('format');
+            $table->integer('correlative');
             $table->timestamps();
             $table->softDeletes();
         });

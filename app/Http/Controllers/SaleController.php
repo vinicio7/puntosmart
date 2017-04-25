@@ -3,82 +3,73 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Company;
+use App\Product;
+use App\Sale;
+use App\SaleDetail;
+use Exception;
+use DB;
 
 class SaleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+    protected $result = false;
+    protected $message = 'Ocurrió un problema al procesar su solicitud';
+    protected $records = array();
+    protected $status_code = 400;
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function saveSale(Request $request)
     {
-        //
-    }
+        try {
+            DB::beginTransaction();
+            $data_sale = json_decode($request->input('data_sale'), true);
+            $company = Company::find($data_sale['company_id']);
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+            $new_sale = new Sale;
+            $new_sale->user_id = $data_sale['user_id'];
+            $new_sale->company_id = $data_sale['company_id'];
+            $new_sale->total = $data_sale['total'];
+            $new_sale->customer_name = $data_sale['customer']['name'];
+            $new_sale->customer_nit = $data_sale['customer']['nit'];
+            $new_sale->customer_direction = $data_sale['customer']['direction'];
+            $new_sale->type_payment = $data_sale['method_payment'];
+            $new_sale->invoice = $data_sale['invoice'] == true ? 1 : 0;
+            $new_sale->correlative = 'venta-'.$company->correlative;
+            $new_sale->save();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+            foreach ($data_sale['products'] as $product) {
+                $detail = new SaleDetail;
+                $detail->sale_id = $new_sale->id;
+                $detail->product_id = $product['id'];
+                $detail->quantity = $product['quantity'];
+                $detail->sale_price = $product['unit_price'];
+                $detail->subtotal = $product['subtotal'];
+                $detail->save();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+                $find_product = Product::find($product['id']);
+                $find_product->stock = $find_product->stock - intval($product['quantity']);
+                $find_product->save();
+            }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+            $company->correlative = $company->correlative + 1;
+            $company->save();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+            DB::commit();
+            $this->status_code = 200;
+            $this->result = true;
+            $this->message = 'Venta registrada correctamente';
+        } catch (Exception $e) {
+            DB::rollback();
+            $this->status_code = 400;
+            $this->result = false;
+            $this->message = env('APP_DEBUG') ? $e->getMessage() : $this->message;
+        } finally {
+            $response = [
+                'result' => $this->result,
+                'message' => $this->message,
+                'records' => $this->records,
+            ];
+
+            return response()->json($response, $this->status_code);
+        }
     }
 }

@@ -11,6 +11,6 @@ class Company extends Model
 
     protected $table = 'companies';
     protected $fillable = [
-        'trade_name', 'business_name', 'nit', 'direction', 'phone', 'contact', 'type_service', 'format'
+        'trade_name', 'business_name', 'nit', 'direction', 'phone', 'contact', 'type_service', 'format', 'correlative'
     ];
 }

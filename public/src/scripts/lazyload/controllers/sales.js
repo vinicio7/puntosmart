@@ -2,10 +2,7 @@
 {
     'use strict';
 
-    angular.module('app.sales', ['app.service.products',
-                                'app.service.sales',
-                                'app.service.customers',
-                                'LocalStorageModule'])
+    angular.module('app.sales', ['app.service.products', 'app.service.sales', 'app.service.customers', 'LocalStorageModule'])
 
         .controller('SalesController', ['$scope', '$filter', '$http', '$modal', '$interval', 'ProductsService', 'SalesService', 'CustomersService', 'localStorageService', '$window', function($scope, $filter, $http, $modal, $timeout, ProductsService, SalesService, CustomersService, localStorageService, $window)  {
 
@@ -24,7 +21,12 @@
             $scope.products = [];
             $scope.total = 0;
             $scope.show_input = 0;
+            $scope.invoice = {
+                payment: 'cash',
+                print: true
+            };
             $scope.enable_add_product = true;
+            $scope.enable_print = true;
             var modal;
 
             checkSaleData();
@@ -47,6 +49,8 @@
                 $scope.customer = {};
                 $scope.products = [];
                 $scope.total = 0;
+                $scope.enable_print = true;
+                $scope.enable_add_product = true;
             };
 
             // Function for toast
@@ -95,6 +99,7 @@
             };
 
             $scope.searchProduct = function (product) {
+                product.company_id = $scope.user_data.company_id;
                 ProductsService.searchProduct(product).then(
                     function successCallback(response) {
                         if (response.data.result) {
@@ -123,8 +128,10 @@
                 ProductsService.checkProductStock(product).then(
                     function successCallback(response) {
                         if (response.data.result) {
+                            $scope.enable_print = false;
                             var subtotal = (product.quantity * product.price);
                             var data = {
+                                id: product.id,
                                 internal_code: product.internal_code,
                                 description: product.param,
                                 quantity: product.quantity,
@@ -156,6 +163,40 @@
                 );
             };
 
+            $scope.saveSale = function () {
+                var data_sale = localStorageService.get('data_sale');
+                data_sale.user_id = $scope.user_data.id;
+                data_sale.company_id = $scope.user_data.company_id;
+                data_sale.method_payment = $scope.invoice.payment;
+                data_sale.invoice = $scope.invoice.print;
+                var data = {};
+                data.data_sale = angular.toJson(data_sale);
+
+                SalesService.saveSale(data).then(
+                    function successCallback(response) {
+                        if (response.data.result) {
+                            localStorageService.remove('data_sale');
+                            $scope.nit_section = 1;
+                            $scope.invoice_section = 0;
+                            $scope.customer = {};
+                            $scope.products = [];
+                            $scope.total = 0;
+
+                            createToast('success', '<strong>Éxito: </strong>'+response.data.message);
+                            $timeout( function(){ closeAlert(0); }, 3000);
+                        } else {
+                            createToast('danger', '<strong>Error: </strong>'+response.data.message);
+                            $timeout( function(){ closeAlert(0); }, 3000);
+                        }
+                    },
+                    function errorCallback(response) {
+                        console.log(response.data.message);
+                        createToast('danger', '<strong>Error: </strong>'+response.data.message);
+                        $timeout( function(){ closeAlert(0); }, 3000);
+                    }
+                );
+            };
+
             $scope.saveData = function (customer) {
                 if ($scope.action == 'new') {
                     customer.company_id = $scope.user_data.company_id;
@@ -170,7 +211,7 @@
                                 var data_sale = {
                                     customer: $scope.customer,
                                     products: $scope.products,
-                                    total: $scope.total
+                                    total: $scope.total,
                                 };
 
                                 localStorageService.set('data_sale', data_sale);

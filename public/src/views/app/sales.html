@@ -33,11 +33,32 @@
 						</div>
 
 						<div class="group clearfix right">
-							<a href="javascript:;" class="btn btn-info"><i class="ion ion-printer"></i>Imprimir</a>
+							<a href="javascript:;" class="btn btn-info" ng-click="saveSale()" ng-disabled="enable_print"><i class="ion ion-printer"></i>Imprimir</a>
 							<a href="javascript:;" class="btn btn-danger" ng-click="cancelSale()"><i class="ion ion-android-cancel"></i>Cancelar</a>
 						</div>
 					</div>
-
+					<div class="row form-group">
+						<div class="col-sm-2">
+							<div class="ui-radio ui-radio-info">
+								<label class="ui-radio-inline">
+									<input type="radio" name="payment" ng-model="invoice.payment" value="cash">
+									<span>Efectivo</span>
+								</label>
+								<label class="ui-radio-inline">
+									<input type="radio" name="payment" ng-model="invoice.payment" value="credit_card">
+									<span>Tarjeta</span>
+								</label>
+							</div>
+						</div>
+						<div class="col-sm-2">
+							<div class="ui-checkbox">
+								<label>
+									<input type="checkbox" ng-model="invoice.print" ng-checked="true">
+									<span>Imprimir</span>
+								</label>
+							</div>
+						</div>
+					</div>
 					<div class="row mb20">
 						<div class="col-md-6">
 							<div class="address-wrap">
