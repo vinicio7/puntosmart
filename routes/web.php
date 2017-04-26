@@ -25,4 +25,5 @@ Route::group(['prefix' => 'ws'], function(){
     Route::resource('products',		'ProductController');
     Route::resource('users',		'UserController');
     Route::resource('entries',		'EntryController');
+    Route::resource('sales/list',	'SaleListController');
 });
