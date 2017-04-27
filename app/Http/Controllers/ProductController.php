@@ -59,19 +59,29 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         try {
-            $product = Product::create([
-                'company_id' => $request->input('company_id'),
-                'description' => $request->input('description'),
-                'internal_code' => $request->input('internal_code'),
-                'bar_code' => $request->input('bar_code'),
-                'stock' => 0,
-                'price_sale' => 0.0
-            ]);
+            $validate_internalcode = Product::where('internal_code', $request->input('internal_code'))->where('company_id', $request->input('company_id'))->first();
+            if(!$validate_internalcode) {
+                $validate_barcode = Product::where('bar_code', $request->input('bar_code'))->where('company_id', $request->input('company_id'))->first();
+                if (!$validate_barcode) {
+                    $product = Product::create([
+                        'company_id' => $request->input('company_id'),
+                        'description' => $request->input('description'),
+                        'internal_code' => $request->input('internal_code'),
+                        'bar_code' => $request->input('bar_code') != null ? $request->input('bar_code') : '',
+                        'stock' => $request->input('stock') == 1 ? 0 : 999999,
+                        'price_sale' => $request->input('stock') == 0 ? $request->input('price_sale') : 0
+                    ]);
 
-            $this->status_code = 200;
-            $this->result = true;
-            $this->message = 'Producto creado correctamente';
-            $this->records = $product;
+                    $this->status_code = 200;
+                    $this->result = true;
+                    $this->message = 'Producto creado correctamente';
+                    $this->records = $product;
+                } else {
+                    throw new Exception('Existe un producto con el mismo código de barras, por favor verifique');
+                }
+            } else {
+                throw new Exception('Existe un producto con el mismo código interno, por favor verifique');
+            }
         } catch (Exception $e) {
             $this->status_code = 400;
             $this->result = false;

@@ -28,12 +28,12 @@ angular.module("app.ctrls", ['LocalStorageModule'])
             $scope.view_entries = 0;
             $scope.view_sales_list = 0;
         } else {
+        	user_data.company.stock == 1 ? $scope.view_entries = 1 : $scope.view_entries = 0;
             $scope.view_customers = 1;
             $scope.view_sales = 1;
             $scope.view_products = 1;
             $scope.view_companies = 0;
             $scope.view_users = 0;
-            $scope.view_entries = 1;
             $scope.view_sales_list = 1;
         }
 	}

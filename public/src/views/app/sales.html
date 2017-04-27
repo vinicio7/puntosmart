@@ -38,7 +38,7 @@
 						</div>
 					</div>
 					<div class="row form-group">
-						<div class="col-sm-2">
+						<div class="col-sm-4">
 							<div class="ui-radio ui-radio-info">
 								<label class="ui-radio-inline">
 									<input type="radio" name="payment" ng-model="invoice.payment" value="cash">
@@ -47,6 +47,14 @@
 								<label class="ui-radio-inline">
 									<input type="radio" name="payment" ng-model="invoice.payment" value="credit_card">
 									<span>Tarjeta</span>
+								</label>
+								<label class="ui-radio-inline">
+									<input type="radio" name="payment" ng-model="invoice.payment" value="check">
+									<span>Cheque</span>
+								</label>
+								<label class="ui-radio-inline">
+									<input type="radio" name="payment" ng-model="invoice.payment" value="down_payment">
+									<span>Depósito</span>
 								</label>
 							</div>
 						</div>
@@ -101,7 +109,7 @@
                         <div class="col-sm-6">
 							<input type="text" class="form-control" ng-model="product.id" ng-show="show_input">
                             <input type="text" class="form-control" ng-model="product.internal_code" ng-show="show_input">
-                            <input type="text" class="form-control" ng-model="product.param" placeholder="Producto" my-enter="searchProduct(product)">
+                            <input type="text" class="form-control" ng-model="product.param" placeholder="Descripción, código interno o código de barras (presione enter para buscar)" my-enter="searchProduct(product)">
                         </div>
                         <div class="col-sm-2">
                             <input type="number" class="form-control" min="1" ng-model="product.quantity" placeholder="Cantidad" focus-me="focus">
@@ -109,7 +117,7 @@
                         <div class="col-sm-2">
                             <div class="input-group">
                                 <span class="input-group-addon">Q.</span>
-                                <input type="number" class="form-control" min="1" ng-model="product.price" placeholder="Precio">
+                                <input type="number" class="form-control" min="1" ng-model="product.price" placeholder="Precio con IVA">
                             </div>
                         </div>
                         <div class="col-sm-2">

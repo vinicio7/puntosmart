@@ -21,9 +21,10 @@ $factory->define(App\Company::class, function (Faker\Generator $faker) {
         'direction' => $faker->address,
         'phone' => $faker->phoneNumber,
         'contact' => $faker->phoneNumber,
+        'correlative' => 1,
+        'stock' => rand(0,1),
         'type_service' => rand(1,3),
-        'format' => rand(1,2),
-        'correlative' => 1
+        'format' => rand(1,2)
     ];
 });
 

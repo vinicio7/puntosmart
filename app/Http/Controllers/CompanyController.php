@@ -67,9 +67,10 @@ class CompanyController extends Controller
                 'direction' => $request->input('direction'),
                 'phone' => $request->input('phone'),
                 'contact' => $request->input('contact'),
+                'stock' => $request->input('stock'),
+                'correlative' => 1,
                 'type_service' => $request->input('type_service'),
-                'format' => $request->input('format'),
-                'correlative' => 1
+                'format' => $request->input('format')
             ]);
 
             $this->status_code = 200;
@@ -130,6 +131,7 @@ class CompanyController extends Controller
             $customer->direction = $request->input('direction', $customer->direction);
             $customer->phone = $request->input('phone', $customer->phone);
             $customer->contact = $request->input('contact', $customer->contact);
+            $customer->stock = $request->input('stock', $customer->stock);
             $customer->type_service = $request->input('type_service', $customer->type_service);
             $customer->format = $request->input('format', $customer->format);
             $customer->save();

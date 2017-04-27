@@ -21,9 +21,10 @@ class CreateCompaniesTable extends Migration
             $table->text('direction');
             $table->text('phone');
             $table->text('contact');
+            $table->integer('correlative');
+            $table->boolean('stock');
             $table->boolean('type_service');
             $table->boolean('format');
-            $table->integer('correlative');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -122,7 +122,7 @@
 
             // Functions for modals
             $scope.modalCreateOpen = function() {
-                $scope.entry = {quantity: 99999};
+                $scope.entry = {};
                 $scope.action = 'new';
 
                 modal = $modal.open({

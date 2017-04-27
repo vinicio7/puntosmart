@@ -104,6 +104,17 @@
                                 </div>
                             </th>
                             <th>
+                                Maneja inventario
+                                <div class="th">
+                                    <i class="fa fa-caret-up icon-up"
+                                       ng-click=" order('stock') "
+                                       ng-class="{active: row == 'stock'}"></i>
+                                    <i class="fa fa-caret-down icon-down"
+                                       ng-click=" order('-stock') "
+                                       ng-class="{active: row == '-stock'}"></i>
+                                </div>
+                            </th>
+                            <th>
                                 Tipo de servicio
                                 <div class="th">
                                     <i class="fa fa-caret-up icon-up"
@@ -137,6 +148,10 @@
                             <td>{{ data.direction }}</td>
                             <td>{{ data.phone }}</td>
                             <td>{{ data.contact }}</td>
+                            <td>
+                                <label ng-if="data.stock == 0" class="label label-danger mr5">No</label>
+                                <label ng-if="data.stock == 1" class="label label-success mr5">Si</label>
+                            </td>
                             <td>
                                 <label ng-if="data.type_service == 1" class="label label-success mr5">Servicio 1</label>
                                 <label ng-if="data.type_service == 2" class="label label-warning mr5">Servicio 2</label>

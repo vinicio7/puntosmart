@@ -23,6 +23,7 @@
             $scope.currentPage = 1;
             $scope.positionModel = 'topRight';
             $scope.toasts = [];
+            $scope.show_input = user_data.company.stock == 1 ? false : true;
             var modal;
 
             // Function for load table
@@ -91,6 +92,7 @@
             $scope.saveData = function (product) {
                 if ($scope.action == 'new') {
                     product.company_id = user_data.company_id;
+                    product.stock = user_data.company.stock;
                     ProductsService.store(product).then(
                         function successCallback(response) {
                             if (response.data.result) {

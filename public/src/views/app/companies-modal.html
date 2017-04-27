@@ -58,6 +58,15 @@
                 </div>
             </div>
             <div class="row form-group">
+                <div class="col-sm-6">
+                    <label>Maneja inventario</label>
+                    <select class="form-control" ng-model="company.stock" required>
+                        <option value="1">Si</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row form-group">
                 <div class="col-sm-12 text-right">
                     <button class="btn btn-danger" ng-click="modalClose()">Cerrar</button>
                     <button class="btn btn-success" ng-if="action == 'new'" ng-disabled="form.$invalid" ng-click="saveData(company)">Registrar</button>

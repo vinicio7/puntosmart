@@ -64,8 +64,8 @@ class CustomerController extends Controller
                 'name' => $request->input('name'),
                 'nit' => strtoupper(str_replace('-', '', $request->input('nit'))),
                 'direction' => $request->input('direction'),
-                'phone' => $request->input('phone', ''),
-                'email' => $request->input('email', '')
+                'phone' => $request->input('phone') != null ? $request->input('phone') : '',
+                'email' => $request->input('email') != null ? $request->input('email') : ''
             ]);
 
             $this->status_code = 200;
