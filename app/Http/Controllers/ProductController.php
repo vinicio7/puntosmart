@@ -128,7 +128,41 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $validate_internalcode = Product::where('internal_code', $request->input('internal_code'))->where('company_id', $request->input('company_id'))->where('id', '!=', $id)->first();
+            if(!$validate_internalcode) {
+                $validate_barcode = Product::where('bar_code', $request->input('bar_code'))->where('company_id', $request->input('company_id'))->where('id', '!=', $id)->first();
+                if (!$validate_barcode) {
+                    $product = Product::find($id);
+                    $product->description = $request->input('description', $product->description);
+                    $product->internal_code = $request->input('internal_code', $product->internal_code);
+                    $product->bar_code = $request->input('bar_code', $product->bar_code);
+                    $product->price_sale = $request->input('price_sale', $product->price_sale);
+                    $product->save();
+
+                    $this->status_code = 200;
+                    $this->result = true;
+                    $this->message = 'Producto actualizado correctamente';
+                    $this->records = $product;
+                } else {
+                    throw new Exception('Existe un producto con el mismo código de barras, por favor verifique');
+                }
+            } else {
+                throw new Exception('Existe un producto con el mismo código interno, por favor verifique');
+            }
+    } catch (Exception $e) {
+        $this->status_code = 400;
+        $this->result = false;
+        $this->message = env('APP_DEBUG') ? $e->getMessage() : $this->message;
+    } finally {
+        $response = [
+            'result' => $this->result,
+            'message' => $this->message,
+            'records' => $this->records,
+        ];
+
+        return response()->json($response, $this->status_code);
+    }
     }
 
     /**
@@ -187,6 +221,64 @@ class ProductController extends Controller
             } else {
                 throw new Exception('El producto solicitado no existe');
             }
+        } catch (Exception $e) {
+            $this->status_code = 400;
+            $this->result = false;
+            $this->message = env('APP_DEBUG') ? $e->getMessage() : $this->message;
+        } finally {
+            $response = [
+                'result' => $this->result,
+                'message' => $this->message,
+                'records' => $this->records,
+            ];
+
+            return response()->json($response, $this->status_code);
+        }
+    }
+
+    public function remainProductStock (Request $request)
+    {
+        try {
+            $product = Product::find($request->input('id'));
+
+            if ($product) {
+                $product->stock = $product->stock - $request->input('quantity');
+                $product->save();
+
+                $this->status_code = 200;
+                $this->result = true;
+                $this->message = 'Producto consultados correctamente';
+            } else {
+                throw new Exception('El producto solicitado no existe');
+            }
+        } catch (Exception $e) {
+            $this->status_code = 400;
+            $this->result = false;
+            $this->message = env('APP_DEBUG') ? $e->getMessage() : $this->message;
+        } finally {
+            $response = [
+                'result' => $this->result,
+                'message' => $this->message,
+                'records' => $this->records,
+            ];
+
+            return response()->json($response, $this->status_code);
+        }
+    }
+
+    public function backProductStock (Request $request)
+    {
+        try {
+            $products = json_decode($request->input('products'), true);
+            foreach ($products as $product) {
+                $search = Product::find($product['id']);
+                $search->stock = $search->stock + $product['quantity'];
+                $search->save();
+            }
+
+            $this->status_code = 200;
+            $this->result = true;
+            $this->message = 'Exitencias devueltas correctamente';
         } catch (Exception $e) {
             $this->status_code = 400;
             $this->result = false;
