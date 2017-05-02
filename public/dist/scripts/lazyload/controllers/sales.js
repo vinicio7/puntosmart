@@ -128,29 +128,42 @@
                 ProductsService.checkProductStock(product).then(
                     function successCallback(response) {
                         if (response.data.result) {
-                            $scope.enable_print = false;
-                            var subtotal = (product.quantity * product.price);
-                            var data = {
-                                id: product.id,
-                                internal_code: product.internal_code,
-                                description: product.param,
-                                quantity: product.quantity,
-                                unit_price: product.price,
-                                subtotal: subtotal
-                            };
+                            ProductsService.remainProductStock(product).then(
+                                function successCallback(response) {
+                                    if (response.data.result) {
+                                        $scope.enable_print = false;
+                                        var subtotal = (product.quantity * product.price);
+                                        var data = {
+                                            id: product.id,
+                                            internal_code: product.internal_code,
+                                            description: product.param,
+                                            quantity: product.quantity,
+                                            unit_price: product.price,
+                                            subtotal: subtotal
+                                        };
 
-                            $scope.products.push(data);
-                            $scope.total = $scope.total + subtotal;
-                            $scope.product = {};
+                                        $scope.products.push(data);
+                                        $scope.total = $scope.total + subtotal;
+                                        $scope.product = {};
 
-                            var data_sale = {
-                                customer: $scope.customer,
-                                products: $scope.products,
-                                total: $scope.total
-                            };
+                                        var data_sale = {
+                                            customer: $scope.customer,
+                                            products: $scope.products,
+                                            total: $scope.total
+                                        };
 
-                            localStorageService.set('data_sale', data_sale);
-                            $scope.enable_add_product = true;
+                                        localStorageService.set('data_sale', data_sale);
+                                        $scope.enable_add_product = true;
+                                    } else {
+                                        createToast('danger', '<strong>Error: </strong>'+response.data.message);
+                                        $timeout( function(){ closeAlert(0); }, 3000);
+                                    }
+                                },
+                                function errorCallback(response) {
+                                    createToast('danger', '<strong>Error: </strong>'+response.data.message);
+                                    $timeout( function(){ closeAlert(0); }, 3000);
+                                }
+                            );
                         } else {
                             createToast('danger', '<strong>Error: </strong>'+response.data.message);
                             $timeout( function(){ closeAlert(0); }, 3000);

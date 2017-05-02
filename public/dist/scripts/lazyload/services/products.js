@@ -26,4 +26,12 @@ products_service.service('ProductsService', ['$http', 'WS_URL', function($http, 
     this.checkProductStock = function(params) {
         return $http.get(WS_URL+'product/check/stock', {params:params});
     };
+
+    this.remainProductStock = function(params) {
+        return $http.post(WS_URL+'product/remain/stock', params);
+    };
+
+    this.backProductStock = function(params) {
+        return $http.post(WS_URL+'product/back/stock', params);
+    };
 }]);
