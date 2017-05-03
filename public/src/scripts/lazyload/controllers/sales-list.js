@@ -148,9 +148,27 @@
                 }
             };
 
+            $scope.printSale = function() {
+
+                modal.close();
+                var printContents = document.getElementById("imprimir-seccion").innerHTML;
+                var popupWin = window.open('', '_blank', 'width=350,height=400');
+                var style =
+                    "<style>" +
+                    "html{ font-size: 14px; font-family: sans-serif !important; }"+
+                    "body{ width: 300px; }"+
+                    "p{ margin: 0px !important; padding: 0px; }"+
+                    "small{ font-size: 12px; }"+
+                    "imprimir-seccion{ padding:5px; margin:5px; }"+
+                    "</style>";
+                popupWin.document.open();
+                popupWin.document.write('<html><head>'+style+'</head><body onload="window.print()">' + printContents + '</body></html>');
+                popupWin.document.close();
+            };
+
             // Functions for modals
-            $scope.modalDetailOpen = function() {
-                $scope.product = {};
+            $scope.modalDetailOpen = function(item) {
+                $scope.dataModal = item;
                 $scope.action = 'new';
 
                 modal = $modal.open({

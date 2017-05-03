@@ -24,6 +24,7 @@ class CreateSalesTable extends Migration
             $table->text('customer_direction');
             $table->enum('type_payment', ['credit_card', 'cash', 'check', 'down_payment']);
             $table->boolean('invoice');
+            $table->boolean('status')->default("0");
             $table->timestamps();
         });
     }
