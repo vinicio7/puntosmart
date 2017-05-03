@@ -57,6 +57,7 @@ class SaleController extends Controller
             $this->status_code = 200;
             $this->result = true;
             $this->message = 'Venta registrada correctamente';
+            $this->records = $new_sale;
         } catch (Exception $e) {
             DB::rollback();
             $this->status_code = 400;

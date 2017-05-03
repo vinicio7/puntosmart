@@ -19,6 +19,7 @@
             $scope.invoice_section = 0;
             $scope.customer = {};
             $scope.products = [];
+            $scope.product_list = [];
             $scope.total = 0;
             $scope.show_input = 0;
             $scope.invoice = {
@@ -30,6 +31,7 @@
             var modal;
 
             checkSaleData();
+            loadProducts();
 
             function checkSaleData() {
                 var data_sale = localStorageService.get('data_sale');
@@ -42,15 +44,45 @@
                 }
             }
 
+            function loadProducts() {
+                var params = { company_id: $scope.user_data.company_id };
+                ProductsService.index(params).then(function(response) {
+                    $scope.product_list = response.data.records;
+                });
+            }
+
             $scope.cancelSale = function () {
                 localStorageService.remove('data_sale');
                 $scope.nit_section = 1;
                 $scope.invoice_section = 0;
                 $scope.customer = {};
-                $scope.products = [];
                 $scope.total = 0;
                 $scope.enable_print = true;
                 $scope.enable_add_product = true;
+
+                if ($scope.products.length > 0) {
+                    var params = { products: angular.toJson($scope.products) };
+                    ProductsService.backProductStock(params).then(
+                        function successCallback(response) {
+                            if (response.data.result) {
+                                $scope.products = [];
+                                createToast('success', '<strong>Éxito: </strong>'+'Venta cancelada correctamente con devolución de existencias');
+                                $timeout( function(){ closeAlert(0); }, 3000);
+                            } else {
+                                createToast('danger', '<strong>Error: </strong>'+response.data.message);
+                                $timeout( function(){ closeAlert(0); }, 3000);
+                            }
+                        },
+                        function errorCallback(response) {
+                            createToast('danger', '<strong>Error: </strong>'+response.data.message);
+                            $timeout( function(){ closeAlert(0); }, 3000);
+                        }
+                    );
+                } else {
+                    $scope.products = [];
+                    createToast('success', '<strong>Éxito: </strong>'+'Venta cancelada correctamente');
+                    $timeout( function(){ closeAlert(0); }, 3000);
+                }
             };
 
             // Function for toast

@@ -12,7 +12,10 @@
 */
 
 Route::get('/', function () {
-    return redirect('/src');
+    if(env("APP_DEBUG"))
+        return redirect('/src');
+    else
+        return redirect('/dist');
 });
 
 Route::group(['prefix' => 'ws'], function(){

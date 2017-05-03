@@ -29,6 +29,7 @@
             $scope.enable_add_product = true;
             $scope.enable_print = true;
             var modal;
+            var saleModal;
 
             checkSaleData();
             loadProducts();
@@ -41,6 +42,7 @@
                     $scope.total = data_sale.total;
                     $scope.nit_section = 0;
                     $scope.invoice_section = 1;
+                    $scope.enable_print = false;
                 }
             }
 
@@ -209,7 +211,9 @@
             };
 
             $scope.saveSale = function () {
+
                 var data_sale = localStorageService.get('data_sale');
+                saleModal = localStorageService.get('data_sale');
                 data_sale.user_id = $scope.user_data.id;
                 data_sale.company_id = $scope.user_data.company_id;
                 data_sale.method_payment = $scope.invoice.payment;
@@ -220,6 +224,9 @@
                 SalesService.saveSale(data).then(
                     function successCallback(response) {
                         if (response.data.result) {
+                            saleModal.correlative = response.data.records.correlative;
+                            saleModal.date = response.data.records.created_at;
+                            $scope.modalPrintSale();
                             localStorageService.remove('data_sale');
                             $scope.nit_section = 1;
                             $scope.invoice_section = 0;
@@ -240,6 +247,36 @@
                         $timeout( function(){ closeAlert(0); }, 3000);
                     }
                 );
+            };
+
+            $scope.printSale = function() {
+
+                modal.close();
+                var printContents = document.getElementById("imprimir-seccion").innerHTML;
+                var popupWin = window.open('', '_blank', 'width=350,height=400');
+                var style =
+                    "<style>" +
+                    "html{ font-size: 14px; font-family: sans-serif !important; }"+
+                    "body{ width: 300px; }"+
+                    "p{ margin: 0px !important; padding: 0px; }"+
+                    "small{ font-size: 12px; }"+
+                    "imprimir-seccion{ padding:5px; margin:5px; }"+
+                    "</style>";
+                popupWin.document.open();
+                popupWin.document.write('<html><head>'+style+'</head><body onload="window.print()">' + printContents + '</body></html>');
+                popupWin.document.close();
+            };
+
+            $scope.modalPrintSale = function() {
+                $scope.dataModal = saleModal;
+
+                modal = $modal.open({
+                    templateUrl: 'views/app/sales-modal.html',
+                    scope: $scope,
+                    size: 'md',
+                    resolve: function() {},
+                    windowClass: 'default'
+                });
             };
 
             $scope.saveData = function (customer) {

@@ -1,0 +1,50 @@
+<div class="modal-style">
+    <div class="modal-header clearfix">
+        <span class="close ion ion-android-close" ng-click="modalClose()"></span>
+    </div>
+
+            <div class="modal-body" id="imprimir-seccion">
+                <!-- CONTENIDO DEL MODAL -->
+                <div style="">
+                    <p>CORRELATIVO: {{dataModal.correlative}}</p>
+                    <p>FECHA: {{dataModal.date}}</p>
+                    <br/>
+                    <p>CLIENTE: {{dataModal.customer.name}}</p>
+                    <p>NIT: {{dataModal.customer.nit}}</p>
+                    <p>DIRECCION: {{dataModal.customer.direction}}</p>
+                </div>
+                <br/>
+                <div class="table-responsive white ">
+                    <table class="table table-bordered table-full table-full-small ">
+
+                        <thead>
+                        <tr>
+                            <th>CANT.</th>
+                            <th>PRODUCTO</th>
+                            <th>SUBTOTAL</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="(key, item) in dataModal.products ">
+                            <td style="text-align: right;">{{item.quantity}}</td>
+                            <td >{{item.description}}</td>
+                            <td style="text-align: right;">{{item.subtotal | number : 2}}</td>
+                        </tr>
+
+                        <tr style="text-align: right;">
+                            <td colspan="2">TOTAL: </td>
+                            <td>{{ dataModal.total | number : 2 }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- CONTENIDO DEL MODAL -->
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-6 text-right">
+                    <button class="btn btn-default" ng-click="printSale()"><i class="ion ion-printer"></i> Imprimir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
