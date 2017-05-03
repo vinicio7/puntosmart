@@ -32,6 +32,7 @@ products_service.service('ProductsService', ['$http', 'WS_URL', function($http, 
     };
 
     this.backProductStock = function(params) {
+        console.log(params);
         return $http.post(WS_URL+'product/back/stock', params);
     };
 }]);

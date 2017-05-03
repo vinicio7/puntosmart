@@ -160,16 +160,33 @@ class CustomerController extends Controller
     public function searchCustomer (Request $request)
     {
         try {
-            $nit = strtoupper(str_replace('-', '', $request->input('nit')));
-            $customer = Customer::where('nit', $nit)->first();
+            if ($request->input('nit') == 'CF') {
+                $customer = [
+                    'id' => 0,
+                    'company_id' => 0,
+                    'name' => 'Consumidor Final',
+                    'nit' => 'CF',
+                    'direction' => '',
+                    'phone' => '',
+                    'email'=> '',
+                ];
 
-            if ($customer) {
                 $this->status_code = 200;
                 $this->result = true;
                 $this->message = 'Cliente consultado correctamente';
                 $this->records = $customer;
             } else {
-                throw new Exception('El cliente consultado no existe');
+                $nit = strtoupper(str_replace('-', '', $request->input('nit')));
+                $customer = Customer::where('nit', $nit)->first();
+
+                if ($customer) {
+                    $this->status_code = 200;
+                    $this->result = true;
+                    $this->message = 'Cliente consultado correctamente';
+                    $this->records = $customer;
+                } else {
+                    throw new Exception('El cliente consultado no existe');
+                }
             }
         } catch (Exception $e) {
             $this->status_code = 400;

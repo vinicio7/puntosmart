@@ -12,14 +12,14 @@
 */
 
 Route::get('/', function () {
-    return redirect('/dist');
+    return redirect('/src');
 });
 
 Route::group(['prefix' => 'ws'], function(){
     Route::post('sale/save',            'SaleController@saveSale');
     Route::get('product/search',        'ProductController@searchProduct');
     Route::get('product/check/stock',   'ProductController@checkProductStock');
-    Route::get('product/back/stock',    'ProductController@checkProductStock');
+    Route::post('product/back/stock',   'ProductController@backProductStock');
     Route::post('product/remain/stock', 'ProductController@remainProductStock');
     Route::get('customers/search',      'CustomerController@searchCustomer');
     Route::resource('companies',	    'CompanyController');

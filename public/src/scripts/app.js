@@ -100,6 +100,10 @@
                     files: ["scripts/lazyload/ng-map.min.js"]
                 },
                 {
+                    name: "ng-datalist",
+                    files: ["../bower_components/ng-datalist/ng-datalist.js"]
+                },
+                {
                     name: "app.service.companies",
                     files: ["scripts/lazyload/services/companies.js"]
                 },

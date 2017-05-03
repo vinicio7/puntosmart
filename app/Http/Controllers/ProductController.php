@@ -278,7 +278,7 @@ class ProductController extends Controller
 
             $this->status_code = 200;
             $this->result = true;
-            $this->message = 'Exitencias devueltas correctamente';
+            $this->message = 'Existencias devueltas correctamente';
         } catch (Exception $e) {
             $this->status_code = 400;
             $this->result = false;
