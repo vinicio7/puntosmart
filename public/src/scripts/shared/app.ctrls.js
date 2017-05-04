@@ -14,6 +14,7 @@ angular.module("app.ctrls", ['LocalStorageModule'])
     $scope.view_users = 0;
     $scope.view_entries = 0;
     $scope.view_sales_list = 0;
+    $scope.view_cash_close_list = 0;
 
     if (!localStorageService.get('user_data')) {
         $window.location.href = 'login.html';
@@ -27,6 +28,7 @@ angular.module("app.ctrls", ['LocalStorageModule'])
             $scope.view_users = 1;
             $scope.view_entries = 0;
             $scope.view_sales_list = 0;
+            $scope.view_cash_close_list = 0;
         } else {
         	user_data.company.stock == 1 ? $scope.view_entries = 1 : $scope.view_entries = 0;
             $scope.view_customers = 1;
@@ -35,6 +37,7 @@ angular.module("app.ctrls", ['LocalStorageModule'])
             $scope.view_companies = 0;
             $scope.view_users = 0;
             $scope.view_sales_list = 1;
+            $scope.view_cash_close_list = 1;
         }
 	}
 

@@ -225,6 +225,19 @@
             }
         });
 
+        $routeProvider.when("/cashclosing", {
+            templateUrl: "views/app/cash-close.html",
+            controller: 'CashCloseController',
+            resolve: {
+                deps: ["$ocLazyLoad", function(a) {
+                    return a.load({
+                        name: 'app.cash-close',
+                        files: ['scripts/lazyload/controllers/cash-close.js']
+                    })
+                }]
+            }
+        });
+
         $routeProvider.when("/companies", {
             templateUrl: "views/app/companies.html",
             controller: 'CompaniesController',

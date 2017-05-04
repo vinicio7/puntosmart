@@ -21,6 +21,7 @@ Route::get('/', function () {
 Route::group(['prefix' => 'ws'], function(){
     Route::post('sale/save',            'SaleController@saveSale');
     Route::post('sale/cancel',          'SaleController@cancelSale');
+    Route::get('sale/cash/close',       'SaleController@cashClose');
     Route::get('product/search',        'ProductController@searchProduct');
     Route::get('product/check/stock',   'ProductController@checkProductStock');
     Route::post('product/back/stock',   'ProductController@backProductStock');
