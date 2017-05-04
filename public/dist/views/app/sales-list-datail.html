@@ -1,39 +1,60 @@
 <div class="modal-style">
     <div class="modal-header clearfix">
-        <h4 class="modal-title">Detalle de la venta</h4>
+        <h4 class="modal-title" ng-if="action == 'detail'">Detalle de la venta</h4>
+        <h4 class="modal-title" ng-if="action == 'cancel'">Anulación de venta</h4>
         <span class="close ion ion-android-close" ng-click="modalClose()"></span>
     </div>
-    <div class="modal-body">
-        <div class="row form-group" ng-if="action == 'delete'">
-            <h3>¿Está seguro de eliminar este producto?</h3>
-        </div>
-        <form class="form-horizontal" name="form" ng-if="action != 'delete'" action="javascript:;" novalidate>
-            <table class="table table-bordered invoice-table mb20">
-                <thead>
-                <tr>
-                    <th>Código</th>
-                    <th>Descripción</th>
-                    <th>Cantidad</th>
-                    <th>Precio unitario</th>
-                    <th>Subtotal</th>
-                </tr>
-                </thead>
+    <div class="modal-body" ng-if="action == 'detail'">
+        <div id="imprimir-seccion">
+            <div style="">
+                <p>CORRELATIVO: {{dataModal.correlative}}</p>
+                <p>FECHA: {{dataModal.created_at}}</p>
+                <br/>
+                <p>CLIENTE: {{dataModal.customer_name}}</p>
+                <p>NIT: {{dataModal.customer_nit}}</p>
+                <p>DIRECCION: {{dataModal.customer_direction}}</p>
+            </div>
+            <br/>
+            <div class="table-responsive white ">
+                <table class="table table-bordered table-full table-full-small ">
 
-                <tbody>
-                <tr ng-repeat="data in products">
-                    <td>{{ data.internal_code }}</td>
-                    <td>{{ data.description }}</td>
-                    <td>{{ data.quantity }}</td>
-                    <td>Q. {{ data.unit_price }}</td>
-                    <td>Q. {{ data.subtotal }}</td>
-                </tr>
-                </tbody>
-            </table>
-        </form>
+                    <thead>
+                    <tr>
+                        <th>CANT.</th>
+                        <th>PRODUCTO</th>
+                        <th>SUBTOTAL</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="(key, item) in dataModal.detail ">
+                        <td style="text-align: right;">{{item.quantity}}</td>
+                        <td >{{item.product.description}}</td>
+                        <td style="text-align: right;">{{item.subtotal | number : 2}}</td>
+                    </tr>
+
+                    <tr style="text-align: right;">
+                        <td colspan="2">TOTAL: </td>
+                        <td>{{ dataModal.total | number : 2 }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
         <div class="row form-group">
             <div class="col-sm-12 text-right">
-                <button class="btn btn-success" ng-if="action == 'delete'" ng-click="modalClose()">Cerrar</button>
-                <button class="btn btn-danger" ng-if="action == 'delete'" ng-click="saveData(product)">Eliminar</button>
+                <button class="btn btn-default" ng-click="printSale()"><i class="ion ion-printer"></i> Imprimir</button>
+                <button class="btn btn-danger" ng-click="modalClose()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body" ng-if="action == 'cancel'">
+        <div class="row form-group">
+            <h3>¿Está seguro de anular esta venta?</h3>
+        </div>
+        <div class="row form-group">
+            <div class="col-sm-12 text-right">
+                <button class="btn btn-danger" ng-click="saveData(sale)">Anular</button>
+                <button class="btn btn-success" ng-click="modalClose()">Cerrar</button>
             </div>
         </div>
     </div>

@@ -110,6 +110,17 @@
                                        ng-class="{active: row == '-price_sale'}"></i>
                                 </div>
                             </th>
+                            <th>
+                                Estado
+                                <div class="th">
+                                    <i class="fa fa-caret-up icon-up"
+                                       ng-click=" order('status') "
+                                       ng-class="{active: row == 'status'}"></i>
+                                    <i class="fa fa-caret-down icon-down"
+                                       ng-click=" order('-status') "
+                                       ng-class="{active: row == '-status'}"></i>
+                                </div>
+                            </th>
                             <th>Acciones</th>
                         </tr>
                         </thead>
@@ -122,7 +133,9 @@
                             <td>{{ data.customer_nit }}</td>
                             <td>
                                 <label ng-if="data.type_payment == 'cash'" class="label label-info mr5">Efectivo</label>
-                                <label ng-if="data.type_payment == 'credit_card'" class="label label-primary mr5">Tarjeta</label>
+                                <label ng-if="data.type_payment == 'credit_card'" class="label label-success mr5">Tarjeta</label>
+                                <label ng-if="data.type_payment == 'check'" class="label label-danger mr5">Cheque</label>
+                                <label ng-if="data.type_payment == 'down_payment'" class="label label-primary mr5">Depósito</label>
                             </td>
                             <td>
                                 <label ng-if="data.invoice == 1" class="label label-success mr5">Con factura</label>
@@ -130,9 +143,13 @@
                             </td>
                             <td>Q. {{ data.total | number: "2"}}</td>
                             <td>
+                                <label ng-if="data.status == 1" class="label label-danger mr5">Anulada</label>
+                                <label ng-if="data.status == 0" class="label label-success mr5">Activa</label>
+                            </td>
+                            <td>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-info ion ion-eye" ng-click="modalDetailOpen(data)" md-ink-ripple></button>
-                                    <button type="button" class="btn btn-danger ion ion-close-round" ng-click="modalDeleteOpen(data)" md-ink-ripple></button>
+                                    <button type="button" class="btn btn-danger ion ion-close-round" ng-if="data.status == 0" ng-click="modalCancelSaleOpen(data)" md-ink-ripple></button>
                                 </div>
                             </td>
                         </tr>

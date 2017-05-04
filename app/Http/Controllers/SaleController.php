@@ -33,7 +33,7 @@ class SaleController extends Controller
             $new_sale->customer_direction = $data_sale['customer']['direction'];
             $new_sale->type_payment = $data_sale['method_payment'];
             $new_sale->invoice = $data_sale['invoice'] == true ? 1 : 0;
-            $new_sale->correlative = 'venta-'.$company->correlative;
+            $new_sale->correlative = 'Venta-'.$company->correlative;
             $new_sale->save();
 
             foreach ($data_sale['products'] as $product) {
@@ -44,10 +44,6 @@ class SaleController extends Controller
                 $detail->sale_price = $product['unit_price'];
                 $detail->subtotal = $product['subtotal'];
                 $detail->save();
-
-                $find_product = Product::find($product['id']);
-                $find_product->stock = $find_product->stock - intval($product['quantity']);
-                $find_product->save();
             }
 
             $company->correlative = $company->correlative + 1;
@@ -58,6 +54,43 @@ class SaleController extends Controller
             $this->result = true;
             $this->message = 'Venta registrada correctamente';
             $this->records = $new_sale;
+        } catch (Exception $e) {
+            DB::rollback();
+            $this->status_code = 400;
+            $this->result = false;
+            $this->message = env('APP_DEBUG') ? $e->getMessage() : $this->message;
+        } finally {
+            $response = [
+                'result' => $this->result,
+                'message' => $this->message,
+                'records' => $this->records,
+            ];
+
+            return response()->json($response, $this->status_code);
+        }
+    }
+
+    public function cancelSale(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            $sale = Sale::find($request->input('id'));
+            $sale->status = 1;
+            $sale->save();
+
+            $detail = json_decode($request->input('detail'), true);
+
+            foreach ($detail as $item) {
+                $product = Product::find($item['product_id']);
+                $product->stock = $product->stock + $item['quantity'];
+                $product->save();
+            }
+
+            DB::commit();
+            $this->status_code = 200;
+            $this->result = true;
+            $this->message = 'Venta anulada correctamente';
+            $this->records = $sale;
         } catch (Exception $e) {
             DB::rollback();
             $this->status_code = 400;

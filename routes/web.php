@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    if(env("APP_DEBUG"))
+    if(env('APP_DEBUG'))
         return redirect('/src');
     else
         return redirect('/dist');
@@ -20,6 +20,7 @@ Route::get('/', function () {
 
 Route::group(['prefix' => 'ws'], function(){
     Route::post('sale/save',            'SaleController@saveSale');
+    Route::post('sale/cancel',          'SaleController@cancelSale');
     Route::get('product/search',        'ProductController@searchProduct');
     Route::get('product/check/stock',   'ProductController@checkProductStock');
     Route::post('product/back/stock',   'ProductController@backProductStock');

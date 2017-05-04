@@ -211,7 +211,6 @@
             };
 
             $scope.saveSale = function () {
-
                 var data_sale = localStorageService.get('data_sale');
                 saleModal = localStorageService.get('data_sale');
                 data_sale.user_id = $scope.user_data.id;
@@ -250,7 +249,6 @@
             };
 
             $scope.printSale = function() {
-
                 modal.close();
                 var printContents = document.getElementById("imprimir-seccion").innerHTML;
                 var popupWin = window.open('', '_blank', 'width=350,height=400');

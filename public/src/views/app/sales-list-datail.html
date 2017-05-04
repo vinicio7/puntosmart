@@ -1,12 +1,11 @@
 <div class="modal-style">
     <div class="modal-header clearfix">
-        <h4 class="modal-title">Detalle de la venta</h4>
+        <h4 class="modal-title" ng-if="action == 'detail'">Detalle de la venta</h4>
+        <h4 class="modal-title" ng-if="action == 'cancel'">Anulación de venta</h4>
         <span class="close ion ion-android-close" ng-click="modalClose()"></span>
     </div>
-    <div class="modal-body">
-
+    <div class="modal-body" ng-if="action == 'detail'">
         <div id="imprimir-seccion">
-            <!-- CONTENIDO DEL MODAL -->
             <div style="">
                 <p>CORRELATIVO: {{dataModal.correlative}}</p>
                 <p>FECHA: {{dataModal.created_at}}</p>
@@ -40,13 +39,22 @@
                     </tbody>
                 </table>
             </div>
-            <!-- CONTENIDO DEL MODAL -->
         </div>
-
         <div class="row form-group">
             <div class="col-sm-12 text-right">
-                <button class="btn btn-success" ng-if="action == 'delete'" ng-click="modalClose()">Cerrar</button>
                 <button class="btn btn-default" ng-click="printSale()"><i class="ion ion-printer"></i> Imprimir</button>
+                <button class="btn btn-danger" ng-click="modalClose()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body" ng-if="action == 'cancel'">
+        <div class="row form-group">
+            <h3>¿Está seguro de anular esta venta?</h3>
+        </div>
+        <div class="row form-group">
+            <div class="col-sm-12 text-right">
+                <button class="btn btn-danger" ng-click="saveData(sale)">Anular</button>
+                <button class="btn btn-success" ng-click="modalClose()">Cerrar</button>
             </div>
         </div>
     </div>

@@ -88,47 +88,13 @@
             }
 
             // Function for sending data
-            $scope.saveData = function (product) {
-                if ($scope.action == 'new') {
-                    product.company_id = user_data.company_id;
-                    SalesListService.store(product).then(
-                        function successCallback(response) {
-                            if (response.data.result) {
-                                loadDataTable();
-                                modal.close();
-                                createToast('success', '<strong>Éxito: </strong>'+response.data.message);
-                                $timeout( function(){ closeAlert(0); }, 3000);
-                            } else {
-                                createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                                $timeout( function(){ closeAlert(0); }, 3000);
-                            }
-                        },
-                        function errorCallback(response) {
-                            createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                            $timeout( function(){ closeAlert(0); }, 3000);
-                        }
-                    );
-                }
-                else if ($scope.action == 'update') {
-                    SalesListService.update(product).then(
-                        function successCallback(response) {
-                            if (response.data.result) {
-                                modal.close();
-                                createToast('success', '<strong>Éxito: </strong>'+response.data.message);
-                                $timeout( function(){ closeAlert(0); }, 3000);
-                            } else {
-                                createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                                $timeout( function(){ closeAlert(0); }, 3000);
-                            }
-                        },
-                        function errorCallback(response) {
-                            createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                            $timeout( function(){ closeAlert(0); }, 3000);
-                        }
-                    );
-                }
-                else if ($scope.action == 'delete') {
-                    SalesListService.destroy(product.id).then(
+            $scope.saveData = function (sale) {
+                if ($scope.action == 'cancel') {
+                    var data = {
+                        id: sale.id,
+                        detail: angular.toJson(sale.detail)
+                    };
+                    SalesListService.cancelSale(data).then(
                         function successCallback(response) {
                             if (response.data.result) {
                                 loadDataTable();
@@ -148,10 +114,27 @@
                 }
             };
 
+            $scope.printSale = function() {
+                modal.close();
+                var printContents = document.getElementById("imprimir-seccion").innerHTML;
+                var popupWin = window.open('', '_blank', 'width=350,height=400');
+                var style =
+                    "<style>" +
+                    "html{ font-size: 14px; font-family: sans-serif !important; }"+
+                    "body{ width: 300px; }"+
+                    "p{ margin: 0px !important; padding: 0px; }"+
+                    "small{ font-size: 12px; }"+
+                    "imprimir-seccion{ padding:5px; margin:5px; }"+
+                    "</style>";
+                popupWin.document.open();
+                popupWin.document.write('<html><head>'+style+'</head><body onload="window.print()">' + printContents + '</body></html>');
+                popupWin.document.close();
+            };
+
             // Functions for modals
-            $scope.modalDetailOpen = function() {
-                $scope.product = {};
-                $scope.action = 'new';
+            $scope.modalDetailOpen = function(item) {
+                $scope.dataModal = item;
+                $scope.action = 'detail';
 
                 modal = $modal.open({
                     templateUrl: 'views/app/sales-list-datail.html',
@@ -162,25 +145,12 @@
                 });
             };
 
-            $scope.modalEditOpen = function(data) {
-                $scope.action = 'update';
-                $scope.product = data;
+            $scope.modalCancelSaleOpen = function(item) {
+                $scope.sale = item;
+                $scope.action = 'cancel';
 
                 modal = $modal.open({
-                    templateUrl: 'views/app/products-modal.html',
-                    scope: $scope,
-                    size: 'md',
-                    resolve: function() {},
-                    windowClass: 'default'
-                });
-            };
-
-            $scope.modalDeleteOpen = function(data) {
-                $scope.action = 'delete';
-                $scope.product = data;
-
-                modal = $modal.open({
-                    templateUrl: 'views/app/products-modal.html',
+                    templateUrl: 'views/app/sales-list-datail.html',
                     scope: $scope,
                     size: 'md',
                     resolve: function() {},
