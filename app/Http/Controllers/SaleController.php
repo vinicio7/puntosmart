@@ -111,7 +111,7 @@ class SaleController extends Controller
     {
         try {
 
-            $sales = Sale::where('company_id', $request->input('company_id'))->where('status', 0)->whereBetween('created_at', ['2017-05-03 00:00:00', '2017-05-03 23:59:59'])->get();
+            $sales = Sale::where('company_id', $request->input('company_id'))->where('status', 0)->whereBetween('created_at', ['2017-05-05 00:00:00', '2017-05-05 23:59:59'])->get();
 
             $cash_1 = 0;
             $credit_card_1 = 0;
