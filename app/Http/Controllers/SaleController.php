@@ -113,72 +113,80 @@ class SaleController extends Controller
             $start_date = date('Y-m-d', strtotime($request->input('start_date')));
             $final_date = date('Y-m-d', strtotime($request->input('final_date')));
 
-            $sales = Sale::where('company_id', $request->input('company_id'))->where('status', 0)->whereBetween('created_at', [$start_date.' 00:00:00', $final_date.' 23:59:59'])->get();
 
-            $cash_1 = 0;
-            $credit_card_1 = 0;
-            $check_1 = 0;
-            $down_payment_1 = 0;
-            $total_1 = 0;
-            $cash_2 = 0;
-            $credit_card_2 = 0;
-            $check_2 = 0;
-            $down_payment_2 = 0;
-            $total_2 = 0;
-            $total = 0;
+            $days_apart = (strtotime($final_date) - strtotime($start_date)) / 86400;
 
-            foreach ($sales as $sale) {
-                if ($sale->invoice == 1) {
-                    if ($sale->type_payment == 'cash') {
-                        $cash_1 = $cash_1 + $sale->total;
-                    } else if ($sale->type_payment == 'credit_card') {
-                        $credit_card_1 = $credit_card_1 + $sale->total;
-                    } else if ($sale->type_payment == 'check') {
-                        $check_1 = $check_1 + $sale->total;
-                    } else if ($sale->type_payment == 'down_payment') {
-                        $down_payment_1 = $down_payment_1 + $sale->total;
+            if ($days_apart >= 0) {
+                $sales = Sale::where('company_id', $request->input('company_id'))->where('status', 0)->whereBetween('created_at', [$start_date.' 00:00:00', $final_date.' 23:59:59'])->get();
+
+                $cash_1 = 0;
+                $credit_card_1 = 0;
+                $check_1 = 0;
+                $down_payment_1 = 0;
+                $total_1 = 0;
+                $cash_2 = 0;
+                $credit_card_2 = 0;
+                $check_2 = 0;
+                $down_payment_2 = 0;
+                $total_2 = 0;
+                $total = 0;
+
+                foreach ($sales as $sale) {
+                    if ($sale->invoice == 1) {
+                        if ($sale->type_payment == 'cash') {
+                            $cash_1 = $cash_1 + $sale->total;
+                        } else if ($sale->type_payment == 'credit_card') {
+                            $credit_card_1 = $credit_card_1 + $sale->total;
+                        } else if ($sale->type_payment == 'check') {
+                            $check_1 = $check_1 + $sale->total;
+                        } else if ($sale->type_payment == 'down_payment') {
+                            $down_payment_1 = $down_payment_1 + $sale->total;
+                        }
+
+                        $total_1 = $cash_1 + $credit_card_1 + $check_1 + $down_payment_1;
+                    } else {
+                        if ($sale->type_payment == 'cash') {
+                            $cash_2 = $cash_2 + $sale->total;
+                        } else if ($sale->type_payment == 'credit_card') {
+                            $credit_card_2 = $credit_card_2 + $sale->total;
+                        } else if ($sale->type_payment == 'check') {
+                            $check_2 = $check_2 + $sale->total;
+                        } else if ($sale->type_payment == 'down_payment') {
+                            $down_payment_2 = $down_payment_2 + $sale->total;
+                        }
+
+                        $total_2 = $cash_2 + $credit_card_2 + $check_2 + $down_payment_2;
                     }
 
-                    $total_1 = $cash_1 + $credit_card_1 + $check_1 + $down_payment_1;
-                } else {
-                    if ($sale->type_payment == 'cash') {
-                        $cash_2 = $cash_2 + $sale->total;
-                    } else if ($sale->type_payment == 'credit_card') {
-                        $credit_card_2 = $credit_card_2 + $sale->total;
-                    } else if ($sale->type_payment == 'check') {
-                        $check_2 = $check_2 + $sale->total;
-                    } else if ($sale->type_payment == 'down_payment') {
-                        $down_payment_2 = $down_payment_2 + $sale->total;
-                    }
-
-                    $total_2 = $cash_2 + $credit_card_2 + $check_2 + $down_payment_2;
+                    $total = $total_1 + $total_2;
                 }
 
-                $total = $total_1 + $total_2;
+                $response = [
+                    'sales_with_printing' => [
+                        'cash' => $cash_1,
+                        'credit_card' => $credit_card_1,
+                        'check' => $check_1,
+                        'down_payment' => $down_payment_1,
+                        'total' => $total_1
+                    ],
+                    'sales_without_printing' => [
+                        'cash' => $cash_2,
+                        'credit_card' => $credit_card_2,
+                        'check' => $check_2,
+                        'down_payment' => $down_payment_2,
+                        'total' => $total_2
+                    ],
+                    'total' => $total
+                ];
+
+                $this->status_code = 200;
+                $this->result = true;
+                $this->message = 'Corte de caja generado correctamente';
+                $this->records = $response;
+            } else {
+                throw new Exception('La fecha de inicio no puede ser mayor a la fecha fin');
             }
 
-            $response = [
-                'sales_with_printing' => [
-                    'cash' => $cash_1,
-                    'credit_card' => $credit_card_1,
-                    'check' => $check_1,
-                    'down_payment' => $down_payment_1,
-                    'total' => $total_1
-                ],
-                'sales_without_printing' => [
-                    'cash' => $cash_2,
-                    'credit_card' => $credit_card_2,
-                    'check' => $check_2,
-                    'down_payment' => $down_payment_2,
-                    'total' => $total_2
-                ],
-                'total' => $total
-            ];
-
-            $this->status_code = 200;
-            $this->result = true;
-            $this->message = 'Corte de caja generado correctamente';
-            $this->records = $response;
         } catch (Exception $e) {
             $this->status_code = 400;
             $this->result = false;
@@ -200,7 +208,7 @@ class SaleController extends Controller
             $start_date = date('Y-m-d', strtotime($request->input('start_date')));
             $final_date = date('Y-m-d', strtotime($request->input('final_date')));
 
-            $sales = Sale::where('company_id', $request->input('company_id'))->where('status', 0)->whereBetween('created_at', [$start_date.' 00:00:00', $final_date.' 23:59:59'])->get();
+            $sales = Sale::where('company_id', $request->input('company_id'))->where('status', 0)->whereBetween('created_at', [$start_date.' 00:00:00', $final_date.' 23:59:59'])->with('user')->get();
 
             $cash_1 = 0;
             $credit_card_1 = 0;
@@ -264,12 +272,63 @@ class SaleController extends Controller
             ];
 
             \Excel::create('Corte de caja del: '.$start_date.' al '.$final_date, function($excel) use ($response) {
-
                 $excel->sheet('corte', function($sheet) use ($response) {
                     $sheet->loadView('cash-closing', ['data' => $response]);
                 });
-
             })->download('xls');
+
+        } catch (Exception $e) {
+
+        }
+    }
+
+    public function salesForDate(Request $request)
+    {
+        try {
+            $start_date = date('Y-m-d', strtotime($request->input('start_date')));
+            $final_date = date('Y-m-d', strtotime($request->input('final_date')));
+
+            $days_apart = (strtotime($final_date) - strtotime($start_date)) / 86400;
+
+            if ($days_apart >= 0) {
+                $sales = Sale::where('company_id', $request->input('company_id'))->where('status', 0)->whereBetween('created_at', [$start_date . ' 00:00:00', $final_date . ' 23:59:59'])->with('user')->get();
+
+                $this->status_code = 200;
+                $this->result = true;
+                $this->message = 'Ventas entre fechas consultadas correctamente';
+                $this->records = $sales;
+            } else {
+                throw new Exception('La fecha de inicio no puede ser mayor a la fecha fin');
+            }
+        } catch (Exception $e) {
+            $this->status_code = 400;
+            $this->result = false;
+            $this->message = env('APP_DEBUG') ? $e->getMessage() : $this->message;
+        } finally {
+            $response = [
+                'result' => $this->result,
+                'message' => $this->message,
+                'records' => $this->records,
+            ];
+
+            return response()->json($response, $this->status_code);
+        }
+    }
+
+    public function exportSalesForDate(Request $request)
+    {
+        try {
+            $start_date = date('Y-m-d', strtotime($request->input('start_date')));
+            $final_date = date('Y-m-d', strtotime($request->input('final_date')));
+
+            $sales = Sale::where('company_id', $request->input('company_id'))->where('status', 0)->whereBetween('created_at', [$start_date.' 00:00:00', $final_date.' 23:59:59'])->with('user')->get();
+
+            \Excel::create('Reporte de ventas de: '.$start_date.' al '.$final_date, function($excel) use ($sales) {
+                $excel->sheet('ventas', function($sheet) use ($sales) {
+                    $sheet->loadView('sales-fordate', ['data' => $sales]);
+                });
+            })->download('xls');
+
 
         } catch (Exception $e) {
 

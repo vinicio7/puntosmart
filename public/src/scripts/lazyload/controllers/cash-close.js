@@ -48,41 +48,64 @@
             };
 
             $scope.generateCashClosing = function () {
-                var sd = new Date($scope.start_date);
-                var fd = new Date($scope.final_date);
+                var params = {
+                    company_id:user_data.company_id,
+                    start_date: $scope.start_date,
+                    final_date: $scope.final_date
+                };
 
-                if (fd >= sd) {
-                    var params = {
-                        company_id:user_data.company_id,
-                        start_date: $scope.start_date,
-                        final_date: $scope.final_date
-                    };
+                SalesService.generateCashClosing(params).then(
+                    function successCallback(response) {
+                        if (response.data.result) {
+                            $scope.sales_with_printing = response.data.records.sales_with_printing;
+                            $scope.sales_without_printing = response.data.records.sales_without_printing;
+                            $scope.total = response.data.records.total;
+                            $scope.disable_export = false;
 
-                    SalesService.generateCashClosing(params).then(
-                        function successCallback(response) {
-                            if (response.data.result) {
-                                $scope.sales_with_printing = response.data.records.sales_with_printing;
-                                $scope.sales_without_printing = response.data.records.sales_without_printing;
-                                $scope.total = response.data.records.total;
-                                $scope.disable_export = false;
-
-                                createToast('success', '<strong>Éxito: </strong>'+response.data.message);
-                                $timeout( function(){ closeToast(0); }, 3000);
-                            } else {
-                                createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                                $timeout( function(){ closeToast(0); }, 3000);
-                            }
-                        },
-                        function errorCallback(response) {
+                            createToast('success', '<strong>Éxito: </strong>'+response.data.message);
+                            $timeout( function(){ closeToast(0); }, 3000);
+                        } else {
+                            $scope.disable_export = true;
                             createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                            $timeout( function(){ closeAlert(0); }, 3000);
+                            $timeout( function(){ closeToast(0); }, 3000);
+                            $scope.sales_with_printing = {
+                                cash: 0,
+                                credit_card: 0,
+                                check: 0,
+                                down_payment: 0,
+                                total: 0
+                            };
+                            $scope.sales_without_printing = {
+                                cash: 0,
+                                credit_card: 0,
+                                check: 0,
+                                down_payment: 0,
+                                total: 0
+                            };
+                            $scope.total = 0;
                         }
-                    );
-                } else {
-                    createToast('danger', '<strong>Error: </strong> La fecha de inicio no puede ser mayor a la fecha de fin');
-                    $timeout( function(){ closeToast(0); }, 3000);
-                    $scope.disable_export = true;
-                }
+                    },
+                    function errorCallback(response) {
+                        $scope.disable_export = true;
+                        createToast('danger', '<strong>Error: </strong>'+response.data.message);
+                        $timeout( function(){ closeToast(0); }, 3000);
+                        $scope.sales_with_printing = {
+                            cash: 0,
+                            credit_card: 0,
+                            check: 0,
+                            down_payment: 0,
+                            total: 0
+                        };
+                        $scope.sales_without_printing = {
+                            cash: 0,
+                            credit_card: 0,
+                            check: 0,
+                            down_payment: 0,
+                            total: 0
+                        };
+                        $scope.total = 0;
+                    }
+                );
             };
 
             $scope.exportCashClosing = function () {

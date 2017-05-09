@@ -20,8 +20,8 @@
                                                 <input type="text" class="form-control datepicker" datepicker-popup="{{format}}" ng-model="final_date" is-open="opened_final" min-date="minDate" max-date="'2025-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" show-button-bar="false"/>
                                                 <span class="input-group-btn"><button type="button" class="btn btn-default ion ion-calendar" ng-click="openFinalDate($event)"></i></button></span>
                                             </div>
-                                            <button type="submit" class="btn btn-info" ng-click="generateCashClosing()"><i class="ion ion-ios-refresh"></i>Generar reporte</button>
-                                            <button type="button" class="btn btn-success" ng-disabled="disable_export"><i class="ion ion-ios-cloud-download"></i>Exportar a Excel</button>
+                                            <button type="submit" class="btn btn-info" ng-click="generateSalesForDate()"><i class="ion ion-ios-refresh"></i>Generar reporte</button>
+                                            <button type="button" class="btn btn-success" ng-disabled="disable_export" ng-click="exportSalesForDate()"><i class="ion ion-ios-cloud-download"></i>Exportar a Excel</button>
                                         </div>
                                     </form>
                                 </div> <!-- #end panel -->
@@ -57,14 +57,14 @@
                                 </div>
                             </th>
                             <th>
-                                Usuario venta
+                                Usuario de sistema
                                 <div class="th">
                                     <i class="fa fa-caret-up icon-up"
-                                       ng-click=" order('description') "
-                                       ng-class="{active: row == 'description'}"></i>
+                                       ng-click=" order('user_id') "
+                                       ng-class="{active: row == 'user_id'}"></i>
                                     <i class="fa fa-caret-down icon-down"
-                                       ng-click=" order('-description') "
-                                       ng-class="{active: row == '-description'}"></i>
+                                       ng-click=" order('-user_id') "
+                                       ng-class="{active: row == '-user_id'}"></i>
                                 </div>
                             </th>
                             <th>
@@ -144,7 +144,6 @@
                                        ng-class="{active: row == '-status'}"></i>
                                 </div>
                             </th>
-                            <th>Acciones</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -168,12 +167,6 @@
                             <td>
                                 <label ng-if="data.status == 1" class="label label-danger mr5">Anulada</label>
                                 <label ng-if="data.status == 0" class="label label-success mr5">Activa</label>
-                            </td>
-                            <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-info ion ion-eye" ng-click="modalDetailOpen(data)" md-ink-ripple></button>
-                                    <button type="button" class="btn btn-danger ion ion-close-round" ng-if="data.status == 0" ng-click="modalCancelSaleOpen(data)" md-ink-ripple></button>
-                                </div>
                             </td>
                         </tr>
                         </tbody>
