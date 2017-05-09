@@ -22,6 +22,7 @@ Route::group(['prefix' => 'ws'], function(){
     Route::post('sale/save',            'SaleController@saveSale');
     Route::post('sale/cancel',          'SaleController@cancelSale');
     Route::get('sale/cash/close',       'SaleController@cashClose');
+    Route::get('sale/export/cash/close','SaleController@exportCashClose');
     Route::get('product/search',        'ProductController@searchProduct');
     Route::get('product/check/stock',   'ProductController@checkProductStock');
     Route::post('product/back/stock',   'ProductController@backProductStock');
@@ -33,4 +34,8 @@ Route::group(['prefix' => 'ws'], function(){
     Route::resource('users',		    'UserController');
     Route::resource('entries',		    'EntryController');
     Route::resource('sales/list',	    'SaleListController');
+});
+
+Route::get('reporte', function () {
+    return view('cash-closing');
 });

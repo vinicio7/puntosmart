@@ -19,7 +19,7 @@
                                             <span class="input-group-btn"><button type="button" class="btn btn-default ion ion-calendar" ng-click="openFinalDate($event)"></i></button></span>
                                         </div>
                                         <button type="submit" class="btn btn-info" ng-click="generateCashClosing()"><i class="ion ion-ios-refresh"></i>Generar corte de caja</button>
-                                        <button type="button" class="btn btn-success" ng-disabled="disable_export"><i class="ion ion-ios-cloud-download"></i>Exportar a Excel</button>
+                                        <button type="button" class="btn btn-success" ng-disabled="disable_export" ng-click="exportCashClosing()"><i class="ion ion-ios-cloud-download"></i>Exportar a Excel</button>
                                     </div>
                                 </form>
                             </div> <!-- #end panel -->
