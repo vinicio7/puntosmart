@@ -6,15 +6,17 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="panel">
-                                <form class="form-inline" role="form">
+                                <form class="form-inline" role="form" name="form">
                                     <div class="form-group">
+                                        <label class="control-label small">Fecha de inicio</label>
                                         <div class="input-group">
-                                            <span class="input-group-addon ion ion-calendar"></span>
-                                            <input type="email" class="form-control" placeholder="Fecha de inicio">
+                                            <input type="text" class="form-control datepicker" datepicker-popup="{{format}}" ng-model="start_date" is-open="opened_start" min-date="minDate" max-date="'2025-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" show-button-bar="false"/>
+                                            <span class="input-group-btn"><button type="button" class="btn btn-default ion ion-calendar" ng-click="openStartDate($event)"></i></button></span>
                                         </div>
+                                        <label class="control-label small">Fecha de fin</label>
                                         <div class="input-group">
-                                            <span class="input-group-addon ion ion-calendar"></span>
-                                            <input type="password" class="form-control" placeholder="Fecha de fin">
+                                            <input type="text" class="form-control datepicker" datepicker-popup="{{format}}" ng-model="final_date" is-open="opened_final" min-date="minDate" max-date="'2025-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" show-button-bar="false"/>
+                                            <span class="input-group-btn"><button type="button" class="btn btn-default ion ion-calendar" ng-click="openFinalDate($event)"></i></button></span>
                                         </div>
                                         <button type="submit" class="btn btn-info" ng-click="generateCashClosing()"><i class="ion ion-ios-refresh"></i>Generar corte de caja</button>
                                         <button type="button" class="btn btn-success" ng-disabled="disable_export"><i class="ion ion-ios-cloud-download"></i>Exportar a Excel</button>

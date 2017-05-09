@@ -110,8 +110,10 @@ class SaleController extends Controller
     public function cashClose(Request $request)
     {
         try {
+            $start_date = date('Y-m-d', strtotime($request->input('start_date')));
+            $final_date = date('Y-m-d', strtotime($request->input('final_date')));
 
-            $sales = Sale::where('company_id', $request->input('company_id'))->where('status', 0)->whereBetween('created_at', ['2017-05-05 00:00:00', '2017-05-05 23:59:59'])->get();
+            $sales = Sale::where('company_id', $request->input('company_id'))->where('status', 0)->whereBetween('created_at', [$start_date.' 00:00:00', $final_date.' 23:59:59'])->get();
 
             $cash_1 = 0;
             $credit_card_1 = 0;

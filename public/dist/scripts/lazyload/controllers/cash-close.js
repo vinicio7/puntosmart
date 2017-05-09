@@ -30,9 +30,30 @@
             $scope.total = 0;
             $scope.positionModel = 'topRight';
             $scope.toasts = [];
+            $scope.start_date = $filter('date')(Date.now(), 'yyyy-MM-dd');
+            $scope.final_date = $filter('date')(Date.now(), 'yyyy-MM-dd');
+
+            $scope.openStartDate = function($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+
+                $scope.opened_start = true;
+            };
+
+            $scope.openFinalDate = function($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+
+                $scope.opened_final = true;
+            };
 
             $scope.generateCashClosing = function () {
-                var params = { company_id:user_data.company_id };
+                var params = {
+                    company_id:user_data.company_id,
+                    start_date: $scope.start_date,
+                    final_date: $scope.final_date
+                };
+
                 SalesService.generateCashClosing(params).then(
                     function successCallback(response) {
                         if (response.data.result) {
