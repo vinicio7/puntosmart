@@ -67,7 +67,8 @@
 							</div>
 						</div>
                         <div class="col-sm-3">
-                            <input type="text" class="form-control" min="1" ng-model="seller" placeholder="Vendedor">
+                            <label>Seleccion vendedor:</label>
+                            <select class="form-control" ng-model="seller"><option ng-repeat="opt in salesman_list" value="{{opt.name}}">{{opt.name}}</option></select>
                         </div>
 					</div>
 					<div class="row mb20">

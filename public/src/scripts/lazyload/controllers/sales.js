@@ -2,9 +2,9 @@
 {
     'use strict';
 
-    angular.module('app.sales', ['app.service.products', 'app.service.sales', 'app.service.customers', 'LocalStorageModule', 'ngSanitize'])
+    angular.module('app.sales', ['app.service.products', 'app.service.sales', 'app.service.customers', 'app.service.salesman', 'LocalStorageModule', 'ngSanitize'])
 
-        .controller('SalesController', ['$scope', '$filter', '$http', '$modal', '$interval', 'ProductsService', 'SalesService', 'CustomersService', 'localStorageService', '$window', function($scope, $filter, $http, $modal, $timeout, ProductsService, SalesService, CustomersService, localStorageService, $window)  {
+        .controller('SalesController', ['$scope', '$filter', '$http', '$modal', '$interval', 'ProductsService', 'SalesService', 'CustomersService', 'SalesmanService', 'localStorageService', '$window', function($scope, $filter, $http, $modal, $timeout, ProductsService, SalesService, CustomersService, SalesmanService,localStorageService, $window)  {
 
             $scope.user_data = localStorageService.get('user_data');
             if ($scope.user_data.type === 'admin') {
@@ -20,6 +20,7 @@
             $scope.customer = {};
             $scope.products = [];
             $scope.product_list = [];
+            $scope.salesman_list = [];
             $scope.total = 0;
             $scope.show_input = 0;
             $scope.invoice = {
@@ -33,6 +34,7 @@
 
             checkSaleData();
             loadProducts();
+            loadSalesman();
 
 
             function checkSaleData() {
@@ -51,6 +53,13 @@
                 var params = { company_id: $scope.user_data.company_id };
                 ProductsService.index(params).then(function(response) {
                     $scope.product_list = response.data.records;
+                });
+            }
+
+            function loadSalesman() {
+                var params = { company_id: $scope.user_data.company_id };
+                SalesmanService.index(params).then(function (response) {
+                    $scope.salesman_list = response.data.records;
                 });
             }
 
