@@ -2,9 +2,9 @@
 {
     'use strict';
 
-    angular.module('app.sales', ['app.service.products', 'app.service.sales', 'app.service.customers', 'LocalStorageModule'])
+    angular.module('app.sales', ['app.service.products', 'app.service.sales', 'app.service.customers', 'app.service.salesman', 'LocalStorageModule', 'ngSanitize'])
 
-        .controller('SalesController', ['$scope', '$filter', '$http', '$modal', '$interval', 'ProductsService', 'SalesService', 'CustomersService', 'localStorageService', '$window', function($scope, $filter, $http, $modal, $timeout, ProductsService, SalesService, CustomersService, localStorageService, $window)  {
+        .controller('SalesController', ['$scope', '$filter', '$http', '$modal', '$interval', 'ProductsService', 'SalesService', 'CustomersService', 'SalesmanService', 'localStorageService', '$window', function($scope, $filter, $http, $modal, $timeout, ProductsService, SalesService, CustomersService, SalesmanService,localStorageService, $window)  {
 
             $scope.user_data = localStorageService.get('user_data');
             if ($scope.user_data.type === 'admin') {
@@ -20,6 +20,7 @@
             $scope.customer = {};
             $scope.products = [];
             $scope.product_list = [];
+            $scope.salesman_list = [];
             $scope.total = 0;
             $scope.show_input = 0;
             $scope.invoice = {
@@ -33,6 +34,8 @@
 
             checkSaleData();
             loadProducts();
+            loadSalesman();
+
 
             function checkSaleData() {
                 var data_sale = localStorageService.get('data_sale');
@@ -50,6 +53,13 @@
                 var params = { company_id: $scope.user_data.company_id };
                 ProductsService.index(params).then(function(response) {
                     $scope.product_list = response.data.records;
+                });
+            }
+
+            function loadSalesman() {
+                var params = { company_id: $scope.user_data.company_id };
+                SalesmanService.index(params).then(function (response) {
+                    $scope.salesman_list = response.data.records;
                 });
             }
 
@@ -109,6 +119,7 @@
                             $scope.invoice_section = 1;
 
                             var data_sale = {
+                                salesman_name: $scope.seller,
                                 customer: $scope.customer,
                                 products: $scope.products,
                                 total: $scope.total
@@ -181,6 +192,7 @@
                                         $scope.product = {};
 
                                         var data_sale = {
+                                            salesman_name: $scope.seller,
                                             customer: $scope.customer,
                                             products: $scope.products,
                                             total: $scope.total
@@ -217,6 +229,7 @@
                 data_sale.company_id = $scope.user_data.company_id;
                 data_sale.method_payment = $scope.invoice.payment;
                 data_sale.invoice = $scope.invoice.print;
+                data_sale.salesman_name = $scope.seller;
                 var data = {};
                 data.data_sale = angular.toJson(data_sale);
 
@@ -289,6 +302,7 @@
                                 $scope.invoice_section = 1;
 
                                 var data_sale = {
+                                    salesman_name: $scope.seller,
                                     customer: $scope.customer,
                                     products: $scope.products,
                                     total: $scope.total,
@@ -341,4 +355,24 @@
                 });
             };
         })
+        .directive('myDatalist',['$sce',function($sce){
+            return{
+                restrict : 'AE',
+                require : '?ngModel',
+                template : '<ng-form name="dlTest"><input list="dl" ng-model="choosen" class="form-control"><datalist id="dl"><select><option ng-repeat="opt in list" label="{{opt.description}} ({{opt.bar_code}})">{{opt.internal_code}}</option></select></datalist></ng-form>',
+                replace : false,
+                scope : {
+                    list : '='
+                },
+                link : function(scope,element,attrs,ngModel){
+                    if(!ngModel || (scope.list.length <= 0)) return;
+
+                    scope.choosen = '';
+
+                    scope.$watch('choosen',function(val,old){
+                        ngModel.$setViewValue(val);
+                    });
+                }
+            }; // return
+        }]);
 }());
