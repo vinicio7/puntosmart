@@ -2,6 +2,7 @@
     <tr>
         <th>Correlativo</th>
         <th>Usuario de sistema</th>
+        <th>Vendedor</th>
         <th>Cliente</th>
         <th>NIT</th>
         <th>Fecha de venta</th>
@@ -13,6 +14,7 @@
         <tr>
             <td>{!! $sale['correlative'] !!}</td>
             <td>{!! $sale['user']['name'] !!}</td>
+            <td>{!! $sale['salesman_name'] !!}</td>
             <td>{!! $sale['customer_name'] !!}</td>
             <td>{!! $sale['customer_nit'] !!}</td>
             <td>{!! date('d-m-Y', strtotime($sale['created_at'])) !!}</td>

@@ -34,6 +34,7 @@ class SaleController extends Controller
             $new_sale->type_payment = $data_sale['method_payment'];
             $new_sale->invoice = $data_sale['invoice'] == true ? 1 : 0;
             $new_sale->correlative = 'Venta-'.$company->correlative;
+            $new_sale->salesman_name = $data_sale['salesman_name'] != null ? $data_sale['salesman_name'] : '';
             $new_sale->save();
 
             foreach ($data_sale['products'] as $product) {
