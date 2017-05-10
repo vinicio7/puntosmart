@@ -7,7 +7,7 @@
         .controller('CompaniesController', ['$scope', '$filter', '$http', '$modal', '$interval', 'CompaniesService', 'localStorageService', '$window', function($scope, $filter, $http, $modal, $timeout, CompaniesService, localStorageService, $window)  {
 
             var user_data = localStorageService.get('user_data');
-            if (user_data.type == 'user') {
+            if (user_data.type === 'user') {
                 $window.location.href = './#/404';
             }
 

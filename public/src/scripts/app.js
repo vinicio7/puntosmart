@@ -130,6 +130,10 @@
                 {
                     name: "app.service.sales-list",
                     files: ["scripts/lazyload/services/sales-list.js"]
+                },
+                {
+                    name: "app.service.salesman",
+                    files: ["scripts/lazyload/services/salesman.js"]
                 }
 			]
 		})
@@ -285,6 +289,19 @@
                     return a.load({
                         name: 'app.products',
                         files: ['scripts/lazyload/controllers/products.js']
+                    })
+                }]
+            }
+        });
+
+        $routeProvider.when("/mansales", {
+            templateUrl: "views/app/salesman.html",
+            controller: 'SalesmanController',
+            resolve: {
+                deps: ["$ocLazyLoad", function(a) {
+                    return a.load({
+                        name: 'app.salesman',
+                        files: ['scripts/lazyload/controllers/salesman.js']
                     })
                 }]
             }

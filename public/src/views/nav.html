@@ -56,6 +56,12 @@
 				<span class="text">Productos</span>
 			</a>
 		</li>
+		<li ng-show="view_salesman">
+			<a href="#/mansales" md-ink-ripple>
+				<i class="ion ion-ios-briefcase"></i>
+				<span class="text">Vendedores</span>
+			</a>
+		</li>
         <li ng-show="view_customers">
             <a href="#/customers" md-ink-ripple>
                 <i class="ion ion-person-stalker"></i>
@@ -82,7 +88,6 @@
 			</a>
 			<ul class="inner-drop list-unstyled">
 				<li><a href="#/reports/salesfordate" md-ink-ripple>Ventas por fechas</a></li>
-				<li><a href="#/reports/typography" md-ink-ripple>Typography</a></li>
 			</ul>
 		</li>
 	</ul> <!-- #end navigation -->

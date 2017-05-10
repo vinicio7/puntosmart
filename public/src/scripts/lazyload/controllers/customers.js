@@ -7,7 +7,7 @@
         .controller('CustomersController', ['$scope', '$filter', '$http', '$modal', '$interval', 'CustomersService', 'localStorageService', function($scope, $filter, $http, $modal, $timeout, CustomersService, localStorageService)  {
 
             var user_data = localStorageService.get('user_data');
-            if (user_data.type == 'admin') {
+            if (user_data.type === 'admin') {
                 $window.location.href = './#/404';
             }
 

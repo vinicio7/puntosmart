@@ -72,3 +72,12 @@ $factory->define(App\Entry::class, function (Faker\Generator $faker) {
         'price_sale' => rand(1,50)
     ];
 });
+
+$factory->define(App\Salesman::class, function (Faker\Generator $faker) {
+    return [
+        'company_id' => rand(1,25),
+        'name' => $faker->name,
+        'direction' => $faker->address,
+        'phone' => $faker->phoneNumber
+    ];
+});

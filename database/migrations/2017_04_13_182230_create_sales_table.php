@@ -22,6 +22,7 @@ class CreateSalesTable extends Migration
             $table->text('customer_name');
             $table->text('customer_nit');
             $table->text('customer_direction');
+            $table->text('salesman_name')->default(null);
             $table->enum('type_payment', ['credit_card', 'cash', 'check', 'down_payment']);
             $table->boolean('invoice');
             $table->boolean('status')->default("0");

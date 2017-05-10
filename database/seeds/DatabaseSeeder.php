@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         factory('App\User', 25)->create();
         factory('App\Customer', 25)->create();
         factory('App\Product', 25)->create();
+        factory('App\Salesman', 25)->create();
 
         App\User::create([
             'name'              => 'Administrador',

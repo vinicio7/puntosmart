@@ -2,12 +2,11 @@
 {
     'use strict';
 
-    angular.module('app.products', ['app.service.products', 'LocalStorageModule'])
+    angular.module('app.salesman', ['app.service.salesman', 'LocalStorageModule'])
 
-        .controller('ProductsController', ['$scope', '$filter', '$http', '$modal', '$interval', 'ProductsService', 'localStorageService', '$window', function($scope, $filter, $http, $modal, $timeout, ProductsService, localStorageService, $window)  {
+        .controller('SalesmanController', ['$scope', '$filter', '$http', '$modal', '$interval', 'SalesmanService', 'localStorageService', function($scope, $filter, $http, $modal, $timeout, SalesmanService, localStorageService)  {
 
             var user_data = localStorageService.get('user_data');
-
             if (user_data.type === 'admin') {
                 $window.location.href = './#/404';
             }
@@ -23,13 +22,12 @@
             $scope.currentPage = 1;
             $scope.positionModel = 'topRight';
             $scope.toasts = [];
-            $scope.show_input = user_data.company.stock == 1 ? false : true;
             var modal;
 
             // Function for load table
             function loadDataTable() {
                 var params = { company_id:user_data.company_id };
-                ProductsService.index(params).then(function(response) {
+                SalesmanService.index(params).then(function(response) {
                     $scope.datas = response.data.records;
                     $scope.search();
                     $scope.select($scope.currentPage);
@@ -66,7 +64,7 @@
             };
 
             $scope.order = function(rowName) {
-                if($scope.row == rowName)
+                if($scope.row === rowName)
                     return;
                 $scope.row = rowName;
                 $scope.filteredData = $filter('orderBy')($scope.datas, rowName);
@@ -84,67 +82,66 @@
                 });
             }
 
-            function closeAlert (index) {
+            function closeToast (index) {
                 $scope.toasts.splice(index, 1);
             }
 
             // Function for sending data
-            $scope.saveData = function (product) {
-                if ($scope.action == 'new') {
-                    product.company_id = user_data.company_id;
-                    product.stock = user_data.company.stock;
-                    ProductsService.store(product).then(
+            $scope.saveData = function (salesman) {
+                if ($scope.action === 'new') {
+                    salesman.company_id = user_data.company_id;
+                    SalesmanService.store(salesman).then(
                         function successCallback(response) {
                             if (response.data.result) {
                                 loadDataTable();
                                 modal.close();
                                 createToast('success', '<strong>Éxito: </strong>'+response.data.message);
-                                $timeout( function(){ closeAlert(0); }, 3000);
+                                $timeout( function(){ closeToast(0); }, 3000);
                             } else {
                                 createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                                $timeout( function(){ closeAlert(0); }, 3000);
+                                $timeout( function(){ closeToast(0); }, 3000);
                             }
                         },
                         function errorCallback(response) {
                             createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                            $timeout( function(){ closeAlert(0); }, 3000);
+                            $timeout( function(){ closeToast(0); }, 3000);
                         }
                     );
                 }
-                else if ($scope.action == 'update') {
-                    ProductsService.update(product).then(
+                else if ($scope.action === 'update') {
+                    SalesmanService.update(salesman).then(
                         function successCallback(response) {
                             if (response.data.result) {
                                 modal.close();
                                 createToast('success', '<strong>Éxito: </strong>'+response.data.message);
-                                $timeout( function(){ closeAlert(0); }, 3000);
+                                $timeout( function(){ closeToast(0); }, 3000);
                             } else {
                                 createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                                $timeout( function(){ closeAlert(0); }, 3000);
+                                $timeout( function(){ closeToast(0); }, 3000);
                             }
                         },
                         function errorCallback(response) {
                             createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                            $timeout( function(){ closeAlert(0); }, 3000);
+                            $timeout( function(){ closeToast(0); }, 3000);
                         }
                     );
                 }
-                else if ($scope.action == 'delete') {
-                    ProductsService.destroy(product.id).then(
+                else if ($scope.action === 'delete') {
+                    SalesmanService.destroy(salesman.id).then(
                         function successCallback(response) {
                             if (response.data.result) {
                                 loadDataTable();
                                 modal.close();
                                 createToast('success', '<strong>Éxito: </strong>'+response.data.message);
-                                $timeout( function(){ closeAlert(0); }, 3000);
+                                $timeout( function(){ closeToast(0); }, 3000);
                             } else {
                                 createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                                $timeout( function(){ closeAlert(0); }, 3000);
+                                $timeout( function(){ closeToast(0); }, 3000);
                             }
                         },
                         function errorCallback(response) {
                             createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                            $timeout( function(){ closeAlert(0); }, 3000);
+                            $timeout( function(){ closeToast(0); }, 3000);
                         }
                     );
                 }
@@ -152,11 +149,11 @@
 
             // Functions for modals
             $scope.modalCreateOpen = function() {
-                $scope.product = {};
+                $scope.salesman = {};
                 $scope.action = 'new';
 
                 modal = $modal.open({
-                    templateUrl: 'views/app/products-modal.html',
+                    templateUrl: 'views/app/salesman-modal.html',
                     scope: $scope,
                     size: 'md',
                     resolve: function() {},
@@ -166,10 +163,10 @@
 
             $scope.modalEditOpen = function(data) {
                 $scope.action = 'update';
-                $scope.product = data;
+                $scope.salesman = data;
 
                 modal = $modal.open({
-                    templateUrl: 'views/app/products-modal.html',
+                    templateUrl: 'views/app/salesman-modal.html',
                     scope: $scope,
                     size: 'md',
                     resolve: function() {},
@@ -179,10 +176,10 @@
 
             $scope.modalDeleteOpen = function(data) {
                 $scope.action = 'delete';
-                $scope.product = data;
+                $scope.salesman = data;
 
                 modal = $modal.open({
-                    templateUrl: 'views/app/products-modal.html',
+                    templateUrl: 'views/app/salesman-modal.html',
                     scope: $scope,
                     size: 'md',
                     resolve: function() {},
