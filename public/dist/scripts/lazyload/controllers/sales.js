@@ -238,7 +238,9 @@
                         if (response.data.result) {
                             saleModal.correlative = response.data.records.correlative;
                             saleModal.date = response.data.records.created_at;
-                            $scope.modalPrintSale();
+                            if($scope.invoice.print==true) {
+                                $scope.modalPrintSale();
+                            }
                             localStorageService.remove('data_sale');
                             $scope.nit_section = 1;
                             $scope.invoice_section = 0;
