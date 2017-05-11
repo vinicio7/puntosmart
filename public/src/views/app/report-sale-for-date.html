@@ -68,6 +68,17 @@
                                 </div>
                             </th>
                             <th>
+                                Vendedor
+                                <div class="th">
+                                    <i class="fa fa-caret-up icon-up"
+                                       ng-click=" order('salesman_name') "
+                                       ng-class="{active: row == 'salesman_name'}"></i>
+                                    <i class="fa fa-caret-down icon-down"
+                                       ng-click=" order('-salesman_name') "
+                                       ng-class="{active: row == '-salesman_name'}"></i>
+                                </div>
+                            </th>
+                            <th>
                                 Correlativo
                                 <div class="th">
                                     <i class="fa fa-caret-up icon-up"
@@ -150,6 +161,7 @@
                         <tr ng-repeat="data in currentPageStores track by $index">
                             <td>{{ $index + 1 }}</td>
                             <td>{{ data.user.name }}</td>
+                            <td>{{ data.salesman_name }}</td>
                             <td>{{ data.correlative }}</td>
                             <td>{{ data.customer_name }}</td>
                             <td>{{ data.customer_nit }}</td>

@@ -198,7 +198,7 @@ class ProductController extends Controller
     public function searchProduct (Request $request)
     {
         try {
-            $product = Product::where('internal_code', $request->input('param'))->orWhere('bar_code', $request->input('param'))->orWhere('description', 'like', '%'.$request->input('param').'%')->where('company_id', $request->input('company_id'))->first();
+            $product = Product::where('company_id', $request->input('company_id'))->where('internal_code', $request->input('param'))->orWhere('bar_code', $request->input('param'))->orWhere('description', 'like', '%'.$request->input('param').'%')->first();
 
             if ($product) {
                 $this->status_code = 200;
