@@ -2,39 +2,51 @@
 <table>
     <tr>
         <th></th>
-        <th>Con impresión</th>
-        <th>Sin impresión</th>
+        <th>Con documento</th>
+        <th>Sin documento</th>
+        <th>Anuladas con documento</th>
+        <th>Anuladas sin documento</th>
         <th>Total</th>
     </tr>
     <tr>
         <td>Efectivo</td>
         <td>Q. {!! number_format($data['sales_with_printing']['cash'], 2, '.', ',') !!}</td>
         <td>Q. {!! number_format($data['sales_without_printing']['cash'], 2, '.', ',') !!}</td>
-        <td>Q. {!! number_format(($data['sales_with_printing']['cash'] + $data['sales_without_printing']['cash']), 2, '.', ',') !!}</td>
+        <td>Q. {!! number_format($data['sales_cancel_with_printing']['cash'], 2, '.', ',') !!}</td>
+        <td>Q. {!! number_format($data['sales_cancel_without_printing']['cash'], 2, '.', ',') !!}</td>
+        <td>Q. {!! number_format(($data['sales_with_printing']['cash'] + $data['sales_without_printing']['cash'] + $data['sales_cancel_with_printing']['cash'] + $data['sales_cancel_without_printing']['cash']), 2, '.', ',') !!}</td>
     </tr>
     <tr>
         <td>Tarjeta</td>
         <td>Q. {!! number_format($data['sales_with_printing']['credit_card'], 2, '.', ',') !!}</td>
         <td>Q. {!! number_format($data['sales_without_printing']['credit_card'], 2, '.', ',') !!}</td>
-        <td>Q. {!! number_format(($data['sales_with_printing']['credit_card'] + $data['sales_without_printing']['credit_card']), 2, '.', ',') !!}</td>
+        <td>Q. {!! number_format($data['sales_cancel_with_printing']['credit_card'], 2, '.', ',') !!}</td>
+        <td>Q. {!! number_format($data['sales_cancel_without_printing']['credit_card'], 2, '.', ',') !!}</td>
+        <td>Q. {!! number_format(($data['sales_with_printing']['credit_card'] + $data['sales_without_printing']['credit_card'] + $data['sales_cancel_with_printing']['credit_card'] + $data['sales_cancel_without_printing']['credit_card']), 2, '.', ',') !!}</td>
     </tr>
     <tr>
         <td>Cheque</td>
         <td>Q. {!! number_format($data['sales_with_printing']['check'], 2, '.', ',') !!}</td>
         <td>Q. {!! number_format($data['sales_without_printing']['check'], 2, '.', ',') !!}</td>
-        <td>Q. {!! number_format(($data['sales_with_printing']['check'] + $data['sales_without_printing']['check']), 2, '.', ',') !!}</td>
+        <td>Q. {!! number_format($data['sales_cancel_with_printing']['check'], 2, '.', ',') !!}</td>
+        <td>Q. {!! number_format($data['sales_cancel_without_printing']['check'], 2, '.', ',') !!}</td>
+        <td>Q. {!! number_format(($data['sales_with_printing']['check'] + $data['sales_without_printing']['check'] + $data['sales_cancel_with_printing']['check'] + $data['sales_cancel_without_printing']['check']), 2, '.', ',') !!}</td>
     </tr>
     <tr>
         <td>Depósito</td>
         <td>Q. {!! number_format($data['sales_with_printing']['down_payment'], 2, '.', ',')!!}</td>
         <td>Q. {!! number_format($data['sales_without_printing']['down_payment'], 2, '.', ',') !!}</td>
-        <td>Q. {!! number_format(($data['sales_with_printing']['down_payment'] + $data['sales_without_printing']['down_payment']), 2, '.', ',') !!}</td>
+        <td>Q. {!! number_format($data['sales_cancel_with_printing']['down_payment'], 2, '.', ',') !!}</td>
+        <td>Q. {!! number_format($data['sales_cancel_without_printing']['down_payment'], 2, '.', ',') !!}</td>
+        <td>Q. {!! number_format(($data['sales_with_printing']['down_payment'] + $data['sales_without_printing']['down_payment'] + $data['sales_cancel_with_printing']['down_payment'] + $data['sales_cancel_without_printing']['down_payment']), 2, '.', ',') !!}</td>
     </tr>
     <tr>
-        <td>Total</td>
+        <td>TOTALES</td>
         <td>Q. {!! number_format($data['sales_with_printing']['total'],2, '.', ',') !!}</td>
         <td>Q. {!! number_format($data['sales_without_printing']['total'], 2, '.', ',') !!}</td>
-        <td>Q. {!! number_format(($data['sales_with_printing']['total'] + $data['sales_without_printing']['total']), 2, '.', ',') !!}</td>
+        <td>Q. {!! number_format($data['sales_cancel_with_printing']['total'], 2, '.', ',') !!}</td>
+        <td>Q. {!! number_format($data['sales_cancel_without_printing']['total'], 2, '.', ',') !!}</td>
+        <td>Q. {!! number_format(($data['sales_with_printing']['total'] + $data['sales_without_printing']['total'] + $data['sales_cancel_with_printing']['total'] + $data['sales_cancel_without_printing']['total']), 2, '.', ',') !!}</td>
     </tr>
 </table>
 
@@ -49,6 +61,7 @@
         <th>Fecha de venta</th>
         <th>Forma de pago</th>
         <th>Impresión</th>
+        <th>Estado</th>
         <th>Total de venta</th>
     </tr>
     @foreach($data['sales'] as $sale)
@@ -69,9 +82,14 @@
                 <td>Depósito</td>
             @endif
             @if($sale['invoice'] == 1)
-                <td>Con impresión</td>
+                <td>Con documento</td>
             @else
-                <td>Sin impresión</td>
+                <td>Sin documento</td>
+            @endif
+            @if($sale['status'] == 0)
+                <td>Activa</td>
+            @else
+                <td>Anulada</td>
             @endif
             <td>Q. {!! number_format($sale['total'], 2, '.', ',') !!}</td>
         </tr>

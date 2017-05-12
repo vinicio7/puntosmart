@@ -118,7 +118,7 @@ class SaleController extends Controller
             $days_apart = (strtotime($final_date) - strtotime($start_date)) / 86400;
 
             if ($days_apart >= 0) {
-                $sales = Sale::where('company_id', $request->input('company_id'))->where('status', 0)->whereBetween('created_at', [$start_date.' 00:00:00', $final_date.' 23:59:59'])->get();
+                $sales = Sale::where('company_id', $request->input('company_id'))->whereBetween('created_at', [$start_date.' 00:00:00', $final_date.' 23:59:59'])->get();
 
                 $cash_1 = 0;
                 $credit_card_1 = 0;
@@ -130,36 +130,74 @@ class SaleController extends Controller
                 $check_2 = 0;
                 $down_payment_2 = 0;
                 $total_2 = 0;
+                $cash_3 = 0;
+                $credit_card_3 = 0;
+                $check_3 = 0;
+                $down_payment_3 = 0;
+                $total_3 = 0;
+                $cash_4 = 0;
+                $credit_card_4 = 0;
+                $check_4 = 0;
+                $down_payment_4 = 0;
+                $total_4 = 0;
                 $total = 0;
 
                 foreach ($sales as $sale) {
-                    if ($sale->invoice == 1) {
-                        if ($sale->type_payment == 'cash') {
-                            $cash_1 = $cash_1 + $sale->total;
-                        } else if ($sale->type_payment == 'credit_card') {
-                            $credit_card_1 = $credit_card_1 + $sale->total;
-                        } else if ($sale->type_payment == 'check') {
-                            $check_1 = $check_1 + $sale->total;
-                        } else if ($sale->type_payment == 'down_payment') {
-                            $down_payment_1 = $down_payment_1 + $sale->total;
-                        }
+                    if ($sale->status == 0) {
+                        if ($sale->invoice == 1) {
+                            if ($sale->type_payment == 'cash') {
+                                $cash_1 = $cash_1 + $sale->total;
+                            } else if ($sale->type_payment == 'credit_card') {
+                                $credit_card_1 = $credit_card_1 + $sale->total;
+                            } else if ($sale->type_payment == 'check') {
+                                $check_1 = $check_1 + $sale->total;
+                            } else if ($sale->type_payment == 'down_payment') {
+                                $down_payment_1 = $down_payment_1 + $sale->total;
+                            }
 
-                        $total_1 = $cash_1 + $credit_card_1 + $check_1 + $down_payment_1;
+                            $total_1 = $cash_1 + $credit_card_1 + $check_1 + $down_payment_1;
+                        } else {
+                            if ($sale->type_payment == 'cash') {
+                                $cash_2 = $cash_2 + $sale->total;
+                            } else if ($sale->type_payment == 'credit_card') {
+                                $credit_card_2 = $credit_card_2 + $sale->total;
+                            } else if ($sale->type_payment == 'check') {
+                                $check_2 = $check_2 + $sale->total;
+                            } else if ($sale->type_payment == 'down_payment') {
+                                $down_payment_2 = $down_payment_2 + $sale->total;
+                            }
+
+                            $total_2 = $cash_2 + $credit_card_2 + $check_2 + $down_payment_2;
+                        }
                     } else {
-                        if ($sale->type_payment == 'cash') {
-                            $cash_2 = $cash_2 + $sale->total;
-                        } else if ($sale->type_payment == 'credit_card') {
-                            $credit_card_2 = $credit_card_2 + $sale->total;
-                        } else if ($sale->type_payment == 'check') {
-                            $check_2 = $check_2 + $sale->total;
-                        } else if ($sale->type_payment == 'down_payment') {
-                            $down_payment_2 = $down_payment_2 + $sale->total;
-                        }
+                        if ($sale->invoice == 1) {
+                            if ($sale->type_payment == 'cash') {
+                                $cash_3 = $cash_3 + $sale->total;
+                            } else if ($sale->type_payment == 'credit_card') {
+                                $credit_card_3 = $credit_card_3 + $sale->total;
+                            } else if ($sale->type_payment == 'check') {
+                                $check_3 = $check_3 + $sale->total;
+                            } else if ($sale->type_payment == 'down_payment') {
+                                $down_payment_3 = $down_payment_3 + $sale->total;
+                            }
 
-                        $total_2 = $cash_2 + $credit_card_2 + $check_2 + $down_payment_2;
+                            $total_3 = $cash_3 + $credit_card_3 + $check_3 + $down_payment_3;
+                        } else {
+                            if ($sale->type_payment == 'cash') {
+                                $cash_4 = $cash_4 + $sale->total;
+                            } else if ($sale->type_payment == 'credit_card') {
+                                $credit_card_4 = $credit_card_4 + $sale->total;
+                            } else if ($sale->type_payment == 'check') {
+                                $check_4 = $check_4 + $sale->total;
+                            } else if ($sale->type_payment == 'down_payment') {
+                                $down_payment_4 = $down_payment_4 + $sale->total;
+                            }
+
+                            $total_4 = $cash_4 + $credit_card_4 + $check_4 + $down_payment_4;
+                        }
                     }
 
-                    $total = $total_1 + $total_2;
+                    $total = $total_1 + $total_2 + $total_3 + $total_4;
                 }
 
                 $response = [
@@ -176,6 +214,20 @@ class SaleController extends Controller
                         'check' => $check_2,
                         'down_payment' => $down_payment_2,
                         'total' => $total_2
+                    ],
+                    'sales_cancel_with_printing' => [
+                        'cash' => $cash_3,
+                        'credit_card' => $credit_card_3,
+                        'check' => $check_3,
+                        'down_payment' => $down_payment_3,
+                        'total' => $total_3
+                    ],
+                    'sales_cancel_without_printing' => [
+                        'cash' => $cash_4,
+                        'credit_card' => $credit_card_4,
+                        'check' => $check_4,
+                        'down_payment' => $down_payment_4,
+                        'total' => $total_4
                     ],
                     'total' => $total
                 ];
@@ -209,7 +261,7 @@ class SaleController extends Controller
             $start_date = date('Y-m-d', strtotime($request->input('start_date')));
             $final_date = date('Y-m-d', strtotime($request->input('final_date')));
 
-            $sales = Sale::where('company_id', $request->input('company_id'))->where('status', 0)->whereBetween('created_at', [$start_date.' 00:00:00', $final_date.' 23:59:59'])->with('user')->get();
+            $sales = Sale::where('company_id', $request->input('company_id'))->whereBetween('created_at', [$start_date.' 00:00:00', $final_date.' 23:59:59'])->get();
 
             $cash_1 = 0;
             $credit_card_1 = 0;
@@ -221,36 +273,74 @@ class SaleController extends Controller
             $check_2 = 0;
             $down_payment_2 = 0;
             $total_2 = 0;
+            $cash_3 = 0;
+            $credit_card_3 = 0;
+            $check_3 = 0;
+            $down_payment_3 = 0;
+            $total_3 = 0;
+            $cash_4 = 0;
+            $credit_card_4 = 0;
+            $check_4 = 0;
+            $down_payment_4 = 0;
+            $total_4 = 0;
             $total = 0;
 
             foreach ($sales as $sale) {
-                if ($sale->invoice == 1) {
-                    if ($sale->type_payment == 'cash') {
-                        $cash_1 = $cash_1 + $sale->total;
-                    } else if ($sale->type_payment == 'credit_card') {
-                        $credit_card_1 = $credit_card_1 + $sale->total;
-                    } else if ($sale->type_payment == 'check') {
-                        $check_1 = $check_1 + $sale->total;
-                    } else if ($sale->type_payment == 'down_payment') {
-                        $down_payment_1 = $down_payment_1 + $sale->total;
-                    }
+                if ($sale->status == 0) {
+                    if ($sale->invoice == 1) {
+                        if ($sale->type_payment == 'cash') {
+                            $cash_1 = $cash_1 + $sale->total;
+                        } else if ($sale->type_payment == 'credit_card') {
+                            $credit_card_1 = $credit_card_1 + $sale->total;
+                        } else if ($sale->type_payment == 'check') {
+                            $check_1 = $check_1 + $sale->total;
+                        } else if ($sale->type_payment == 'down_payment') {
+                            $down_payment_1 = $down_payment_1 + $sale->total;
+                        }
 
-                    $total_1 = $cash_1 + $credit_card_1 + $check_1 + $down_payment_1;
+                        $total_1 = $cash_1 + $credit_card_1 + $check_1 + $down_payment_1;
+                    } else {
+                        if ($sale->type_payment == 'cash') {
+                            $cash_2 = $cash_2 + $sale->total;
+                        } else if ($sale->type_payment == 'credit_card') {
+                            $credit_card_2 = $credit_card_2 + $sale->total;
+                        } else if ($sale->type_payment == 'check') {
+                            $check_2 = $check_2 + $sale->total;
+                        } else if ($sale->type_payment == 'down_payment') {
+                            $down_payment_2 = $down_payment_2 + $sale->total;
+                        }
+
+                        $total_2 = $cash_2 + $credit_card_2 + $check_2 + $down_payment_2;
+                    }
                 } else {
-                    if ($sale->type_payment == 'cash') {
-                        $cash_2 = $cash_2 + $sale->total;
-                    } else if ($sale->type_payment == 'credit_card') {
-                        $credit_card_2 = $credit_card_2 + $sale->total;
-                    } else if ($sale->type_payment == 'check') {
-                        $check_2 = $check_2 + $sale->total;
-                    } else if ($sale->type_payment == 'down_payment') {
-                        $down_payment_2 = $down_payment_2 + $sale->total;
-                    }
+                    if ($sale->invoice == 1) {
+                        if ($sale->type_payment == 'cash') {
+                            $cash_3 = $cash_3 + $sale->total;
+                        } else if ($sale->type_payment == 'credit_card') {
+                            $credit_card_3 = $credit_card_3 + $sale->total;
+                        } else if ($sale->type_payment == 'check') {
+                            $check_3 = $check_3 + $sale->total;
+                        } else if ($sale->type_payment == 'down_payment') {
+                            $down_payment_3 = $down_payment_3 + $sale->total;
+                        }
 
-                    $total_2 = $cash_2 + $credit_card_2 + $check_2 + $down_payment_2;
+                        $total_3 = $cash_3 + $credit_card_3 + $check_3 + $down_payment_3;
+                    } else {
+                        if ($sale->type_payment == 'cash') {
+                            $cash_4 = $cash_4 + $sale->total;
+                        } else if ($sale->type_payment == 'credit_card') {
+                            $credit_card_4 = $credit_card_4 + $sale->total;
+                        } else if ($sale->type_payment == 'check') {
+                            $check_4 = $check_4 + $sale->total;
+                        } else if ($sale->type_payment == 'down_payment') {
+                            $down_payment_4 = $down_payment_4 + $sale->total;
+                        }
+
+                        $total_4 = $cash_4 + $credit_card_4 + $check_4 + $down_payment_4;
+                    }
                 }
 
-                $total = $total_1 + $total_2;
+                $total = $total_1 + $total_2 + $total_3 + $total_4;
             }
 
             $response = [
@@ -267,6 +357,20 @@ class SaleController extends Controller
                     'check' => $check_2,
                     'down_payment' => $down_payment_2,
                     'total' => $total_2
+                ],
+                'sales_cancel_with_printing' => [
+                    'cash' => $cash_3,
+                    'credit_card' => $credit_card_3,
+                    'check' => $check_3,
+                    'down_payment' => $down_payment_3,
+                    'total' => $total_3
+                ],
+                'sales_cancel_without_printing' => [
+                    'cash' => $cash_4,
+                    'credit_card' => $credit_card_4,
+                    'check' => $check_4,
+                    'down_payment' => $down_payment_4,
+                    'total' => $total_4
                 ],
                 'total' => $total,
                 'sales' => $sales
@@ -292,7 +396,7 @@ class SaleController extends Controller
             $days_apart = (strtotime($final_date) - strtotime($start_date)) / 86400;
 
             if ($days_apart >= 0) {
-                $sales = Sale::where('company_id', $request->input('company_id'))->where('status', 0)->whereBetween('created_at', [$start_date . ' 00:00:00', $final_date . ' 23:59:59'])->with('user')->get();
+                $sales = Sale::where('company_id', $request->input('company_id'))->whereBetween('created_at', [$start_date . ' 00:00:00', $final_date . ' 23:59:59'])->with('user')->get();
 
                 $this->status_code = 200;
                 $this->result = true;
@@ -322,7 +426,7 @@ class SaleController extends Controller
             $start_date = date('Y-m-d', strtotime($request->input('start_date')));
             $final_date = date('Y-m-d', strtotime($request->input('final_date')));
 
-            $sales = Sale::where('company_id', $request->input('company_id'))->where('status', 0)->whereBetween('created_at', [$start_date.' 00:00:00', $final_date.' 23:59:59'])->with('user')->get();
+            $sales = Sale::where('company_id', $request->input('company_id'))->whereBetween('created_at', [$start_date.' 00:00:00', $final_date.' 23:59:59'])->with('user')->get();
 
             \Excel::create('Reporte de ventas de: '.$start_date.' al '.$final_date, function($excel) use ($sales) {
                 $excel->sheet('ventas', function($sheet) use ($sales) {

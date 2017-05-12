@@ -7,7 +7,8 @@
         <th>NIT</th>
         <th>Fecha de venta</th>
         <th>Forma de pago</th>
-        <th>Impresión</th>
+        <th>Documento</th>
+        <th>Estado</th>
         <th>Total de venta</th>
     </tr>
     @foreach($data as $sale)
@@ -28,9 +29,14 @@
                 <td>Depósito</td>
             @endif
             @if($sale['invoice'] == 1)
-                <td>Con impresión</td>
+                <td>Con documento</td>
             @else
-                <td>Sin impresión</td>
+                <td>Sin documento</td>
+            @endif
+            @if($sale['status'] == 0)
+                <td>Activa</td>
+            @else
+                <td>Anulada</td>
             @endif
             <td>Q. {!! number_format($sale['total'], 2, '.', ',') !!}</td>
         </tr>

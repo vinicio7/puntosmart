@@ -26,6 +26,20 @@
                 down_payment: 0,
                 total: 0
             };
+            $scope.sales_cancel_with_printing = {
+                cash: 0,
+                credit_card: 0,
+                check: 0,
+                down_payment: 0,
+                total: 0
+            };
+            $scope.sales_cancel_without_printing = {
+                cash: 0,
+                credit_card: 0,
+                check: 0,
+                down_payment: 0,
+                total: 0
+            };
             $scope.disable_export = true;
             $scope.total = 0;
             $scope.positionModel = 'topRight';
@@ -59,6 +73,8 @@
                         if (response.data.result) {
                             $scope.sales_with_printing = response.data.records.sales_with_printing;
                             $scope.sales_without_printing = response.data.records.sales_without_printing;
+                            $scope.sales_cancel_with_printing = response.data.records.sales_cancel_with_printing;
+                            $scope.sales_cancel_without_printing = response.data.records.sales_cancel_without_printing;
                             $scope.total = response.data.records.total;
                             $scope.disable_export = false;
 
@@ -82,6 +98,20 @@
                                 down_payment: 0,
                                 total: 0
                             };
+                            $scope.sales_cancel_with_printing = {
+                                cash: 0,
+                                credit_card: 0,
+                                check: 0,
+                                down_payment: 0,
+                                total: 0
+                            };
+                            $scope.sales_cancel_without_printing = {
+                                cash: 0,
+                                credit_card: 0,
+                                check: 0,
+                                down_payment: 0,
+                                total: 0
+                            };
                             $scope.total = 0;
                         }
                     },
@@ -97,6 +127,20 @@
                             total: 0
                         };
                         $scope.sales_without_printing = {
+                            cash: 0,
+                            credit_card: 0,
+                            check: 0,
+                            down_payment: 0,
+                            total: 0
+                        };
+                        $scope.sales_cancel_with_printing = {
+                            cash: 0,
+                            credit_card: 0,
+                            check: 0,
+                            down_payment: 0,
+                            total: 0
+                        };
+                        $scope.sales_cancel_without_printing = {
                             cash: 0,
                             credit_card: 0,
                             check: 0,

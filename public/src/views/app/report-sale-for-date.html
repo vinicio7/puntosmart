@@ -82,66 +82,55 @@
                                 Correlativo
                                 <div class="th">
                                     <i class="fa fa-caret-up icon-up"
-                                       ng-click=" order('internal_code') "
-                                       ng-class="{active: row == 'internal_code'}"></i>
+                                       ng-click=" order('correlative') "
+                                       ng-class="{active: row == 'correlative'}"></i>
                                     <i class="fa fa-caret-down icon-down"
-                                       ng-click=" order('-internal_code') "
-                                       ng-class="{active: row == '-internal_code'}"></i>
+                                       ng-click=" order('-correlative') "
+                                       ng-class="{active: row == '-correlative'}"></i>
                                 </div>
                             </th>
                             <th>
                                 Cliente
                                 <div class="th">
                                     <i class="fa fa-caret-up icon-up"
-                                       ng-click=" order('bar_code') "
-                                       ng-class="{active: row == 'bar_code'}"></i>
+                                       ng-click=" order('customer_name') "
+                                       ng-class="{active: row == 'customer_name'}"></i>
                                     <i class="fa fa-caret-down icon-down"
-                                       ng-click=" order('-bar_code') "
-                                       ng-class="{active: row == '-bar_code'}"></i>
+                                       ng-click=" order('-customer_name') "
+                                       ng-class="{active: row == '-customer_name'}"></i>
                                 </div>
                             </th>
                             <th>
                                 NIT
                                 <div class="th">
                                     <i class="fa fa-caret-up icon-up"
-                                       ng-click=" order('stock') "
-                                       ng-class="{active: row == 'stock'}"></i>
+                                       ng-click=" order('customer_nit') "
+                                       ng-class="{active: row == 'customer_nit'}"></i>
                                     <i class="fa fa-caret-down icon-down"
-                                       ng-click=" order('-stock') "
-                                       ng-class="{active: row == '-stock'}"></i>
+                                       ng-click=" order('-customer_nit') "
+                                       ng-class="{active: row == '-customer_nit'}"></i>
                                 </div>
                             </th>
                             <th>
                                 Forma de pago
                                 <div class="th">
                                     <i class="fa fa-caret-up icon-up"
-                                       ng-click=" order('price_sale') "
-                                       ng-class="{active: row == 'price_sale'}"></i>
+                                       ng-click=" order('type_payment') "
+                                       ng-class="{active: row == 'type_payment'}"></i>
                                     <i class="fa fa-caret-down icon-down"
-                                       ng-click=" order('-price_sale') "
-                                       ng-class="{active: row == '-price_sale'}"></i>
+                                       ng-click=" order('-type_payment') "
+                                       ng-class="{active: row == '-type_payment'}"></i>
                                 </div>
                             </th>
                             <th>
-                                Impresión
+                                Documento
                                 <div class="th">
                                     <i class="fa fa-caret-up icon-up"
-                                       ng-click=" order('price_sale') "
-                                       ng-class="{active: row == 'price_sale'}"></i>
+                                       ng-click=" order('invoice') "
+                                       ng-class="{active: row == 'invoice'}"></i>
                                     <i class="fa fa-caret-down icon-down"
-                                       ng-click=" order('-price_sale') "
-                                       ng-class="{active: row == '-price_sale'}"></i>
-                                </div>
-                            </th>
-                            <th>
-                                Total
-                                <div class="th">
-                                    <i class="fa fa-caret-up icon-up"
-                                       ng-click=" order('price_sale') "
-                                       ng-class="{active: row == 'price_sale'}"></i>
-                                    <i class="fa fa-caret-down icon-down"
-                                       ng-click=" order('-price_sale') "
-                                       ng-class="{active: row == '-price_sale'}"></i>
+                                       ng-click=" order('-invoice') "
+                                       ng-class="{active: row == '-invoice'}"></i>
                                 </div>
                             </th>
                             <th>
@@ -153,6 +142,17 @@
                                     <i class="fa fa-caret-down icon-down"
                                        ng-click=" order('-status') "
                                        ng-class="{active: row == '-status'}"></i>
+                                </div>
+                            </th>
+                            <th>
+                                Total
+                                <div class="th">
+                                    <i class="fa fa-caret-up icon-up"
+                                       ng-click=" order('total') "
+                                       ng-class="{active: row == 'total'}"></i>
+                                    <i class="fa fa-caret-down icon-down"
+                                       ng-click=" order('-total') "
+                                       ng-class="{active: row == '-total'}"></i>
                                 </div>
                             </th>
                         </tr>
@@ -172,14 +172,14 @@
                                 <label ng-if="data.type_payment == 'down_payment'" class="label label-primary mr5">Depósito</label>
                             </td>
                             <td>
-                                <label ng-if="data.invoice == 1" class="label label-success mr5">Con factura</label>
-                                <label ng-if="data.invoice == 0" class="label label-danger mr5">Sin factura</label>
+                                <label ng-if="data.invoice == 1" class="label label-success mr5">Con documento</label>
+                                <label ng-if="data.invoice == 0" class="label label-danger mr5">Sin documento</label>
                             </td>
-                            <td>Q. {{ data.total | number: '2' }}</td>
                             <td>
                                 <label ng-if="data.status == 1" class="label label-danger mr5">Anulada</label>
                                 <label ng-if="data.status == 0" class="label label-success mr5">Activa</label>
                             </td>
+                            <td>Q. {{ data.total | number: '2' }}</td>
                         </tr>
                         </tbody>
                     </table>
