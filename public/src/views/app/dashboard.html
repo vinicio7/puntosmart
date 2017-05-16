@@ -7,33 +7,29 @@
 			<div class="col-md-12">
 				<div class="dash-head clearfix mt15 mb20">
 					<div class="left">
-						<h4 class="mb5 text-light">Welcome to Materia</h4>
-						<p class="small"><strong>AngularJS</strong> admin app</p>
+						<h4 class="mb5 text-light"><strong>Bienvenido: </strong>{{ user_data.name }}</h4>
+						<p class="small"><strong>Empresa: </strong>{{ user_data.company.trade_name }}</p>
 					</div>
 					<div class="right mt10">
-						<span sparkline type="bar" bar-color="#4CAF50">10,8,4,10,7,0,3,4,6,5,9,12,9</span>
-						<h5 class="text-bold mb0 mt5">$1,33,404</h5>
 					</div>
 				</div>
 			</div>
 		</div> <!-- #end row -->
 
 		<!-- mini boxes -->
-		<div class="row">
+		<div class="row" ng-show="show_user">
 			<div class="col-md-3 col-sm-6">
 				<div class="panel panel-default mb20 mini-box panel-hovered">
 					<div class="panel-body">
 						<div class="clearfix">
 							<div class="info left">
-								<h4 class="mt0 text-primary text-bold">$30,200</h4>
-								<h5 class="text-light mb0">All Earnings</h5>
+								<h4 class="mt0 text-primary text-bold">{{ data_user.total_sales_month }}</h4>
+								<h5 class="text-light mb0">Ventas realizadas del mes</h5>
 							</div>
-							<div class="right ion ion-ios-pulse icon"></div>
+							<div class="right ion ion-clipboard icon"></div>
 						</div>
 					</div>
 					<div class="panel-footer clearfix panel-footer-sm panel-footer-primary">
-						<p class="mt0 mb0 left">% change</p>
-						<span sparkline class="right" type="bar" bar-color="#fff" width="1.15em" height="1.15em">10,8,9,3,5,8,5</span>
 					</div>
 				</div>
 			</div>
@@ -43,15 +39,13 @@
 					<div class="panel-body">
 						<div class="clearfix">
 							<div class="info left">
-								<h4 class="mt0 text-success text-bold">320K+</h4>
-								<h5 class="text-light mb0">Page Views</h5>
+								<h4 class="mt0 text-success text-bold">{{ data_user.total_sales_day }}</h4>
+								<h5 class="text-light mb0">Ventas realizadas del día</h5>
 							</div>
-							<div class="right ion ion-ios-people-outline icon"></div>
+							<div class="right ion ion-clipboard icon"></div>
 						</div>
 					</div>
 					<div class="panel-footer clearfix panel-footer-sm panel-footer-success">
-						<p class="mt0 mb0 left">% change</p>
-						<span sparkline class="right" type="bar" bar-color="#fff" width="1.15em" height="1.15em">3,5,9,8,6,10</span>
 					</div>
 				</div>
 			</div>
@@ -61,15 +55,13 @@
 					<div class="panel-body">
 						<div class="clearfix">
 							<div class="info left">
-								<h4 class="mt0 text-info text-bold">110</h4>
-								<h5 class="text-light mb0">Task Completed</h5>
+								<h4 class="mt0 text-info text-bold">{{ data_user.total_products }}</h4>
+								<h5 class="text-light mb0">Total de productos</h5>
 							</div>
-							<div class="right ion ion-ios-flask-outline icon"></div>
+							<div class="right ion ion-cube icon"></div>
 						</div>
 					</div>
 					<div class="panel-footer clearfix panel-footer-sm panel-footer-info">
-						<p class="mt0 mb0 left">% change</p>
-						<span sparkline class="right" type="bar" bar-color="#fff" width="1.15em" height="1.15em">5,9,9,8,6,6</span>
 					</div>
 				</div>
 			</div>
@@ -79,19 +71,65 @@
 					<div class="panel-body">
 						<div class="clearfix">
 							<div class="info left">
-								<h4 class="mt0 text-pink text-bold">10K+</h4>
-								<h5 class="text-light mb0">Downloads</h5>
+								<h4 class="mt0 text-pink text-bold">{{ data_user.total_salesman }}</h4>
+								<h5 class="text-light mb0">Total de vendedores</h5>
 							</div>
-							<div class="right ion ion-ios-cloud-download-outline icon"></div>
+							<div class="right ion ion-ios-briefcase icon"></div>
 						</div>
 					</div>
 					<div class="panel-footer clearfix panel-footer-sm panel-footer-pink">
-						<p class="mt0 mb0 left">% change</p>
-						<span sparkline class="right" type="bar" bar-color="#fff" width="1.15em" height="1.15em">6,4,9,10,6,2</span>
 					</div>
 				</div>
 			</div>
-			<!-- #end mini boxes -->
+		</div> <!-- #end row -->
+		<div class="row" ng-show="show_admin">
+			<div class="col-md-4 col-sm-6">
+				<div class="panel panel-default mb20 mini-box panel-hovered">
+					<div class="panel-body">
+						<div class="clearfix">
+							<div class="info left">
+								<h4 class="mt0 text-primary text-bold">{{ data_admin.total_companies }}</h4>
+								<h5 class="text-light mb0">Total de empresas</h5>
+							</div>
+							<div class="right ion ion-ios-home icon"></div>
+						</div>
+					</div>
+					<div class="panel-footer clearfix panel-footer-sm panel-footer-primary">
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-4 col-sm-6">
+				<div class="panel panel-default mb20 mini-box panel-hovered">
+					<div class="panel-body">
+						<div class="clearfix">
+							<div class="info left">
+								<h4 class="mt0 text-success text-bold">{{ data_admin.total_users }}</h4>
+								<h5 class="text-light mb0">Total de usuarios</h5>
+							</div>
+							<div class="right ion ion-person icon"></div>
+						</div>
+					</div>
+					<div class="panel-footer clearfix panel-footer-sm panel-footer-success">
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-4 col-sm-6">
+				<div class="panel panel-default mb20 mini-box panel-hovered">
+					<div class="panel-body">
+						<div class="clearfix">
+							<div class="info left">
+								<h4 class="mt0 text-info text-bold">{{ data_admin.total_customers }}</h4>
+								<h5 class="text-light mb0">Total de clientes registrados</h5>
+							</div>
+							<div class="right ion ion-person-stalker icon"></div>
+						</div>
+					</div>
+					<div class="panel-footer clearfix panel-footer-sm panel-footer-info">
+					</div>
+				</div>
+			</div>
 		</div> <!-- #end row -->
 	</div> <!-- #end page-wrap -->
 </div>

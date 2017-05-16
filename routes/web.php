@@ -27,6 +27,7 @@ Route::group(['prefix' => 'ws'], function(){
     Route::post('product/back/stock',   'ProductController@backProductStock');
     Route::post('product/remain/stock', 'ProductController@remainProductStock');
     Route::get('customers/search',      'CustomerController@searchCustomer');
+    Route::get('dashboard/data',        'DashboardController@dashboardData');
     Route::resource('companies',	    'CompanyController');
     Route::resource('customers',	    'CustomerController');
     Route::resource('products',		    'ProductController');

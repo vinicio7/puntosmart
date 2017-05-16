@@ -2,7 +2,7 @@
 "use strict";
 
 
-angular.module("app.ctrls", ['LocalStorageModule'])
+angular.module("app.ctrls", ['LocalStorageModule', 'app.constants'])
 
 // Root Controller
 .controller("AppCtrl", ["$rootScope", "$scope", "$timeout", "localStorageService", "$window", function($rs, $scope, $timeout, localStorageService, $window) {
@@ -181,88 +181,41 @@ angular.module("app.ctrls", ['LocalStorageModule'])
 }])
 
 /// ==== Dashboard Controller
-.controller("DashboardCtrl", ["$scope", function($scope) {
+.controller("DashboardCtrl", ["$scope", 'localStorageService', 'WS_URL', '$http', function($scope, localStorageService, WS_URL, $http) {
+    $scope.user_data = localStorageService.get('user_data');
+    $scope.show_user = 0;
+    $scope.show_admin = 0;
+    $scope.data_user = {
+        total_sales_month: 0,
+        total_sales_day: 0,
+        total_products: 0,
+        total_salesman: 0
+    };
+    $scope.data_admin = {
+        total_companies: 0,
+        total_users: 0,
+        total_customers: 0
+    };
 
-
-	$scope.analyticsconfig = {
-		data: {
-			columns: [
-				['Network Load', 30, 100, 80, 140, 150, 200],
-				['CPU Load', 90, 100, 170, 140, 150, 50]
-			],
-			type: 'spline',
-			types: {
-				'Network Load': 'bar'
-			}
-		},
-		color: {
-			pattern: ["#3F51B5",  "#38B4EE", "#4CAF50", "#E91E63"]
-		},
-		legend: {
-			position: "inset"
-		},
-		size: {
-			height: 330
-		}
-	};
-
-
-	// ==== Usage Stats
-	$scope.storageOpts = {
-			size: 100,
-			lineWidth: 2,
-			lineCap: "square",
-			barColor: "#E91E63"
-		};
-	$scope.storagePercent = 80;
-
-	$scope.serverOpts = {
-			size: 100,
-			lineWidth: 2,
-			lineCap: "square",
-			barColor: "#4CAF50"
-		};
-	$scope.serverPercent = 35;
-
-	$scope.clientOpts = {
-			size: 100,
-			lineWidth: 2,
-			lineCap: "square",
-			barColor: "#FDD835"
-		};
-	$scope.clientPercent = 54;
-
-
-	// === browser share
-	$scope.browserconfig = {
-		data: {
-			columns: [
-			["Chrome", 48.9],
-			["Firefox", 16.1],
-			["Safari", 10.9],
-			["IE", 17.1],
-			["Other",7]
-			],
-			type: "donut",
-		},
-		size: {
-			width: 260,
-			height: 260
-		},
-		donut: {
-			width: 50
-		},
-		color: {
-			pattern: ["#3F51B5", "#4CAF50", "#f44336", "#E91E63", "#38B4EE"]
-		}
+    if ($scope.user_data.type === 'admin') {
+        $scope.show_user = 0;
+        $scope.show_admin = 1;
+	} else {
+        $scope.show_user = 1;
+        $scope.show_admin = 0;
 	}
+
+    $http({
+        method: 'GET',
+        url:    WS_URL+'dashboard/data',
+        params: {company_id: $scope.user_data.company_id}
+    }).then(function successCallback(response) {
+        $scope.data_user = response.data.records.data_user;
+        $scope.data_admin = response.data.records.data_admin;
+    }, function errorCallback(response) {
+
+    });
 }])
 
-
-
-
-
-
-
 // #end
-})()
+})();
