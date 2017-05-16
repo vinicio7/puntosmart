@@ -24,9 +24,20 @@ class SaleController extends Controller
             $data_sale = json_decode($request->input('data_sale'), true);
             $company = Company::find($data_sale['company_id']);
 
+            $salesman_name = '';
+            $salesman_id = 0;
+            if (isset($data_sale['salesman_name']) && isset($data_sale['salesman_id'])) {
+                $salesman_id = $data_sale['salesman_id'];
+                $salesman_name = $data_sale['salesman_name'];
+            } else {
+                $salesman_id = 0;
+                $salesman_name = 'Sin vendedor';
+            }
+
             $new_sale = new Sale;
             $new_sale->user_id = $data_sale['user_id'];
             $new_sale->company_id = $data_sale['company_id'];
+            $new_sale->salesman_id = $salesman_id;
             $new_sale->total = $data_sale['total'];
             $new_sale->customer_name = $data_sale['customer']['name'];
             $new_sale->customer_nit = $data_sale['customer']['nit'];
@@ -34,7 +45,7 @@ class SaleController extends Controller
             $new_sale->type_payment = $data_sale['method_payment'];
             $new_sale->invoice = $data_sale['invoice'] == true ? 1 : 0;
             $new_sale->correlative = 'Venta-'.$company->correlative;
-            $new_sale->salesman_name = $data_sale['salesman_name'] != null ? $data_sale['salesman_name'] : '';
+            $new_sale->salesman_name = $salesman_name;
             $new_sale->save();
 
             foreach ($data_sale['products'] as $product) {

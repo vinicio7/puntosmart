@@ -229,7 +229,10 @@
                 data_sale.company_id = $scope.user_data.company_id;
                 data_sale.method_payment = $scope.invoice.payment;
                 data_sale.invoice = $scope.invoice.print;
-                data_sale.salesman_name = $scope.seller;
+                if ($scope.seller) {
+                    data_sale.salesman_id = $scope.seller.id;
+                    data_sale.salesman_name = $scope.seller.name;
+                }
                 var data = {};
                 data.data_sale = angular.toJson(data_sale);
 

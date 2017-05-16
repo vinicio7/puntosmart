@@ -17,6 +17,7 @@ class CreateSalesTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('company_id')->unsigned();
+            $table->integer('salesman_id')->unsigned();
             $table->text('correlative');
             $table->float('total');
             $table->text('customer_name');
