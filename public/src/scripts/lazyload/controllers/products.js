@@ -2,9 +2,9 @@
 {
     'use strict';
 
-    angular.module('app.products', ['app.service.products', 'LocalStorageModule'])
+    angular.module('app.products', ['app.service.products', 'LocalStorageModule', 'app.constants'])
 
-        .controller('ProductsController', ['$scope', '$filter', '$http', '$modal', '$interval', 'ProductsService', 'localStorageService', '$window', function($scope, $filter, $http, $modal, $timeout, ProductsService, localStorageService, $window)  {
+        .controller('ProductsController', ['$scope', '$filter', '$http', '$modal', '$interval', 'ProductsService', 'localStorageService', '$window', 'WS_URL', function($scope, $filter, $http, $modal, $timeout, ProductsService, localStorageService, $window, WS_URL)  {
 
             var user_data = localStorageService.get('user_data');
 
@@ -87,6 +87,10 @@
             function closeAlert (index) {
                 $scope.toasts.splice(index, 1);
             }
+
+            $scope.exportProductsExcel = function () {
+                $window.open(WS_URL+'products/export/excel?company_id='+user_data.company_id, '_blank')
+            };
 
             // Function for sending data
             $scope.saveData = function (product) {

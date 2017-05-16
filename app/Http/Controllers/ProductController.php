@@ -312,4 +312,20 @@ class ProductController extends Controller
             return response()->json($response, $this->status_code);
         }
     }
+
+    public function exportProducts(Request $request)
+    {
+        try {
+            $products = Product::where('company_id', $request->input('company_id'))->get();
+
+            \Excel::create('Inventario de productos', function($excel) use ($products) {
+                $excel->sheet('productos', function($sheet) use ($products) {
+                    $sheet->loadView('product-list', ['data' => $products]);
+                });
+            })->download('xls');
+
+        } catch (Exception $e) {
+
+        }
+    }
 }
