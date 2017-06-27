@@ -77,8 +77,8 @@
                 <tr ng-repeat="item in dataModal.detail">
                     <td style="text-align: right; width: 4%;">{{item.quantity}}</td>
                     <td style="text-align: left; padding-left: 25px; width: 75%;">{{item.product.description}}</td>
-                    <td style="text-align: left; width: 10%;">{{item.sale_price | number:2}}</td>
-                    <td style="text-align: right; padding-right: 5px; width: 10%;">{{item.subtotal | number:2}}</td>
+                    <td style="text-align: left; width: 10%;">{{item.sale_price}}</td>
+                    <td style="text-align: right; padding-right: 5px; width: 10%;">{{item.subtotal}}</td>
                 </tr>
                 </tbody>
             </table>

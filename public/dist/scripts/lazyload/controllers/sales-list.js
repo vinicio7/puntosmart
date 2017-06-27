@@ -118,7 +118,7 @@
                 modal.close();
                 var printContents = document.getElementById("imprimir-seccion").innerHTML;
                 //var popupWin = window.open('', '_blank', 'width=350,height=400');
-                var popupWin = window.open('', '_blank');
+                var popupWin = window.open('', '_blank', 'width=350,height=400');
                 /*var style =
                     "<style>" +
                     "html{ font-size: 14px; font-family: sans-serif !important; }"+
