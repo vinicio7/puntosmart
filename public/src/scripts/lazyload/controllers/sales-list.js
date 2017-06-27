@@ -118,7 +118,7 @@
                 modal.close();
                 var printContents = document.getElementById("imprimir-seccion").innerHTML;
                 //var popupWin = window.open('', '_blank', 'width=350,height=400');
-                var popupWin = window.open('', '_blank', 'width=350,height=400');
+                var popupWin = window.open('', '_blank', 'width=650,height=800');
                 /*var style =
                     "<style>" +
                     "html{ font-size: 14px; font-family: sans-serif !important; }"+
@@ -145,7 +145,7 @@
                 $scope.dataModal.date = $filter('date')(new Date(item.created_at),'dd/MM/yyyy');
                 $scope.dataModal.total = $filter('number')(item.total, 2);
                 $scope.dataModal.letters = NumeroALetras($scope.dataModal.total);
-                var detalles = 9 - item.detail.length;
+                var detalles = 14 - item.detail.length;
                 $scope.dataModal.detail = [];
                 angular.forEach(item.detail, function(value, key){
                     $scope.dataModal.detail.push(value);
@@ -155,7 +155,7 @@
                 }
                 //console.log($scope.dataModal);
                 modal = $modal.open({
-                    templateUrl: 'views/app/sales-list-datail.html',
+                    templateUrl: 'views/app/sales-list-datail2.html',
                     scope: $scope,
                     size: 'lg',
                     resolve: function() {},
@@ -168,7 +168,7 @@
                 $scope.action = 'cancel';
 
                 modal = $modal.open({
-                    templateUrl: 'views/app/sales-list-datail.html',
+                    templateUrl: 'views/app/sales-list-datail2.html',
                     scope: $scope,
                     size: 'md',
                     resolve: function() {},

@@ -1,0 +1,113 @@
+<div class="modal-style">
+    <div class="modal-header clearfix">
+        <h4 class="modal-title" ng-if="action == 'detail'">Detalle de la venta</h4>
+        <h4 class="modal-title" ng-if="action == 'cancel'">Anulación de venta</h4>
+        <span class="close ion ion-android-close" ng-click="modalClose()"></span>
+    </div>
+    <div class="modal-body" ng-if="action == 'detail'">
+        <!--<div id="imprimir-seccion">
+            <div style="">
+                <p style="text-align: right">{{dataModal.correlative}}</p>
+                <br/>
+                <br/>
+                <p>{{dataModal.customer_name}}</p>
+                <p>NIT: {{dataModal.customer_nit}}</p>
+                <p>DIRECCION: {{dataModal.customer_direction}}</p>
+            </div>
+            <br/>
+            <div class="table-responsive white ">
+                <table class="table table-bordered table-full table-full-small ">
+
+                    <thead>
+                    <tr>
+                        <th>CANT.</th>
+                        <th>PRODUCTO</th>
+                        <th>SUBTOTAL</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="(key, item) in dataModal.detail ">
+                        <td style="text-align: right;">{{item.quantity}}</td>
+                        <td >{{item.product.description}}</td>
+                        <td style="text-align: right;">{{item.subtotal | number : 2}}</td>
+                    </tr>
+
+                    <tr style="text-align: right;">
+                        <td colspan="2">TOTAL: </td>
+                        <td>{{ dataModal.total | number : 2 }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>-->
+        <div id="imprimir-seccion">
+            <div style="margin-top: 160px;">
+                <div style="display: inline-block; width: 62%;">
+                    <label style="float: right;">{{dataModal.correlative}}</label>
+                </div>
+                <div style="display: inline-block; width: 36%;">
+                    <label style="float: right;">{{dataModal.date}}</label>
+                </div>
+                <div style="display: inline-block; width: 49%;">
+                    <label style="margin-left: 26%;">{{dataModal.customer_name}}</label>
+                </div>
+                <div style="display: inline-block; width: 50%; margin-top: 8px;">
+                    <label style="float: right;">{{dataModal.customer_nit}}</label>
+                </div>
+                <div style="display: inline-block; width: 49%; margin-top: 8px;">
+                    <label style="margin-left: 28%;">{{dataModal.customer_direction}}</label>
+                </div>
+                <div style="display: inline-block; width: 49%;">
+                </div>
+            </div>
+
+            <table style="
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 10px;
+            font-size: 12px;
+            margin-top: 15px;">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in dataModal.detail">
+                    <td style="text-align: right; width: 2%;">{{item.quantity}}</td>
+                    <td style="text-align: left; padding-left: 25px; width: 77%;">{{item.product.description}}</td>
+                    <!--<td style="text-align: left; width: 10%;">{{item.sale_price}}</td>-->
+                    <td style="text-align: right; padding-right: 5px; width: 10%;">{{item.subtotal}}</td>
+                </tr>
+                </tbody>
+            </table>
+            <div style="margin-top: 40px;">
+                <div style="display: inline-block; width: 60%;">
+                    <p style="float: right; font-size: 10px; padding-right: 10px;">{{dataModal.letters}}</p>
+                </div>
+                <div style="display: inline-block; width: 38%;">
+                    <p style="float: right; font-size: 14px; padding-right: 10px;">{{dataModal.total}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-sm-12 text-right">
+                <button class="btn btn-default" ng-click="printSale()"><i class="ion ion-printer"></i> Imprimir</button>
+                <button class="btn btn-danger" ng-click="modalClose()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body" ng-if="action == 'cancel'">
+        <div class="row form-group">
+            <h3>¿Está seguro de anular esta venta?</h3>
+        </div>
+        <div class="row form-group">
+            <div class="col-sm-12 text-right">
+                <button class="btn btn-danger" ng-click="saveData(sale)">Anular</button>
+                <button class="btn btn-success" ng-click="modalClose()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
