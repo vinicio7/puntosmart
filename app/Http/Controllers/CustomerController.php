@@ -160,7 +160,7 @@ class CustomerController extends Controller
     public function searchCustomer (Request $request)
     {
         try {
-            if ($request->input('nit') == 'CF') {
+            if (strtoupper($request->input('nit')) == 'CF') {
                 $customer = [
                     'id' => 0,
                     'company_id' => 0,

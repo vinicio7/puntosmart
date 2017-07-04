@@ -332,5 +332,18 @@
                 }]
             }
         });
+
+        $routeProvider.when("/reports/inventory", {
+            templateUrl: "views/app/report-inventory.html",
+            controller: 'ReportSaleForDateController',
+            resolve: {
+                deps: ["$ocLazyLoad", function(a) {
+                    return a.load({
+                        name: 'app.customers',
+                        files: ['scripts/lazyload/controllers/report-sale-for-date.js']
+                    })
+                }]
+            }
+        });
 	}])
 }());

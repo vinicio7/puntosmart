@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Product;
+use App\Company;
 use Exception;
+use DB;
 
 class ProductController extends Controller
 {
@@ -262,11 +264,21 @@ class ProductController extends Controller
 
             if ($product) {
                 $product->stock = $product->stock - $request->input('quantity');
+
+                $company = Company::find($request->input('company_id'));
+                if ($company) {
+                    if ($company->stock == 0) {
+                        if ($product->stock == 0){
+                            $product->stock = 999999;
+                        }
+                    }
+                }
+
                 $product->save();
 
                 $this->status_code = 200;
                 $this->result = true;
-                $this->message = 'Producto consultados correctamente';
+                $this->message = 'Producto rebajado correctamente';
             } else {
                 throw new Exception('El producto solicitado no existe');
             }
