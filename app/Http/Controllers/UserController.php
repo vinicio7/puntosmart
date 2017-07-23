@@ -90,7 +90,7 @@ class UserController extends Controller
                     'name'          => $request->input('name'),
                     'user'          => $request->input('user'),
                     'password'      => bcrypt($request->input('password')),
-                    'type'          => $request->input('user'),
+                    'type'          => $request->input('type'),
                     'cancellation'  => $cancellation
                 ]);
 
@@ -146,18 +146,27 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         try {
+            if ($request->input('cancellation')) {
+                if ($request->input('cancellation') == true) {
+                    $cancellation = 1;
+                } else {
+                    $cancellation = 0;
+                }    
+            } else {
+                $cancellation = 0;
+            }
             $validate_user = User::where('user', $request->input('user'))->where('id', '!=', $id)->first();
-
             if (!$validate_user) {
                 $user = User::find($id);
-                $user->company_id = $request->input('company_id', $user->company_id);
-                $user->user = $request->input('user', $user->user);
-                $user->name = $request->input('name', $user->name);
+                $user->company_id       = $request->input('company_id', $user->company_id);
+                $user->user             = $request->input('user', $user->user);
+                $user->name             = $request->input('name', $user->name);
+                $user->type             = $request->input('type', $user->type);
+                $user->cancellation     = $cancellation;
                 if ($request->has('password') && $request->input('password') != '') {
                     $user->password = bcrypt($request->input('password'));
                 }
                 $user->save();
-
                 $this->status_code = 200;
                 $this->result = true;
                 $this->message = 'Usuario editado correctamente';

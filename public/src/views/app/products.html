@@ -93,6 +93,17 @@
                                        ng-class="{active: row == '-price_sale'}"></i>
                                 </div>
                             </th>
+                            <th>
+                                Porcentaje de descuento
+                                <div class="th">
+                                    <i class="fa fa-caret-up icon-up"
+                                       ng-click=" order('price_sale') "
+                                       ng-class="{active: row == 'price_sale'}"></i>
+                                    <i class="fa fa-caret-down icon-down"
+                                       ng-click=" order('-price_sale') "
+                                       ng-class="{active: row == '-price_sale'}"></i>
+                                </div>
+                            </th>
                             <th>Acciones</th>
                         </tr>
                         </thead>
@@ -104,6 +115,7 @@
                             <td>{{ data.bar_code }}</td>
                             <td>{{ data.stock }}</td>
                             <td>Q. {{ data.price_sale | number: "2"}}</td>
+                            <td>{{ data.discount }}</td>
                             <td>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-info ion ion-edit" ng-click="modalEditOpen(data)" md-ink-ripple></button>
