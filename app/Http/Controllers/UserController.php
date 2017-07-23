@@ -60,6 +60,17 @@ class UserController extends Controller
     public function store(Request $request)
     {
         try {
+            if ($request->input('cancellation')) {
+                if ($request->input('cancellation') == true) {
+                    $cancellation = 1;
+                } else {
+                    $cancellation = 0;
+                }
+                
+            } else {
+                $cancellation = 0;
+            }
+            
             $rules = [
                 'password' => 'required|min:5'
             ];
@@ -75,11 +86,12 @@ class UserController extends Controller
                 throw new Exception($validator->messages()->first());
             } else {
                 $user = User::create([
-                    'company_id' => $request->input('company_id'),
-                    'name' => $request->input('name'),
-                    'user' => $request->input('user'),
-                    'password' => bcrypt($request->input('password')),
-                    'type' => 'user'
+                    'company_id'    => $request->input('company_id'),
+                    'name'          => $request->input('name'),
+                    'user'          => $request->input('user'),
+                    'password'      => bcrypt($request->input('password')),
+                    'type'          => $request->input('user'),
+                    'cancellation'  => $cancellation
                 ]);
 
                 $this->status_code = 200;

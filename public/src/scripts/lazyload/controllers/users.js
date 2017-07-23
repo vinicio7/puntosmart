@@ -96,23 +96,24 @@
             // Function for sending data
             $scope.saveData = function (user) {
                 if ($scope.action == 'new') {
-                    UsersService.store(user).then(
-                        function successCallback(response) {
-                            if (response.data.result) {
-                                loadDataTable();
-                                modal.close();
-                                createToast('success', '<strong>Éxito: </strong>'+response.data.message);
-                                $timeout( function(){ closeAlert(0); }, 3000);
-                            } else {
-                                createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                                $timeout( function(){ closeAlert(0); }, 3000);
-                            }
-                        },
-                        function errorCallback(response) {
-                            createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                            $timeout( function(){ closeAlert(0); }, 3000);
-                        }
-                    );
+                    console.log(user);
+                    // UsersService.store(user).then(
+                    //     function successCallback(response) {
+                    //         if (response.data.result) {
+                    //             loadDataTable();
+                    //             modal.close();
+                    //             createToast('success', '<strong>Éxito: </strong>'+response.data.message);
+                    //             $timeout( function(){ closeAlert(0); }, 3000);
+                    //         } else {
+                    //             createToast('danger', '<strong>Error: </strong>'+response.data.message);
+                    //             $timeout( function(){ closeAlert(0); }, 3000);
+                    //         }
+                    //     },
+                    //     function errorCallback(response) {
+                    //         createToast('danger', '<strong>Error: </strong>'+response.data.message);
+                    //         $timeout( function(){ closeAlert(0); }, 3000);
+                    //     }
+                    // );
                 }
                 else if ($scope.action == 'update') {
                     UsersService.update(user).then(

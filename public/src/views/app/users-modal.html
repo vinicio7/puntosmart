@@ -31,6 +31,19 @@
                 </div>
             </div>
             <div class="row form-group">
+                <div class="col-sm-6">
+                    <label>Tipo de usuario</label>
+                    <select ng-model="user.type" class="form-control" required>
+                      <option value="1">Adiministrador</option>
+                      <option value="2">Cajero</option>
+                    </select>
+                </div>
+                <div class="col-sm-6" ng-if="user.type == 2">
+                    <label>Cancelación</label>
+                    <input type="checkbox" min="0" class="form-control" ng-model="user.cancellation">
+                </div>
+            </div>
+            <div class="row form-group">
                 <div class="col-sm-12 text-right">
                     <button class="btn btn-danger" ng-click="modalClose()">Cerrar</button>
                     <button class="btn btn-success" ng-if="action == 'new'" ng-disabled="form.$invalid" ng-click="saveData(user)">Registrar</button>
