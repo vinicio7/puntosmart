@@ -60,6 +60,17 @@ class UserController extends Controller
     public function store(Request $request)
     {
         try {
+            if ($request->input('cancellation')) {
+                if ($request->input('cancellation') == true) {
+                    $cancellation = 1;
+                } else {
+                    $cancellation = 0;
+                }
+                
+            } else {
+                $cancellation = 0;
+            }
+            
             $rules = [
                 'password' => 'required|min:5'
             ];
@@ -75,11 +86,12 @@ class UserController extends Controller
                 throw new Exception($validator->messages()->first());
             } else {
                 $user = User::create([
-                    'company_id' => $request->input('company_id'),
-                    'name' => $request->input('name'),
-                    'user' => $request->input('user'),
-                    'password' => bcrypt($request->input('password')),
-                    'type' => 'user'
+                    'company_id'    => $request->input('company_id'),
+                    'name'          => $request->input('name'),
+                    'user'          => $request->input('user'),
+                    'password'      => bcrypt($request->input('password')),
+                    'type'          => $request->input('type'),
+                    'cancellation'  => $cancellation
                 ]);
 
                 $this->status_code = 200;
@@ -134,18 +146,27 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         try {
+            if ($request->input('cancellation')) {
+                if ($request->input('cancellation') == true) {
+                    $cancellation = 1;
+                } else {
+                    $cancellation = 0;
+                }    
+            } else {
+                $cancellation = 0;
+            }
             $validate_user = User::where('user', $request->input('user'))->where('id', '!=', $id)->first();
-
             if (!$validate_user) {
                 $user = User::find($id);
-                $user->company_id = $request->input('company_id', $user->company_id);
-                $user->user = $request->input('user', $user->user);
-                $user->name = $request->input('name', $user->name);
+                $user->company_id       = $request->input('company_id', $user->company_id);
+                $user->user             = $request->input('user', $user->user);
+                $user->name             = $request->input('name', $user->name);
+                $user->type             = $request->input('type', $user->type);
+                $user->cancellation     = $cancellation;
                 if ($request->has('password') && $request->input('password') != '') {
                     $user->password = bcrypt($request->input('password'));
                 }
                 $user->save();
-
                 $this->status_code = 200;
                 $this->result = true;
                 $this->message = 'Usuario editado correctamente';
