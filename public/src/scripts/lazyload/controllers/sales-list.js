@@ -7,8 +7,7 @@
         .controller('SalesListController', ['$scope', '$filter', '$http', '$modal', '$interval', 'SalesListService', 'localStorageService', '$window', function($scope, $filter, $http, $modal, $timeout, SalesListService, localStorageService, $window)  {
 
             var user_data = localStorageService.get('user_data');
-
-            if (user_data.type === 'admin') {
+            if (user_data.type === 'root') {
                 $window.location.href = './#/404';
             }
 

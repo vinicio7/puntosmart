@@ -22,7 +22,7 @@ angular.module("app.ctrls", ['LocalStorageModule', 'app.constants'])
         $window.location.href = 'login.html';
     } else {
         var user_data = localStorageService.get('user_data');
-        if (user_data.type == 'admin') {
+        if (user_data.type === 'root') {
             $scope.view_customers = 0;
             $scope.view_sales = 0;
             $scope.view_products = 0;
@@ -33,8 +33,8 @@ angular.module("app.ctrls", ['LocalStorageModule', 'app.constants'])
             $scope.view_cash_close_list = 0;
             $scope.view_reports = 0;
             $scope.view_salesman = 0;
-        } else {
-        	user_data.company.stock == 1 ? $scope.view_entries = 1 : $scope.view_entries = 0;
+        } else if (user_data.type === 'admin'){
+        	user_data.company.stock === 1 ? $scope.view_entries = 1 : $scope.view_entries = 0;
             $scope.view_customers = 1;
             $scope.view_sales = 1;
             $scope.view_products = 1;
@@ -44,7 +44,18 @@ angular.module("app.ctrls", ['LocalStorageModule', 'app.constants'])
             $scope.view_cash_close_list = 1;
             $scope.view_reports = 1;
             $scope.view_salesman = 1;
-        }
+        } else {
+            user_data.company.stock === 1 ? $scope.view_entries = 1 : $scope.view_entries = 0;
+            $scope.view_customers = 1;
+            $scope.view_sales = 1;
+            $scope.view_products = 0;
+            $scope.view_companies = 0;
+            $scope.view_users = 0;
+            $scope.view_sales_list = 1;
+            $scope.view_cash_close_list = 1;
+            $scope.view_reports = 0;
+            $scope.view_salesman = 0;
+		}
 	}
 
 	var mm = window.matchMedia("(max-width: 767px)");
@@ -52,7 +63,7 @@ angular.module("app.ctrls", ['LocalStorageModule', 'app.constants'])
 
 	$rs.safeApply = function(fn) {
 		var phase = this.$root.$$phase;
-		if(phase == '$apply' || phase == '$digest') {
+		if(phase === '$apply' || phase === '$digest') {
 			if(fn && (typeof(fn) === 'function')) {
 				fn();
 			}
@@ -67,7 +78,6 @@ angular.module("app.ctrls", ['LocalStorageModule', 'app.constants'])
 		});	
 	});
 
-	
 	$scope.navFull = true;
 	$scope.toggleNav = function() {
 		$scope.navFull = $scope.navFull ? false : true;
@@ -78,7 +88,6 @@ angular.module("app.ctrls", ['LocalStorageModule', 'app.constants'])
 			$rs.$broadcast("c3.resize");
 		}, 260);	// adjust this time according to nav transition
 	};
-
 
 	// ======= Site Settings
 	$scope.toggleSettingsBox = function() {

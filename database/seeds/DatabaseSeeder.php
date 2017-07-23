@@ -12,14 +12,18 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call(UsersTableSeeder::class);
-        factory('App\Company', 25)->create();
-        factory('App\User', 25)->create();
-        factory('App\Customer', 25)->create();
-        factory('App\Product', 25)->create();
-        factory('App\Salesman', 25)->create();
 
         App\User::create([
-            'name'              => 'Administrador',
+            'name'              => 'Super usuario',
+            'user'              => 'root',
+            'password'          => bcrypt('root'),
+            'type'              => 'root',
+            'company_id'        => 1,
+            'remember_token'    => str_random(10),
+        ]);
+
+        App\User::create([
+            'name'              => 'Usuario administrador',
             'user'              => 'admin',
             'password'          => bcrypt('admin'),
             'type'              => 'admin',
@@ -28,12 +32,18 @@ class DatabaseSeeder extends Seeder
         ]);
 
         App\User::create([
-            'name'              => 'Vendedor',
+            'name'              => 'Usuario vendedor',
             'user'              => 'user',
             'password'          => bcrypt('user'),
             'type'              => 'user',
             'company_id'        => 1,
             'remember_token'    => str_random(10),
         ]);
+
+        factory('App\Company', 25)->create();
+        factory('App\User', 25)->create();
+        factory('App\Customer', 25)->create();
+        factory('App\Product', 25)->create();
+        factory('App\Salesman', 25)->create();
     }
 }

@@ -19,7 +19,8 @@ class CreateUsersTable extends Migration
             $table->text('name');
             $table->string('user', '30')->unique();
             $table->text('password');
-            $table->enum('type',['admin', 'user']);
+            $table->boolean('cancellation')->default(0);
+            $table->enum('type',['root', 'admin', 'user']);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
