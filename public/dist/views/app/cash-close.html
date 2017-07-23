@@ -46,7 +46,7 @@
                                     <td>Q. {{ sales_without_printing.cash | number: '2' }}</td>
                                     <td>Q. {{ sales_cancel_with_printing.cash | number: '2' }}</td>
                                     <td>Q. {{ sales_cancel_without_printing.cash | number: '2' }}</td>
-                                    <td><b>Q. {{ sales_with_printing.cash + sales_without_printing.cash + sales_cancel_with_printing.cash + sales_cancel_without_printing.cash | number: '2' }}</b></td>
+                                    <td><b>Q. {{ sales_with_printing.cash + sales_without_printing.cash | number: '2' }}</b></td>
                                 </tr>
                                 <tr>
                                     <td>Tarjeta</td>
@@ -54,7 +54,7 @@
                                     <td>Q. {{ sales_without_printing.credit_card | number: '2' }}</td>
                                     <td>Q. {{ sales_cancel_with_printing.credit_card | number: '2' }}</td>
                                     <td>Q. {{ sales_cancel_without_printing.credit_card | number: '2' }}</td>
-                                    <td><b>Q. {{ sales_with_printing.credit_card + sales_without_printing.credit_card + sales_cancel_with_printing.credit_card + sales_cancel_without_printing.credit_card | number: '2' }}</b></td>
+                                    <td><b>Q. {{ sales_with_printing.credit_card + sales_without_printing.credit_card | number: '2' }}</b></td>
                                 </tr>
                                 <tr>
                                     <td>Cheque</td>
@@ -62,7 +62,7 @@
                                     <td>Q. {{ sales_without_printing.check | number: '2' }}</td>
                                     <td>Q. {{ sales_cancel_with_printing.check | number: '2' }}</td>
                                     <td>Q. {{ sales_cancel_without_printing.check | number: '2' }}</td>
-                                    <td><b>Q. {{ sales_with_printing.check + sales_without_printing.check + sales_cancel_with_printing.check + sales_cancel_without_printing.check | number: '2' }}</b></td>
+                                    <td><b>Q. {{ sales_with_printing.check + sales_without_printing.check | number: '2' }}</b></td>
                                 </tr>
                                 <tr>
                                     <td>Depósito</td>
@@ -70,7 +70,7 @@
                                     <td>Q. {{ sales_without_printing.down_payment | number: '2' }}</td>
                                     <td>Q. {{ sales_cancel_with_printing.down_payment | number: '2' }}</td>
                                     <td>Q. {{ sales_cancel_without_printing.down_payment | number: '2' }}</td>
-                                    <td><b>Q. {{ sales_with_printing.down_payment + sales_without_printing.down_payment + sales_cancel_with_printing.down_payment + sales_cancel_without_printing.down_payment | number: '2' }}</b></td>
+                                    <td><b>Q. {{ sales_with_printing.down_payment + sales_without_printing.down_payment | number: '2' }}</b></td>
                                 </tr>
                                 <tr>
                                     <td><b>TOTALES</b></td>
@@ -78,7 +78,7 @@
                                     <td><b>Q. {{ sales_without_printing.total | number: '2' }}</b></td>
                                     <td><b>Q. {{ sales_cancel_with_printing.total | number: '2' }}</b></td>
                                     <td><b>Q. {{ sales_cancel_without_printing.total | number: '2' }}</b></td>
-                                    <td><b>Q. {{ sales_with_printing.total + sales_without_printing.total + sales_cancel_with_printing.total + sales_cancel_without_printing.total | number: '2' }}</b></td>
+                                    <td><b>Q. {{ sales_with_printing.total + sales_without_printing.total | number: '2' }}</b></td>
                                 </tr>
                             </tbody>
                         </table>

@@ -166,7 +166,7 @@ class CustomerController extends Controller
                     'company_id' => 0,
                     'name' => 'Consumidor Final',
                     'nit' => 'CF',
-                    'direction' => '',
+                    'direction' => 'Ciudad',
                     'phone' => '',
                     'email'=> '',
                 ];

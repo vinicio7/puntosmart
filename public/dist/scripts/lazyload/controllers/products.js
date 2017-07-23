@@ -24,6 +24,7 @@
             $scope.positionModel = 'topRight';
             $scope.toasts = [];
             $scope.show_input = user_data.company.stock == 1 ? false : true;
+            $scope.file = null;
             var modal;
 
             // Function for load table
@@ -89,7 +90,7 @@
             }
 
             $scope.exportProductsExcel = function () {
-                $window.open(WS_URL+'products/export/excel?company_id='+user_data.company_id, '_blank')
+                $window.open(WS_URL+'products/export/excel?company_id='+user_data.company_id, '_blank');
             };
 
             // Function for sending data
@@ -114,8 +115,7 @@
                             $timeout( function(){ closeAlert(0); }, 3000);
                         }
                     );
-                }
-                else if ($scope.action == 'update') {
+                } else if ($scope.action == 'update') {
                     ProductsService.update(product).then(
                         function successCallback(response) {
                             if (response.data.result) {
@@ -132,8 +132,7 @@
                             $timeout( function(){ closeAlert(0); }, 3000);
                         }
                     );
-                }
-                else if ($scope.action == 'delete') {
+                } else if ($scope.action == 'delete') {
                     ProductsService.destroy(product.id).then(
                         function successCallback(response) {
                             if (response.data.result) {
@@ -152,6 +151,12 @@
                         }
                     );
                 }
+            };
+
+            $scope.uploadFile = function(){
+                console.log('file is ' );
+                console.dir(file);
+                // fileUpload.uploadFileToUrl(file, uploadUrl);
             };
 
             // Functions for modals
@@ -194,8 +199,50 @@
                 });
             };
 
+            $scope.modalUploadOpen = function() {
+                $scope.product = {};
+
+                modal = $modal.open({
+                    templateUrl: 'views/app/products-modal-upload.html',
+                    scope: $scope,
+                    size: 'md',
+                    resolve: function() {},
+                    windowClass: 'default'
+                });
+            };
+
             $scope.modalClose = function() {
                 modal.close();
             }
         }])
+
+        .directive('fileModel', ['$parse', function ($parse) {
+            return {
+                restrict: 'A',
+                link: function(scope, element, attrs) {
+                    var model = $parse(attrs.fileModel);
+                    var modelSetter = model.assign;
+
+                    element.bind('change', function(){
+                        scope.$apply(function(){
+                            modelSetter(scope, element[0].files[0]);
+                        });
+                    });
+                }
+            };
+        }])
+
+        .directive('validFile',function(){
+            return {
+                require:'ngModel',
+                link:function(scope,el,attrs,ngModel){
+                    el.bind('change',function(){
+                        scope.$apply(function(){
+                            ngModel.$setViewValue(el.val());
+                            ngModel.$render();
+                        });
+                    });
+                }
+            }
+        })
 }());
