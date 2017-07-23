@@ -171,7 +171,12 @@
             $scope.modalEditOpen = function(data) {
                 $scope.action = 'update';
                 $scope.user = data;
-
+                if (data.cancellation == 1) {
+                    $scope.user.cancellation = true;
+                } else {
+                    $scope.user.cancellation = false;
+                }
+                console.log($scope.user.cancellation);
                 modal = $modal.open({
                     templateUrl: 'views/app/users-modal.html',
                     scope: $scope,
