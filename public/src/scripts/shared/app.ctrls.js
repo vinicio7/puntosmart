@@ -40,6 +40,7 @@ angular.module("app.ctrls", ['LocalStorageModule', 'app.constants'])
             $scope.view_products = 1;
             $scope.view_companies = 0;
             $scope.view_users = 0;
+            $scope.view_entries = 1;
             $scope.view_sales_list = 1;
             $scope.view_cash_close_list = 1;
             $scope.view_reports = 1;
@@ -51,6 +52,7 @@ angular.module("app.ctrls", ['LocalStorageModule', 'app.constants'])
             $scope.view_products = 0;
             $scope.view_companies = 0;
             $scope.view_users = 0;
+            $scope.view_entries = 0;
             $scope.view_sales_list = 1;
             $scope.view_cash_close_list = 1;
             $scope.view_reports = 0;
@@ -194,33 +196,45 @@ angular.module("app.ctrls", ['LocalStorageModule', 'app.constants'])
     $scope.user_data = localStorageService.get('user_data');
     $scope.show_user = 0;
     $scope.show_admin = 0;
+    $scope.show_root = 0;
     $scope.data_user = {
+        total_sales_month: 0,
+        total_sales_day: 0
+    };
+    $scope.data_admin = {
         total_sales_month: 0,
         total_sales_day: 0,
         total_products: 0,
         total_salesman: 0
     };
-    $scope.data_admin = {
+    $scope.data_root = {
         total_companies: 0,
         total_users: 0,
         total_customers: 0
     };
 
-    if ($scope.user_data.type === 'admin') {
+    if ($scope.user_data.type === 'root') {
+        $scope.show_user = 0;
+        $scope.show_admin = 0;
+        $scope.show_root = 1;
+	} else if ($scope.user_data.type === 'admin') {
         $scope.show_user = 0;
         $scope.show_admin = 1;
+        $scope.show_root = 0;
 	} else {
         $scope.show_user = 1;
         $scope.show_admin = 0;
-	}
+        $scope.show_root = 0;
+    }
 
     $http({
         method: 'GET',
         url:    WS_URL+'dashboard/data',
-        params: {company_id: $scope.user_data.company_id}
+        params: {company_id: $scope.user_data.company_id, user_id:$scope.user_data.id, user_type:$scope.user_data.type}
     }).then(function successCallback(response) {
         $scope.data_user = response.data.records.data_user;
         $scope.data_admin = response.data.records.data_admin;
+        $scope.data_root = response.data.records.data_root;
     }, function errorCallback(response) {
 
     });

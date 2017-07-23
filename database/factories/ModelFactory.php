@@ -49,6 +49,8 @@ $factory->define(App\Customer::class, function (Faker\Generator $faker) {
         'direction' => $faker->address,
         'phone' => $faker->phoneNumber,
         'email' => $faker->unique()->safeEmail,
+        'contact' => $faker->name,
+        'contact_email' => $faker->safeEmail,
     ];
 });
 

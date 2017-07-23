@@ -21,6 +21,8 @@ class CreateCustomersTable extends Migration
             $table->text('direction');
             $table->text('phone');
             $table->text('email');
+            $table->text('contact');
+            $table->text('contact_email');
             $table->timestamps();
         });
     }

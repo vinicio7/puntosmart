@@ -65,7 +65,9 @@ class CustomerController extends Controller
                 'nit' => strtoupper(str_replace('-', '', $request->input('nit'))),
                 'direction' => $request->input('direction'),
                 'phone' => $request->input('phone') != null ? $request->input('phone') : '',
-                'email' => $request->input('email') != null ? $request->input('email') : ''
+                'email' => $request->input('email') != null ? $request->input('email') : '',
+                'contact' => $request->input('contact') != null ? $request->input('contact') : '',
+                'contact_email' => $request->input('contact_email') != null ? $request->input('contact_email') : ''
             ]);
 
             $this->status_code = 200;
@@ -125,6 +127,8 @@ class CustomerController extends Controller
             $customer->direction = $request->input('direction', $customer->direction);
             $customer->phone =  $request->input('phone') != null ? $request->input('phone') : '';
             $customer->email = $request->input('email') != null ? $request->input('email') : '';
+            $customer->contact = $request->input('contact') != null ? $request->input('contact') : '';
+            $customer->contact_email = $request->input('contact_email') != null ? $request->input('contact_email') : '';
             $customer->save();
 
             $this->status_code = 200;

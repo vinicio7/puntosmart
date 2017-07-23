@@ -137,12 +137,14 @@
                 //$scope.dataModal = item;
                 $scope.action = 'detail';
                 $scope.dataModal = {};
+                console.log(item.invoice);
                 $scope.dataModal.correlative = item.correlative;
                 $scope.dataModal.customer_name = item.customer_name;
                 $scope.dataModal.customer_direction = item.customer_direction;
                 $scope.dataModal.customer_nit = item.customer_nit;
                 $scope.dataModal.date = $filter('date')(new Date(item.created_at),'dd/MM/yyyy');
                 $scope.dataModal.total = $filter('number')(item.total, 2);
+                $scope.dataModal.invoice = item.invoice;
                 $scope.dataModal.letters = NumeroALetras($scope.dataModal.total);
                 var detalles = 14 - item.detail.length;
                 $scope.dataModal.detail = [];

@@ -94,7 +94,7 @@
         </div>
         <div class="row form-group">
             <div class="col-sm-12 text-right">
-                <button class="btn btn-default" ng-click="printSale()"><i class="ion ion-printer"></i> Imprimir</button>
+                <button ng-if="dataModal.invoice === 1" class="btn btn-default" ng-click="printSale()"><i class="ion ion-printer"></i> Imprimir</button>
                 <button class="btn btn-danger" ng-click="modalClose()">Cerrar</button>
             </div>
         </div>
