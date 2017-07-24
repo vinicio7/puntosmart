@@ -60,6 +60,28 @@
                                 </div>
                             </th>
                             <th>
+                                Tipo de usuario
+                                <div class="th">
+                                    <i class="fa fa-caret-up icon-up"
+                                       ng-click=" order('type') "
+                                       ng-class="{active: row == 'type'}"></i>
+                                    <i class="fa fa-caret-down icon-down"
+                                       ng-click=" order('-type') "
+                                       ng-class="{active: row == '-type'}"></i>
+                                </div>
+                            </th>
+                            <th>
+                                ¿Puede anular?
+                                <div class="th">
+                                    <i class="fa fa-caret-up icon-up"
+                                       ng-click=" order('cancellation') "
+                                       ng-class="{active: row == 'cancellation'}"></i>
+                                    <i class="fa fa-caret-down icon-down"
+                                       ng-click=" order('-cancellation') "
+                                       ng-class="{active: row == '-cancellation'}"></i>
+                                </div>
+                            </th>
+                            <th>
                                 Empresa
                                 <div class="th">
                                     <i class="fa fa-caret-up icon-up"
@@ -78,6 +100,15 @@
                             <td>{{ $index + 1 }}</td>
                             <td>{{ data.name }}</td>
                             <td>{{ data.user }}</td>
+                            <td>
+                                <label ng-if="data.type == 'root'">Super usuario</label>
+                                <label ng-if="data.type == 'admin'">Administrador</label>
+                                <label ng-if="data.type == 'user'">Cajero</label>
+                            </td>
+                            <td>
+                                <label ng-if="data.cancellation == 1" class="label label-success mr5">Si</label>
+                                <label ng-if="data.cancellation == 0" class="label label-danger mr5">No</label>
+                            </td>
                             <td>{{ data.company.trade_name }}</td>
                             <td>
                                 <div class="btn-group">
