@@ -92,6 +92,28 @@
                                        ng-class="{active: row == '-email'}"></i>
                                 </div>
                             </th>
+                            <th>
+                                Contacto
+                                <div class="th">
+                                    <i class="fa fa-caret-up icon-up"
+                                       ng-click=" order('contact') "
+                                       ng-class="{active: row == 'contact'}"></i>
+                                    <i class="fa fa-caret-down icon-down"
+                                       ng-click=" order('-contact') "
+                                       ng-class="{active: row == '-contact'}"></i>
+                                </div>
+                            </th>
+                            <th>
+                                Correo electrónico del contacto
+                                <div class="th">
+                                    <i class="fa fa-caret-up icon-up"
+                                       ng-click=" order('contact_email') "
+                                       ng-class="{active: row == 'contact_email'}"></i>
+                                    <i class="fa fa-caret-down icon-down"
+                                       ng-click=" order('-contact_email') "
+                                       ng-class="{active: row == '-contact_email'}"></i>
+                                </div>
+                            </th>
                             <th>Acciones</th>
                         </tr>
                         </thead>
@@ -103,6 +125,8 @@
                             <td>{{ data.direction }}</td>
                             <td>{{ data.phone }}</td>
                             <td>{{ data.email }}</td>
+                            <td>{{ data.contact }}</td>
+                            <td>{{ data.contact_email }}</td>
                             <td>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-info ion ion-edit" ng-click="modalEditOpen(data)" md-ink-ripple></button>

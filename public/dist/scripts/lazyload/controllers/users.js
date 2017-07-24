@@ -7,7 +7,7 @@
         .controller('UsersController', ['$scope', '$filter', '$http', '$modal', '$interval', 'UsersService', 'CompaniesService', 'localStorageService', '$window',function($scope, $filter, $http, $modal, $timeout, UsersService, CompaniesService, localStorageService, $window)  {
 
             var user_data = localStorageService.get('user_data');
-            if (user_data.type === 'user') {
+            if (user_data.type === 'user' || user_data.type === 'admin') {
                 $window.location.href = './#/404';
             }
 
@@ -171,7 +171,12 @@
             $scope.modalEditOpen = function(data) {
                 $scope.action = 'update';
                 $scope.user = data;
-
+                if (data.cancellation == 1) {
+                    $scope.user.cancellation = true;
+                } else {
+                    $scope.user.cancellation = false;
+                }
+                console.log($scope.user.cancellation);
                 modal = $modal.open({
                     templateUrl: 'views/app/users-modal.html',
                     scope: $scope,

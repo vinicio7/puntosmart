@@ -60,16 +60,13 @@ class UserController extends Controller
     public function store(Request $request)
     {
         try {
-            if ($request->input('cancellation')) {
-                if ($request->input('cancellation') == true) {
-                    $cancellation = 1;
-                } else {
-                    $cancellation = 0;
-                }
-                
-            } else {
+            $cancellation = 0;
+            if ($request->input('type') === 'admin')
+                $cancellation = 1;
+            else if ($request->input('type') === 'user')
+                $cancellation = $request->input('cancellation') == true ? 1 : 0;
+            else
                 $cancellation = 0;
-            }
             
             $rules = [
                 'password' => 'required|min:5'
@@ -146,15 +143,14 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            if ($request->input('cancellation')) {
-                if ($request->input('cancellation') == true) {
-                    $cancellation = 1;
-                } else {
-                    $cancellation = 0;
-                }    
-            } else {
+            $cancellation = 0;
+            if ($request->input('type') === 'admin')
+                $cancellation = 1;
+            else if ($request->input('type') === 'user')
+                $cancellation = $request->input('cancellation') == true ? 1 : 0;
+            else
                 $cancellation = 0;
-            }
+
             $validate_user = User::where('user', $request->input('user'))->where('id', '!=', $id)->first();
             if (!$validate_user) {
                 $user = User::find($id);

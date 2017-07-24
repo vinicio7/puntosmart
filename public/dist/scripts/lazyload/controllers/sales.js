@@ -7,7 +7,7 @@
         .controller('SalesController', ['$scope', '$filter', '$http', '$modal', '$interval', 'ProductsService', 'SalesService', 'CustomersService', 'SalesmanService', 'localStorageService', '$window', function($scope, $filter, $http, $modal, $timeout, ProductsService, SalesService, CustomersService, SalesmanService,localStorageService, $window)  {
 
             $scope.user_data = localStorageService.get('user_data');
-            if ($scope.user_data.type === 'admin') {
+            if ($scope.user_data.type === 'root') {
                 $window.location.href = './#/404';
             }
 
@@ -149,6 +149,7 @@
                     function successCallback(response) {
                         if (response.data.result) {
                             $scope.product.id = response.data.records.id;
+                            $scope.product.stock = response.data.records.stock;
                             $scope.product.param = response.data.records.description;
                             $scope.product.price = response.data.records.price_sale;
                             $scope.product.internal_code = response.data.records.internal_code;

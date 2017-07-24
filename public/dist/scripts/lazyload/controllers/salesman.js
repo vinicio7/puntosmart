@@ -7,7 +7,7 @@
         .controller('SalesmanController', ['$scope', '$filter', '$http', '$modal', '$interval', 'SalesmanService', 'localStorageService', function($scope, $filter, $http, $modal, $timeout, SalesmanService, localStorageService)  {
 
             var user_data = localStorageService.get('user_data');
-            if (user_data.type === 'admin') {
+            if (user_data.type === 'root' || user_data.type === 'user' ) {
                 $window.location.href = './#/404';
             }
 

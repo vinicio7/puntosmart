@@ -41,23 +41,23 @@
             </div>
         </div>-->
         <div id="imprimir-seccion">
-            <div style="margin-top: 40px;">
-                <div style="display: inline-block; width: 49%;">
-                </div>
-                <div style="display: inline-block; width: 50%;">
+            <div style="margin-top: 160px;">
+                <div style="display: inline-block; width: 62%;">
                     <label style="float: right;">{{dataModal.correlative}}</label>
                 </div>
-                <div style="display: inline-block; width: 49%;">
-                    <label style="margin-left: 12%;">{{dataModal.customer_name}}</label>
-                </div>
-                <div style="display: inline-block; width: 50%;">
+                <div style="display: inline-block; width: 36%;">
                     <label style="float: right;">{{dataModal.date}}</label>
                 </div>
-                <div style="display: inline-block; width: 49%; margin-top: 8px;">
-                    <label style="margin-left: 14%;">{{dataModal.customer_direction }}</label>
+                <div style="display: inline-block; width: 49%;">
+                    <label style="margin-left: 26%;">{{dataModal.customer_name}}</label>
                 </div>
                 <div style="display: inline-block; width: 50%; margin-top: 8px;">
                     <label style="float: right;">{{dataModal.customer_nit}}</label>
+                </div>
+                <div style="display: inline-block; width: 49%; margin-top: 8px;">
+                    <label style="margin-left: 28%;">{{dataModal.customer_direction}}</label>
+                </div>
+                <div style="display: inline-block; width: 49%;">
                 </div>
             </div>
 
@@ -65,7 +65,8 @@
             width: 100%;
             border-collapse: separate;
             border-spacing: 10px;
-            font-size: 12px;">
+            font-size: 12px;
+            margin-top: 15px;">
                 <thead>
                 <tr>
                     <th></th>
@@ -75,25 +76,25 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="item in dataModal.detail">
-                    <td style="text-align: right; width: 4%;">{{item.quantity}}</td>
-                    <td style="text-align: left; padding-left: 25px; width: 75%;">{{item.product.description}}</td>
-                    <td style="text-align: left; width: 10%;">{{item.sale_price}}</td>
+                    <td style="text-align: right; width: 2%;">{{item.quantity}}</td>
+                    <td style="text-align: left; padding-left: 25px; width: 77%;">{{item.product.description}}</td>
+                    <!--<td style="text-align: left; width: 10%;">{{item.sale_price}}</td>-->
                     <td style="text-align: right; padding-right: 5px; width: 10%;">{{item.subtotal}}</td>
                 </tr>
                 </tbody>
             </table>
-            <div style="margin-top: 5px;">
-                <div style="display: inline-block; width: 69%;">
-                    <p style="float: right; font-size: 12px; padding-right: 10px;">{{dataModal.letters}}</p>
+            <div style="margin-top: 40px;">
+                <div style="display: inline-block; width: 60%;">
+                    <p style="float: right; font-size: 10px; padding-right: 10px;">{{dataModal.letters}}</p>
                 </div>
-                <div style="display: inline-block; width: 30%;">
+                <div style="display: inline-block; width: 38%;">
                     <p style="float: right; font-size: 14px; padding-right: 10px;">{{dataModal.total}}</p>
                 </div>
             </div>
         </div>
         <div class="row form-group">
             <div class="col-sm-12 text-right">
-                <button class="btn btn-default" ng-click="printSale()"><i class="ion ion-printer"></i> Imprimir</button>
+                <button ng-if="dataModal.invoice === 1" class="btn btn-default" ng-click="printSale()"><i class="ion ion-printer"></i> Imprimir</button>
                 <button class="btn btn-danger" ng-click="modalClose()">Cerrar</button>
             </div>
         </div>
