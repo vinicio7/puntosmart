@@ -251,6 +251,7 @@
                             $scope.customer = {};
                             $scope.products = [];
                             $scope.total = 0;
+                            $scope.invoice.print = true;
 
                             createToast('success', '<strong>Éxito: </strong>'+response.data.message);
                             $timeout( function(){ closeAlert(0); }, 4000);

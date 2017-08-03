@@ -7,6 +7,7 @@
         .controller('SalesListController', ['$scope', '$filter', '$http', '$modal', '$interval', 'SalesListService', 'localStorageService', '$window', function($scope, $filter, $http, $modal, $timeout, SalesListService, localStorageService, $window)  {
 
             var user_data = localStorageService.get('user_data');
+            $scope.can_cancel = user_data.cancellation == 1 ? true : false;
             if (user_data.type === 'root') {
                 $window.location.href = './#/404';
             }
@@ -22,6 +23,7 @@
             $scope.currentPage = 1;
             $scope.positionModel = 'topRight';
             $scope.toasts = [];
+            $scope.can_cancel = false;
             var modal;
 
             // Function for load table
