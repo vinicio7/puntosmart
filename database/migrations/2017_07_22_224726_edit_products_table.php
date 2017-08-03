@@ -14,7 +14,7 @@ class EditProductsTable extends Migration
     public function up()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->float('discount', 99, 2);
+            $table->float('commission');
         });
     }
 

@@ -62,7 +62,7 @@ $factory->define(App\Product::class, function (Faker\Generator $faker) {
         'bar_code' => $faker->ean13,
         'stock' => rand(10,50),
         'price_sale' => rand(10.50, 240.10),
-        'discount' => 0
+        'commission' => 0
     ];
 });
 

@@ -394,7 +394,7 @@ class SaleController extends Controller
             })->download('xls');
 
         } catch (Exception $e) {
-
+            echo $e->getMessage();
         }
     }
 

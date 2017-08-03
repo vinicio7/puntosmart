@@ -26,7 +26,7 @@ class CreateSalesTable extends Migration
             $table->text('salesman_name')->default(null);
             $table->enum('type_payment', ['credit_card', 'cash', 'check', 'down_payment']);
             $table->boolean('invoice');
-            $table->text('no_invoice');
+            $table->text('no_invoice')->nullable();
             $table->boolean('status')->default("0");
             $table->timestamps();
         });

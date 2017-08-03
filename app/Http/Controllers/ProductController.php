@@ -61,12 +61,9 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         try {
-            if ($request->input('discount')) {
-                $discount = $request->input('discount');
-            } else {
-                $discount = 0;
-            }
+            $request->input('applyCommission') == true ? $commission = $request->input('commission') : $commission = 0;
             $validate_internalcode = Product::where('internal_code', $request->input('internal_code'))->where('company_id', $request->input('company_id'))->first();
+
             if(!$validate_internalcode) {
                 $validate_barcode = Product::where('bar_code', $request->input('bar_code'))->where('company_id', $request->input('company_id'))->first();
                 if (!$validate_barcode) {
@@ -77,7 +74,7 @@ class ProductController extends Controller
                         'bar_code'          => $request->input('bar_code') != null ? $request->input('bar_code') : '',
                         'stock'             => $request->input('stock') == 1 ? 0 : 999999,
                         'price_sale'        => $request->input('stock') == 0 ? $request->input('price_sale') : 0,
-                        'discount'          => $discount,
+                        'commission'        => $commission,
                     ]);
                     $this->status_code = 200;
                     $this->result = true;
@@ -136,12 +133,9 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            if ($request->input('discount')) {
-                $discount = $request->input('discount');
-            } else {
-                $discount = 0;
-            }
+            $request->input('applyCommission') == true ? $commission = $request->input('commission') : $commission = 0;
             $validate_internalcode = Product::where('internal_code', $request->input('internal_code'))->where('company_id', $request->input('company_id'))->where('id', '!=', $id)->first();
+
             if(!$validate_internalcode) {
                 $validate_barcode = Product::where('bar_code', $request->input('bar_code'))->where('company_id', $request->input('company_id'))->where('id', '!=', $id)->first();
                 if (!$validate_barcode) {
@@ -150,7 +144,7 @@ class ProductController extends Controller
                     $product->internal_code = $request->input('internal_code', $product->internal_code);
                     $product->bar_code      = $request->input('bar_code') != null ? $request->input('bar_code') : '';
                     $product->price_sale    = $request->input('price_sale', $product->price_sale);
-                    $product->discount      = $request->input('discount', $product->discount);
+                    $product->commission    = $commission;
                     $product->save();
 
                     $this->status_code = 200;
@@ -214,10 +208,16 @@ class ProductController extends Controller
             $product = Product::where('company_id', $request->input('company_id'))->where('internal_code', $request->input('param'))->orWhere('bar_code', $request->input('param'))->orWhere('description', 'like', '%'.$request->input('param').'%')->first();
 
             if ($product) {
-                $this->status_code = 200;
-                $this->result = true;
-                $this->message = 'Producto consultados correctamente';
-                $this->records = $product;
+                if ($product->stock == 0) {
+                    $this->status_code = 400;
+                    $this->result = false;
+                    $this->message = 'El producto consultado no cuenta con existencias para vender';
+                } else {
+                    $this->status_code = 200;
+                    $this->result = true;
+                    $this->message = 'Producto consultados correctamente';
+                    $this->records = $product;
+                }
             } else {
                 throw new Exception('El producto solicitado no existe');
             }

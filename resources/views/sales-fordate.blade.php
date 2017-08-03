@@ -35,10 +35,11 @@
             @endif
             @if($sale['status'] == 0)
                 <td>Activa</td>
+                <td>Q. {!! number_format($sale['total'], 2, '.', ',') !!}</td>
             @else
                 <td>Anulada</td>
+                <td>Q. 0</td>
             @endif
-            <td>Q. {!! number_format($sale['total'], 2, '.', ',') !!}</td>
         </tr>
     @endforeach
 </table>

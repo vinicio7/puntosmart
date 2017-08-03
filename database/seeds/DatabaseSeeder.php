@@ -40,6 +40,15 @@ class DatabaseSeeder extends Seeder
             'remember_token'    => str_random(10),
         ]);
 
+        App\User::create([
+            'name'              => 'Demostración',
+            'user'              => 'demostracion',
+            'password'          => bcrypt('demo2017'),
+            'type'              => 'user',
+            'company_id'        => 1,
+            'remember_token'    => str_random(10),
+        ]);
+
         factory('App\Company', 25)->create();
         factory('App\User', 25)->create();
         factory('App\Customer', 25)->create();
