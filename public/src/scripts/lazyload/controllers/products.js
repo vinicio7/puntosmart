@@ -24,6 +24,7 @@
             $scope.toasts = [];
             $scope.show_input = user_data.company.stock == 1 ? false : true;
             $scope.file = null;
+            $scope.show_input_commission = false;
             var modal;
 
             // Function for load table
@@ -92,6 +93,14 @@
                 $window.open(WS_URL+'products/export/excel?company_id='+user_data.company_id, '_blank');
             };
 
+            $scope.checkCommission = function () {
+                if ($scope.product.applyCommission === true) {
+                    $scope.show_input_commission = true;
+                } else {
+                    $scope.show_input_commission = false;
+                }
+            };
+
             // Function for sending data
             $scope.saveData = function (product) {
                 if ($scope.action == 'new') {
@@ -115,9 +124,11 @@
                         }
                     );
                 } else if ($scope.action == 'update') {
+                    console.log(product);
                     ProductsService.update(product).then(
                         function successCallback(response) {
                             if (response.data.result) {
+                                loadDataTable();
                                 modal.close();
                                 createToast('success', '<strong>Éxito: </strong>'+response.data.message);
                                 $timeout( function(){ closeAlert(0); }, 3000);
@@ -175,6 +186,8 @@
             $scope.modalEditOpen = function(data) {
                 $scope.action = 'update';
                 $scope.product = data;
+                $scope.product.applyCommission = data.commission > 0 ? true : false;
+                $scope.show_input_commission = data.commission > 0 ? true : false;
 
                 modal = $modal.open({
                     templateUrl: 'views/app/products-modal.html',

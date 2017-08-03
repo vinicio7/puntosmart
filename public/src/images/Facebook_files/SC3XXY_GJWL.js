@@ -1,0 +1,3 @@
+if (self.CavalryLogger) { CavalryLogger.start_js(["6Q1k5"]); }
+
+__d('PagesHovercardHeaderPinButton',['AsyncRequest','DOM'],(function a(b,c,d,e,f,g){'use strict';f.exports={init:function h(i,j,k,l){i.subscribe('change',function(m,n){var o=n.selected?'/ajax/bookmark/add/':'/ajax/bookmark/delete/',p=i.getRoot().firstChild;if(n.selected){c('DOM').replace(p,l);}else c('DOM').replace(p,k);new (c('AsyncRequest'))().setMethod('POST').setURI(o).setData({id:j,reload_pagelet_navigation:true,ref:'admin_hovercard'}).send();});}};}),null);
