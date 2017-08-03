@@ -10,7 +10,7 @@
         .controller('ReportInventoryController', ['$scope', '$filter', '$interval', '$window', 'ProductsService', 'localStorageService', 'WS_URL', function($scope, $filter, $timeout, $window, ProductsService, localStorageService, WS_URL)  {
 
             var user_data = localStorageService.get('user_data');
-            if (user_data.type == 'admin') {
+            if (user_data.type === 'root' || user_data.type === 'user') {
                 $window.location.href = './#/404';
             }
 

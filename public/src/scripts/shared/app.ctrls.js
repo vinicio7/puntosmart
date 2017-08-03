@@ -40,7 +40,6 @@ angular.module("app.ctrls", ['LocalStorageModule', 'app.constants'])
             $scope.view_products = 1;
             $scope.view_companies = 0;
             $scope.view_users = 0;
-            $scope.view_entries = 1;
             $scope.view_sales_list = 1;
             $scope.view_cash_close_list = 1;
             $scope.view_reports = 1;
@@ -52,7 +51,6 @@ angular.module("app.ctrls", ['LocalStorageModule', 'app.constants'])
             $scope.view_products = 0;
             $scope.view_companies = 0;
             $scope.view_users = 0;
-            $scope.view_entries = 0;
             $scope.view_sales_list = 1;
             $scope.view_cash_close_list = 1;
             $scope.view_reports = 0;

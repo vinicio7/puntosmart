@@ -79,21 +79,21 @@
                             if (response.data.result) {
                                 $scope.products = [];
                                 createToast('success', '<strong>Éxito: </strong>'+'Venta cancelada correctamente con devolución de existencias');
-                                $timeout( function(){ closeAlert(0); }, 3000);
+                                $timeout( function(){ closeAlert(0); }, 4000);
                             } else {
                                 createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                                $timeout( function(){ closeAlert(0); }, 3000);
+                                $timeout( function(){ closeAlert(0); }, 4000);
                             }
                         },
                         function errorCallback(response) {
                             createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                            $timeout( function(){ closeAlert(0); }, 3000);
+                            $timeout( function(){ closeAlert(0); }, 4000);
                         }
                     );
                 } else {
                     $scope.products = [];
                     createToast('success', '<strong>Éxito: </strong>'+'Venta cancelada correctamente');
-                    $timeout( function(){ closeAlert(0); }, 3000);
+                    $timeout( function(){ closeAlert(0); }, 4000);
                 }
             };
 
@@ -128,16 +128,16 @@
                             localStorageService.set('data_sale', data_sale);
 
                             createToast('success', '<strong>Éxito: </strong>'+response.data.message);
-                            $timeout( function(){ closeAlert(0); }, 3000);
+                            $timeout( function(){ closeAlert(0); }, 4000);
                         } else {
                             createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                            $timeout( function(){ closeAlert(0); }, 3000);
+                            $timeout( function(){ closeAlert(0); }, 4000);
                             createCustomer(customer);
                         }
                     },
                     function errorCallback(response) {
                         createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                        $timeout( function(){ closeAlert(0); }, 3000);
+                        $timeout( function(){ closeAlert(0); }, 4000);
                         createCustomer(customer);
                     }
                 );
@@ -157,15 +157,15 @@
                             $scope.enable_add_product = false;
 
                             createToast('success', '<strong>Éxito: </strong>'+response.data.message);
-                            $timeout( function(){ closeAlert(0); }, 3000);
+                            $timeout( function(){ closeAlert(0); }, 4000);
                         } else {
                             createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                            $timeout( function(){ closeAlert(0); }, 3000);
+                            $timeout( function(){ closeAlert(0); }, 4000);
                         }
                     },
                     function errorCallback(response) {
                         createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                        $timeout( function(){ closeAlert(0); }, 3000);
+                        $timeout( function(){ closeAlert(0); }, 4000);
                     }
                 );
             };
@@ -203,22 +203,22 @@
                                         $scope.enable_add_product = true;
                                     } else {
                                         createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                                        $timeout( function(){ closeAlert(0); }, 3000);
+                                        $timeout( function(){ closeAlert(0); }, 4000);
                                     }
                                 },
                                 function errorCallback(response) {
                                     createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                                    $timeout( function(){ closeAlert(0); }, 3000);
+                                    $timeout( function(){ closeAlert(0); }, 4000);
                                 }
                             );
                         } else {
                             createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                            $timeout( function(){ closeAlert(0); }, 3000);
+                            $timeout( function(){ closeAlert(0); }, 4000);
                         }
                     },
                     function errorCallback(response) {
                         createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                        $timeout( function(){ closeAlert(0); }, 3000);
+                        $timeout( function(){ closeAlert(0); }, 4000);
                     }
                 );
             };
@@ -253,16 +253,16 @@
                             $scope.total = 0;
 
                             createToast('success', '<strong>Éxito: </strong>'+response.data.message);
-                            $timeout( function(){ closeAlert(0); }, 3000);
+                            $timeout( function(){ closeAlert(0); }, 4000);
                         } else {
                             createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                            $timeout( function(){ closeAlert(0); }, 3000);
+                            $timeout( function(){ closeAlert(0); }, 4000);
                         }
                     },
                     function errorCallback(response) {
                         console.log(response.data.message);
                         createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                        $timeout( function(){ closeAlert(0); }, 3000);
+                        $timeout( function(){ closeAlert(0); }, 4000);
                     }
                 );
             };
@@ -334,15 +334,15 @@
 
                                 localStorageService.set('data_sale', data_sale);
                                 createToast('success', '<strong>Éxito: </strong>'+response.data.message);
-                                $timeout( function(){ closeAlert(0); }, 3000);
+                                $timeout( function(){ closeAlert(0); }, 4000);
                             } else {
                                 createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                                $timeout( function(){ closeAlert(0); }, 3000);
+                                $timeout( function(){ closeAlert(0); }, 4000);
                             }
                         },
                         function errorCallback(response) {
                             createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                            $timeout( function(){ closeAlert(0); }, 3000);
+                            $timeout( function(){ closeAlert(0); }, 4000);
                         }
                     );
                 }

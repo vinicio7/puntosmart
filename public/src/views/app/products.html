@@ -94,14 +94,14 @@
                                 </div>
                             </th>
                             <th>
-                                Porcentaje de descuento
+                                Porcentaje de comisión
                                 <div class="th">
                                     <i class="fa fa-caret-up icon-up"
-                                       ng-click=" order('price_sale') "
-                                       ng-class="{active: row == 'price_sale'}"></i>
+                                       ng-click=" order('commission') "
+                                       ng-class="{active: row == 'commission'}"></i>
                                     <i class="fa fa-caret-down icon-down"
-                                       ng-click=" order('-price_sale') "
-                                       ng-class="{active: row == '-price_sale'}"></i>
+                                       ng-click=" order('-commission') "
+                                       ng-class="{active: row == '-commission'}"></i>
                                 </div>
                             </th>
                             <th>Acciones</th>
@@ -115,7 +115,7 @@
                             <td>{{ data.bar_code }}</td>
                             <td>{{ data.stock }}</td>
                             <td>Q. {{ data.price_sale | number: "2"}}</td>
-                            <td>{{ data.discount }}</td>
+                            <td>{{ data.commission }} %</td>
                             <td>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-info ion ion-edit" ng-click="modalEditOpen(data)" md-ink-ripple></button>

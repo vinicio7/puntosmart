@@ -7,7 +7,7 @@
         .controller('ReportSaleForDateController', ['$scope', '$filter', '$http', '$modal', '$interval', '$window', 'SalesService', 'localStorageService', 'WS_URL', function($scope, $filter, $http, $modal, $timeout, $window, SalesService, localStorageService, WS_URL)  {
 
             var user_data = localStorageService.get('user_data');
-            if (user_data.type == 'admin') {
+            if (user_data.type === 'root' || user_data.type === 'user') {
                 $window.location.href = './#/404';
             }
 
