@@ -41,7 +41,7 @@
             </div>
         </div>-->
         <div id="imprimir-seccion">
-            <div style="margin-top: 160px;">
+            <div style="margin-top: 65px;">
                 <div style="display: inline-block; width: 62%;">
                     <label style="float: right;">{{dataModal.correlative}}</label>
                 </div>
@@ -51,7 +51,7 @@
                 <div style="display: inline-block; width: 49%;">
                     <label style="margin-left: 26%;">{{dataModal.customer_name}}</label>
                 </div>
-                <div style="display: inline-block; width: 50%; margin-top: 8px;">
+                <div style="display: inline-block; width: 50%; margin-top: 4px;">
                     <label style="float: right;">{{dataModal.customer_nit}}</label>
                 </div>
                 <div style="display: inline-block; width: 49%; margin-top: 8px;">
@@ -64,9 +64,9 @@
             <table style="
             width: 100%;
             border-collapse: separate;
-            border-spacing: 10px;
+            border-spacing: 4px;
             font-size: 12px;
-            margin-top: 15px;">
+            margin-top: 38px;">
                 <thead>
                 <tr>
                     <th></th>
@@ -75,22 +75,19 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="item in dataModal.detail">
-                    <td style="text-align: right; width: 2%;">{{item.quantity}}</td>
-                    <td style="text-align: left; padding-left: 25px; width: 77%;">{{item.product.description}}</td>
+                <tr ng-repeat="item in dataModal.detail" style="margin-bottom: 10px;">
+                    <td style="text-align: left; padding-left: 10px; width: 2%;">{{item.quantity}}</td>
+                    <td style="text-align: left; padding-left: 20px; width: 77%;">{{item.product.description}}</td>
                     <!--<td style="text-align: left; width: 10%;">{{item.sale_price}}</td>-->
-                    <td style="text-align: right; padding-right: 5px; width: 10%;">{{item.subtotal}}</td>
+                    <td style="text-align: right; padding-right: 0px; width: 10%;">{{item.subtotal}}</td>
                 </tr>
                 </tbody>
             </table>
-            <div style="margin-top: 40px;">
-                <div style="display: inline-block; width: 60%;">
-                    <p style="float: right; font-size: 10px; padding-right: 10px;">{{dataModal.letters}}</p>
-                </div>
-                <div style="display: inline-block; width: 38%;">
+            <!--<div >
+                <div style="display: inline-block; width: 100%;">
                     <p style="float: right; font-size: 14px; padding-right: 10px;">{{dataModal.total}}</p>
                 </div>
-            </div>
+            </div>-->
         </div>
         <div class="row form-group">
             <div class="col-sm-12 text-right">

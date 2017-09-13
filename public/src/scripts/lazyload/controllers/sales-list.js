@@ -148,7 +148,7 @@
                 $scope.dataModal.total = $filter('number')(item.total, 2);
                 $scope.dataModal.invoice = item.invoice;
                 $scope.dataModal.letters = NumeroALetras($scope.dataModal.total);
-                var detalles = 14 - item.detail.length;
+                var detalles = 19 - item.detail.length;
                 $scope.dataModal.detail = [];
                 angular.forEach(item.detail, function(value, key){
                     $scope.dataModal.detail.push(value);
@@ -156,6 +156,7 @@
                 for(var i = 0; i < detalles; i++) {
                     $scope.dataModal.detail.push({subtotal:"|"});
                 }
+                $scope.dataModal.detail.push({subtotal: $scope.dataModal.total});
                 //console.log($scope.dataModal);
                 modal = $modal.open({
                     templateUrl: 'views/app/sales-list-datail2.html',
