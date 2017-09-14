@@ -12,6 +12,14 @@
                 $window.location.href = './#/404';
             }
 
+            $scope.print_format = user_data.company.format;
+            $scope.print_view = "";
+
+            if($scope.print_format == 1)
+                $scope.print_view = "views/app/sales-list-datail2.html";
+            else
+                $scope.print_view = "views/app/sales-list-datail.html";
+
             // General variables
             $scope.datas = [];
             $scope.currentPageStores = [];
@@ -148,7 +156,7 @@
                 $scope.dataModal.total = $filter('number')(item.total, 2);
                 $scope.dataModal.invoice = item.invoice;
                 $scope.dataModal.letters = NumeroALetras($scope.dataModal.total);
-                var detalles = 14 - item.detail.length;
+                var detalles = 19 - item.detail.length;
                 $scope.dataModal.detail = [];
                 angular.forEach(item.detail, function(value, key){
                     $scope.dataModal.detail.push(value);
@@ -156,9 +164,10 @@
                 for(var i = 0; i < detalles; i++) {
                     $scope.dataModal.detail.push({subtotal:"|"});
                 }
+                $scope.dataModal.detail.push({subtotal: $scope.dataModal.total});
                 //console.log($scope.dataModal);
                 modal = $modal.open({
-                    templateUrl: 'views/app/sales-list-datail2.html',
+                    templateUrl: $scope.print_view,
                     scope: $scope,
                     size: 'lg',
                     resolve: function() {},
@@ -171,7 +180,7 @@
                 $scope.action = 'cancel';
 
                 modal = $modal.open({
-                    templateUrl: 'views/app/sales-list-datail2.html',
+                    templateUrl: $scope.print_view,
                     scope: $scope,
                     size: 'md',
                     resolve: function() {},

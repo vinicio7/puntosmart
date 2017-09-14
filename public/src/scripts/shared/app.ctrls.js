@@ -195,6 +195,7 @@ angular.module("app.ctrls", ['LocalStorageModule', 'app.constants'])
     $scope.show_user = 0;
     $scope.show_admin = 0;
     $scope.show_root = 0;
+    $scope.print_format = $scope.user_data.company.format;
     $scope.data_user = {
         total_sales_month: 0,
         total_sales_day: 0
