@@ -12,7 +12,8 @@
 */
 
 Route::get('/', function () {
-    return redirect('/dist');
+    //return redirect('/dist'); CAAMBIAR TAAMBIEN EL FAVICON Y LAAS CONSTANTES
+    return redirect('/src');
 });
 
 Route::group(['prefix' => 'ws'], function(){
