@@ -136,6 +136,28 @@
                                        ng-class="{active: row == '-format'}"></i>
                                 </div>
                             </th>
+                            <th>
+                                Facturacion electronica
+                                <div class="th">
+                                    <i class="fa fa-caret-up icon-up"
+                                       ng-click=" order('fel') "
+                                       ng-class="{active: row == 'fel'}"></i>
+                                    <i class="fa fa-caret-down icon-down"
+                                       ng-click=" order('-fel') "
+                                       ng-class="{active: row == '-fel'}"></i>
+                                </div>
+                            </th>
+                            <th>
+                                Logo
+                                <div class="th">
+                                    <i class="fa fa-caret-up icon-up"
+                                       ng-click=" order('fel') "
+                                       ng-class="{active: row == 'fel'}"></i>
+                                    <i class="fa fa-caret-down icon-down"
+                                       ng-click=" order('-fel') "
+                                       ng-class="{active: row == '-fel'}"></i>
+                                </div>
+                            </th>
                             <th>Acciones</th>
                         </tr>
                         </thead>
@@ -160,6 +182,14 @@
                             <td>
                                 <label ng-if="data.format == 1" class="label label-info mr5">Cuarto de carta</label>
                                 <label ng-if="data.format == 2" class="label label-primary mr5">Media carta</label>
+                            </td>
+                            <td>
+                                <label ng-if="data.fel == 0" class="label label-danger mr5">No</label>
+                                <label ng-if="data.fel == 1" class="label label-success mr5">Si</label>
+                            </td>
+                             <td>
+                                <img ng-src="http://localhost/facturador/{{data.logo}}" width="40px" height="40px" >
+
                             </td>
                             <td>
                                 <div class="btn-group">

@@ -2,9 +2,9 @@
 {
     'use strict';
 
-    angular.module('app.companies', ['app.service.companies', 'LocalStorageModule'])
+    angular.module('app.companies', ['app.service.companies', 'LocalStorageModule','ngFileUpload'])
 
-        .controller('CompaniesController', ['$scope', '$filter', '$http', '$modal', '$interval', 'CompaniesService', 'localStorageService', '$window', function($scope, $filter, $http, $modal, $timeout, CompaniesService, localStorageService, $window)  {
+        .controller('CompaniesController', ['$scope', '$filter', '$http', '$modal', '$interval', 'CompaniesService', 'localStorageService', '$window','Upload', function($scope, $filter, $http, $modal, $timeout, CompaniesService, localStorageService, $window,Upload)  {
 
             var user_data = localStorageService.get('user_data');
             if (user_data.type === 'user' || user_data.type === 'admin') {
@@ -88,41 +88,33 @@
             // Function for sending data
             $scope.saveData = function (company) {
                 if ($scope.action == 'new') {
-                    CompaniesService.store(company).then(
-                        function successCallback(response) {
-                            if (response.data.result) {
-                                loadDataTable();
-                                modal.close();
-                                createToast('success', '<strong>Éxito: </strong>'+response.data.message);
-                                $timeout( function(){ closeAlert(0); }, 3000);
-                            } else {
-                                createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                                $timeout( function(){ closeAlert(0); }, 3000);
-                            }
-                        },
-                        function errorCallback(response) {
-                            createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                            $timeout( function(){ closeAlert(0); }, 3000);
-                        }
-                    );
+                    Upload.upload({
+                        url: 'http://localhost/facturador/public/api/mobile/companies',
+                        data: {file: company.file, 'trade_name': company.trade_name,'business_name': company.business_name,'nit': company.nit,'direction': company.direction,'phone': company.phone,'contact': company.contact,'stock': company.stock,'type_service': company.type_service,'format': company.format,'fel': company.fel}
+                    }).then(function (response) {
+                        loadDataTable();
+                        modal.close();
+                        createToast('success', '<strong>Éxito: </strong>'+response.data.message);
+                        $timeout( function(){ closeAlert(0); }, 3000);
+                    }, function (response) {
+                        createToast('danger', '<strong>Error: </strong>'+response.data.message);
+                        $timeout( function(){ closeAlert(0); }, 3000);
+                    });
                 }
                 else if ($scope.action == 'update') {
-                    CompaniesService.update(company).then(
-                        function successCallback(response) {
-                            if (response.data.result) {
-                                modal.close();
-                                createToast('success', '<strong>Éxito: </strong>'+response.data.message);
-                                $timeout( function(){ closeAlert(0); }, 3000);
-                            } else {
-                                createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                                $timeout( function(){ closeAlert(0); }, 3000);
-                            }
-                        },
-                        function errorCallback(response) {
-                            createToast('danger', '<strong>Error: </strong>'+response.data.message);
-                            $timeout( function(){ closeAlert(0); }, 3000);
-                        }
-                    );
+                    console.log(company);
+                    Upload.upload({
+                        url: 'http://localhost/facturador/public/api/mobile/companies/update',
+                        data: {file: company.file, 'id': company.id,'trade_name': company.trade_name,'business_name': company.business_name,'nit': company.nit,'direction': company.direction,'phone': company.phone,'contact': company.contact,'stock': company.stock,'type_service': company.type_service,'format': company.format,'fel': company.fel}
+                    }).then(function (response) {
+                        loadDataTable();
+                        modal.close();
+                        createToast('success', '<strong>Éxito: </strong>'+response.data.message);
+                        $timeout( function(){ closeAlert(0); }, 3000);
+                    }, function (response) {
+                        createToast('danger', '<strong>Error: </strong>'+response.data.message);
+                        $timeout( function(){ closeAlert(0); }, 3000);
+                    });
                 }
                 else if ($scope.action == 'delete') {
                     CompaniesService.destroy(company.id).then(

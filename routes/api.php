@@ -35,6 +35,7 @@ Route::group(['prefix' => 'mobile'], function(){
     Route::get('dashboard/data',        'DashboardController@dashboardData');
     Route::get('products/export/excel', 'ProductController@exportProducts');
     Route::resource('companies',	    'CompanyController');
+    Route::post('companies/update',     'CompanyController@update');
     Route::resource('customers',	    'CustomerController');
     Route::resource('products',		    'ProductController');
     Route::resource('users',		    'UserController');

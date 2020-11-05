@@ -60,6 +60,12 @@ class CompanyController extends Controller
     public function store(Request $request)
     {
         try {
+            if ($request->file('file') == null) {
+                $path = 'S/N';
+            } else {
+                $url = $request->file('file')->store('logos');
+                $path = '/storage/app/'.$url; 
+            }
             $company = Company::create([
                 'trade_name' => $request->input('trade_name'),
                 'business_name' => $request->input('business_name'),
@@ -70,9 +76,10 @@ class CompanyController extends Controller
                 'stock' => $request->input('stock'),
                 'correlative' => 1,
                 'type_service' => $request->input('type_service'),
-                'format' => $request->input('format')
+                'format' => $request->input('format'),
+                'fel' => $request->input('fel'),
+                'logo' => $path
             ]);
-
             $this->status_code = 200;
             $this->result = true;
             $this->message = 'Empresa registrada correctamente';
@@ -92,39 +99,17 @@ class CompanyController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         try {
-            $customer = Company::find($id);
+            $customer = Company::find($request->input('id'));
+            if ($request->file('file') == null) {
+               $path = 'S/N';
+            } else {
+                $url = $request->file('file')->store('logos');
+                $path = '/storage/app/'.$url;
+                $customer->logo = $path;
+            }
             $customer->trade_name = $request->input('trade_name', $customer->trade_name);
             $customer->business_name = $request->input('business_name', $customer->business_name);
             $customer->nit = $request->input('nit', $customer->nit);
@@ -134,6 +119,7 @@ class CompanyController extends Controller
             $customer->stock = $request->input('stock', $customer->stock);
             $customer->type_service = $request->input('type_service', $customer->type_service);
             $customer->format = $request->input('format', $customer->format);
+            $customer->fel = $request->input('fel', $customer->fel);
             $customer->save();
 
             $this->status_code = 200;
